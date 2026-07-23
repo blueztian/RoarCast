@@ -11,6 +11,8 @@ import CTASection from "@/components/CTASection";
 import { mockDemand } from "@/data/mockDemand";
 import { mockSkillResults, overallReadiness } from "@/data/mockSkills";
 
+import ParticlesBackground from "@/components/ParticlesBackground";
+
 const floatingSignals = [
   { label: "Advanced Excel", note: "High Demand", pos: "left-[4%] top-[22%]", delay: 0 },
   { label: "ERP Systems", note: "Rising", pos: "right-[6%] top-[16%]", delay: 0.6 },
@@ -44,6 +46,7 @@ const howItWorks = [
 export default function LandingPage() {
   return (
     <>
+      <ParticlesBackground />
       {/* HERO */}
       <section className="relative flex min-h-[100svh] items-center overflow-hidden pt-28 sm:pt-24">
         <HeroSignalField />
