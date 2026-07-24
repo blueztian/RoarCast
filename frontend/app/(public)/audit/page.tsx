@@ -24,12 +24,21 @@ export default function AuditPage() {
   const question = mockAuditQuestions[index];
   const total = mockAuditQuestions.length;
 
+  if (!question && !analyzing) {
+    return null;
+  }
+
   function handleSelect(answer: AuditAnswer) {
+    if (!question) return;
     setAnswers((a) => ({ ...a, [question.id]: answer }));
     setTimeout(() => {
-      if (index < total - 1) {
-        setIndex((i) => i + 1);
-      } else {
+      setIndex((currentIndex) => {
+        if (currentIndex < total - 1) {
+          return currentIndex + 1;
+        }
+        return currentIndex;
+      });
+      if (index === total - 1) {
         if (typeof window !== "undefined") {
           window.localStorage.setItem(
             "roarcast_audit_answers",
@@ -105,15 +114,16 @@ export default function AuditPage() {
       </div>
 
       <AnimatePresence mode="wait">
-        <motion.div
-          key={question.id}
-          initial={{ opacity: 0, x: 24 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -24 }}
-          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <AuditQuestion
-            index={index}
+        {question && (
+          <motion.div
+            key={question.id}
+            initial={{ opacity: 0, x: 24 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -24 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <AuditQuestion
+              index={index}
             total={total}
             skillTag={question.skillTag}
             prompt={question.prompt}
@@ -121,6 +131,7 @@ export default function AuditPage() {
             onSelect={handleSelect}
           />
         </motion.div>
+        )}
       </AnimatePresence>
     </section>
   );
