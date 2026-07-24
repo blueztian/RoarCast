@@ -39,12 +39,16 @@ export default function MobileFloatingNav() {
   };
 
   return (
-    <div className="fixed inset-x-0 bottom-6 z-50 px-4 md:hidden">
-      <nav
-        aria-label="Mobile Navigation"
-        className="mx-auto flex h-16 w-full max-w-sm items-center justify-around rounded-[2rem] border border-black/[0.04] bg-white/95 px-2 shadow-[0_8px_30px_rgb(0,0,0,0.06)] backdrop-blur-xl"
-      >
-        {NAV_ITEMS.map((item) => {
+    <div className="fixed inset-x-0 bottom-0 z-50 md:hidden">
+      {/* Gradient fade to prevent text collision */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#fcfbf9] via-[#fcfbf9]/80 to-transparent pointer-events-none" />
+      
+      <div className="relative px-5 pb-6 pt-8">
+        <nav
+          aria-label="Mobile Navigation"
+          className="mx-auto flex h-[68px] w-full max-w-sm items-center justify-around rounded-[2rem] border border-white bg-white/60 px-2 shadow-[0_8px_30px_rgb(0,0,0,0.08)] backdrop-blur-2xl supports-[backdrop-filter]:bg-white/60"
+        >
+          {NAV_ITEMS.map((item) => {
           const active = isActive(item.href);
           const Icon = item.icon;
 
@@ -73,6 +77,7 @@ export default function MobileFloatingNav() {
           );
         })}
       </nav>
+      </div>
     </div>
   );
 }

@@ -84,7 +84,7 @@ export default function DashboardPage() {
   if (!mounted) return null;
 
   return (
-    <div className="flex flex-col w-full bg-[#fcfbf9] min-h-screen pb-32 md:pb-16 font-sans">
+    <div className="flex flex-col w-full bg-[#fcfbf9] min-h-screen font-sans">
       
       {/* ──────────────────────────────────────────────────────────────
           MOBILE LAYOUT
