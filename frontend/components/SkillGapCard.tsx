@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { ArrowUpRight, Info } from "lucide-react";
 import DemandBadge from "./DemandBadge";
 import type { SkillResult } from "@/data/mockSkills";
@@ -32,7 +33,7 @@ export default function SkillGapCard({ skill, onWhy }: SkillGapCardProps) {
 
       <div className="mb-7 h-2 w-full overflow-hidden rounded-full bg-white/70">
         <div
-          className="h-full rounded-full bg-roar-maroon"
+          className="h-full rounded-full bg-roar-maroon transition-all duration-700"
           style={{ width: `${skill.readiness}%` }}
           role="progressbar"
           aria-valuenow={skill.readiness}
@@ -43,13 +44,13 @@ export default function SkillGapCard({ skill, onWhy }: SkillGapCardProps) {
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row">
-        <button
-          type="button"
+        <Link
+          href="/skills/erp-workflow"
           className="inline-flex items-center justify-center gap-2 rounded-full bg-roar-maroon px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#5a0000]"
         >
           Close This Gap
           <ArrowUpRight size={16} strokeWidth={2.5} />
-        </button>
+        </Link>
         <button
           type="button"
           onClick={onWhy}
