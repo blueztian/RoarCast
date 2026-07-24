@@ -60,25 +60,28 @@ export default function AdminDashboardPage() {
         <div className="mx-auto flex max-w-[1200px] flex-col p-8 pb-16">
           
           {/* Header */}
-          <header className="flex items-end justify-between">
-            <div className="flex flex-col gap-1">
-              <h1 className="font-display text-[28px] font-bold leading-tight text-[#201d1d]">
-                Santa Rosa Workforce Intelligence
-              </h1>
-              <p className="text-[14px] text-[#5e5a5a]">
-                See where student readiness is diverging from current local industry demand.
-              </p>
-            </div>
-            <div className="flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-emerald-800">
-              <ShieldCheck size={16} />
-              <span className="text-[11px] font-bold uppercase tracking-widest">
-                Aggregated & Anonymized
-              </span>
+          <header className="relative mb-6 overflow-hidden rounded-2xl bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] p-8 shadow-sm">
+            <div className="absolute inset-0 opacity-40 mix-blend-screen pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 60%)' }} />
+            <div className="relative z-10 flex items-end justify-between">
+              <div className="flex flex-col gap-1.5">
+                <h1 className="font-display text-[28px] font-bold leading-tight text-white">
+                  Santa Rosa Workforce Intelligence
+                </h1>
+                <p className="text-[14.5px] text-white/80">
+                  See where student readiness is diverging from current local industry demand.
+                </p>
+              </div>
+              <div className="flex items-center gap-2 rounded-full border border-white/20 bg-black/20 px-3 py-1.5 text-white backdrop-blur-sm">
+                <ShieldCheck size={16} className="text-[#f59e0b]" />
+                <span className="text-[11px] font-bold uppercase tracking-widest text-white">
+                  Aggregated & Anonymized
+                </span>
+              </div>
             </div>
           </header>
 
           {/* Filter Bar */}
-          <div className="mt-6 flex items-center justify-between rounded-lg border border-black/[0.06] bg-white p-3 shadow-sm">
+          <div className="flex items-center justify-between rounded-lg border border-black/[0.06] bg-white p-3 shadow-sm">
             <div className="flex items-center gap-4 text-[13px] font-medium text-[#5e5a5a]">
               <div className="flex items-center gap-1.5 rounded-md hover:bg-black/[0.02] p-1.5 cursor-pointer">
                 <Building2 size={16} className="text-[#9c9595]" /> Institution: <span className="font-bold text-[#201d1d]">All Institutions</span> <ChevronDown size={14} className="text-[#9c9595]" />
