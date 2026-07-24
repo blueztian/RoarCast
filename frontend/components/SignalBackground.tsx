@@ -14,7 +14,7 @@ import { useEffect, useRef } from "react";
  * - Autonomous on mobile (no cursor logic)
  * - Respects prefers-reduced-motion: only draws one static frame
  */
-export default function SignalBackground() {
+export default function SignalBackground({ className }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -226,7 +226,7 @@ export default function SignalBackground() {
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 -z-10"
+      className={className || "pointer-events-none fixed inset-0 -z-10"}
     />
   );
 }

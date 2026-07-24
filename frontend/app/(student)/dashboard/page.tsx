@@ -1,508 +1,289 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  ArrowRight,
-  TrendingUp,
-  Flame,
-  CheckCircle2,
-  Star,
-  Users,
-  Shield,
-  ChevronRight,
-} from "lucide-react";
+import { motion } from "framer-motion";
+import { Bell, MapPin, Building2, Clock, CheckCircle2, ShieldAlert, TrendingUp, Briefcase, ArrowRight, Users } from "lucide-react";
 import SignalBackground from "@/components/SignalBackground";
 import ReadinessRing from "@/components/ReadinessRing";
-import {
-  getStudent,
-  computeReadiness,
-  BASE_READINESS,
-  isCredentialEarned,
-  getCredential,
-  getSquad,
-  getOverallLearningProgress,
-  hasDashboardBeenSeen,
-  markDashboardSeen,
-  isProfileAdded,
-  getLessonProgress,
-  MODULE_IDS,
-} from "@/lib/studentState";
-import { staggerContainer, staggerItem } from "@/lib/motion";
 
-// ── Animated number counter ───────────────────────────────────────────────────
+// --- Mock Data Structures ---
+const industryPulseStats = {
+  opportunities: "1,284",
+  employers: "132",
+  zones: "5",
+  updated: "2 hours ago"
+};
 
-function CountUp({
-  from,
-  to,
-  duration = 1.4,
-}: {
-  from: number;
-  to: number;
-  duration?: number;
-}) {
-  const [display, setDisplay] = useState(from);
-  const start = useRef(Date.now());
-  const rafRef = useRef<number>(0);
-
-  useEffect(() => {
-    if (from === to) return;
-    start.current = Date.now();
-    function tick() {
-      const elapsed = (Date.now() - start.current) / 1000;
-      const progress = Math.min(elapsed / duration, 1);
-      // ease-out cubic
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setDisplay(Math.round(from + (to - from) * eased));
-      if (progress < 1) {
-        rafRef.current = requestAnimationFrame(tick);
-      }
-    }
-    rafRef.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafRef.current);
-  }, [from, to, duration]);
-
-  return <>{display}</>;
-}
-
-// ── Demand watch items ────────────────────────────────────────────────────────
-
-const DEMAND_WATCH = [
-  {
-    skill: "Advanced Excel",
-    trend: "high" as const,
-    reason: "Required in 9 of 11 local accounting postings this month",
-    icon: Flame,
-    path: null,
-  },
-  {
-    skill: "Reporting & Visualization",
-    trend: "rising" as const,
-    reason: "Demand up 22% since May — employers want narrative-ready data",
-    icon: TrendingUp,
-    path: null,
-  },
-  {
-    skill: "ERP Workflow",
-    trend: "high" as const,
-    reason: "You've now verified this skill ✓",
-    icon: Flame,
-    path: "/credentials/erp-workflow",
-    verified: true,
-  },
+const skillsDemandData = [
+  { rank: 1, name: "SAP ERP", growth: "+24%", progress: 85 },
+  { rank: 2, name: "Advanced Excel", growth: "+18%", progress: 70 },
+  { rank: 3, name: "PLC Programming", growth: "+16%", progress: 65 },
+  { rank: 4, name: "Quality Assurance", growth: "+13%", progress: 55 },
+  { rank: 5, name: "Power BI", growth: "+11%", progress: 45 },
 ];
 
-const trendLabel: Record<string, string> = {
-  high: "High Demand",
-  rising: "Rising",
-  steady: "Steady",
+const readinessData = {
+  targetRole: "Junior Accounting Operations Associate",
+  score: 72,
+  strongSkills: ["Excel", "Data Reconciliation"],
+  skillGaps: ["SAP ERP", "ERP Systems"]
 };
 
-const trendClass: Record<string, string> = {
-  high: "text-roar-maroon border-roar-maroon/20 bg-roar-maroon/[0.05]",
-  rising: "text-roar-amber border-roar-amber/25 bg-roar-amber/[0.06]",
-  steady: "text-ink-soft border-ink/10 bg-paper-dim",
-};
-
-// ── Skill groups ──────────────────────────────────────────────────────────────
-
-function getSkillGroups(erpVerified: boolean) {
-  return {
-    ready: [
-      "Basic Accounting",
-      "Spreadsheet Fundamentals",
-      "Financial Documentation",
-      ...(erpVerified ? ["ERP Workflow"] : []),
-    ],
-    strengthen: ["Advanced Excel", "Reporting & Visualization"],
-  };
-}
-
-// ── Page ──────────────────────────────────────────────────────────────────────
+const roleIntelligenceCards = [
+  {
+    role: "Junior Accounting Operations Associate",
+    opportunities: 47,
+    match: 72,
+    skillTags: ["SAP ERP", "Excel", "Reconciliation", "ERP Systems"],
+    metadata: { demand: "High demand", location: "Laguna Technopark", employers: 28 }
+  },
+  {
+    role: "Finance Operations Analyst",
+    opportunities: 31,
+    match: 65,
+    skillTags: ["Excel", "Power BI", "ERP", "Financial Reporting"],
+    metadata: { demand: "Medium demand", location: "Technopark Annex", employers: 19 }
+  },
+  {
+    role: "Supply Chain Data Assistant",
+    opportunities: 26,
+    match: 58,
+    skillTags: ["Excel", "Data Analysis", "Power BI", "SAP ERP"],
+    metadata: { demand: "Medium demand", location: "Greenfield Automotive Park", employers: 15 }
+  }
+];
 
 export default function DashboardPage() {
-  const [student] = useState(getStudent());
-  const [credentialEarned, setCredentialEarned] = useState(false);
-  const [credential, setCredential] = useState<ReturnType<typeof getCredential>>(null);
-  const [squadJoined, setSquadJoined] = useState(false);
-  const [profileAdded, setProfileAdded] = useState(false);
-  const [learningProgress, setLearningProgress] = useState(0);
-  const [prevReadiness, setPrevReadiness] = useState(BASE_READINESS);
-  const [currentReadiness, setCurrentReadiness] = useState(BASE_READINESS);
-  const [showUpgrade, setShowUpgrade] = useState(false);
-  const [moduleStatuses, setModuleStatuses] = useState<Record<string, string>>({});
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
-  useEffect(() => {
-    const credEarned = isCredentialEarned();
-    const cred = getCredential();
-    const squad = getSquad();
-    const progress = getOverallLearningProgress();
-    const profileAdd = isProfileAdded();
-    const seen = hasDashboardBeenSeen();
-    const statuses = getLessonProgress();
-
-    setCredentialEarned(credEarned);
-    setCredential(cred);
-    setSquadJoined(squad !== null);
-    setLearningProgress(progress);
-    setProfileAdded(profileAdd);
-    setModuleStatuses(statuses);
-
-    const newReadiness = computeReadiness();
-
-    if (credEarned && !seen) {
-      // First arrival after earning credential — animate the upgrade
-      setPrevReadiness(BASE_READINESS);
-      setCurrentReadiness(BASE_READINESS);
-      markDashboardSeen();
-      setTimeout(() => {
-        setCurrentReadiness(newReadiness);
-        setShowUpgrade(true);
-      }, 800);
-    } else {
-      setPrevReadiness(newReadiness);
-      setCurrentReadiness(newReadiness);
-    }
-  }, []);
-
-  const { ready, strengthen } = getSkillGroups(credentialEarned);
-  const completedModules = MODULE_IDS.filter((id) => moduleStatuses[id] === "completed").length;
-  const nextSkill = "Advanced Excel Reporting";
+  if (!mounted) return null;
 
   return (
-    <>
-      <SignalBackground />
-      <section className="mx-auto max-w-5xl px-6 pb-24 pt-32">
-        {/* Header */}
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          animate="visible"
-          className="space-y-8"
-        >
-          {/* Greeting + upgrade banner */}
-          <motion.div variants={staggerItem}>
-            <AnimatePresence>
-              {showUpgrade && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="mb-6 flex items-start gap-3 rounded-2xl border border-roar-maroon/20 bg-gradient-to-r from-roar-maroon/[0.04] to-transparent p-5"
-                >
-                  <Star size={18} className="mt-0.5 shrink-0 text-roar-yellow" strokeWidth={2} />
-                  <div>
-                    <p className="font-medium text-ink">You&apos;re getting closer.</p>
-                    <p className="text-sm text-ink-soft">
-                      Closing a priority gap improved your readiness for Accounting Operations.
-                    </p>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            <div className="flex flex-col gap-1">
-              <p className="font-mono text-[11px] uppercase tracking-widest text-roar-maroon">
-                Your Dashboard
-              </p>
-              <h1 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
-                {student.name}
-              </h1>
-              <p className="text-sm text-ink-soft">
-                {student.program} · {student.careerInterest}
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Top cards: Readiness + Pathway + Next Action */}
-          <motion.div variants={staggerItem} className="grid gap-4 sm:grid-cols-3">
-            {/* Industry Readiness */}
-            <div className="flex flex-col items-center rounded-3xl border border-paper-line bg-white p-7 text-center shadow-card">
-              <div className="mb-4">
-                <ReadinessRing
-                  percentage={currentReadiness}
-                  size={120}
-                  strokeWidth={9}
-                  label="readiness"
-                />
-              </div>
-              {showUpgrade && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="flex items-center gap-1.5 rounded-full border border-roar-maroon/20 bg-roar-maroon/[0.05] px-3 py-1.5"
-                >
-                  <TrendingUp size={12} className="text-roar-maroon" strokeWidth={2.5} />
-                  <span className="font-mono text-[11px] text-roar-maroon">
-                    +{currentReadiness - BASE_READINESS}% from ERP
-                  </span>
-                </motion.div>
-              )}
-              <p className="mt-3 font-mono text-[11px] uppercase tracking-wide text-ink-faint">
-                Industry Readiness
-              </p>
-            </div>
-
-            {/* Target Pathway */}
-            <div className="rounded-3xl border border-paper-line bg-white p-7 shadow-card">
-              <p className="mb-2 font-mono text-[11px] uppercase tracking-wide text-ink-faint">
-                Target Pathway
-              </p>
-              <h2 className="font-display text-lg font-semibold text-ink">
-                {student.careerInterest}
-              </h2>
-              <div className="mt-4 space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-ink-soft">Skills Ready</span>
-                  <span className="font-medium text-ink">{ready.length}</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-ink-soft">To Strengthen</span>
-                  <span className="font-medium text-ink">{strengthen.length}</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-ink-soft">Credentials</span>
-                  <span className="font-medium text-ink">{credentialEarned ? 1 : 0}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Next Best Action */}
-            <div className="flex flex-col justify-between rounded-3xl border border-roar-maroon/15 bg-gradient-to-br from-white to-[#FBF2EF] p-7 shadow-card">
-              <div>
-                <p className="mb-2 font-mono text-[11px] uppercase tracking-wide text-roar-maroon">
-                  Next Best Action
-                </p>
-                <h2 className="font-display text-lg font-semibold text-ink">
-                  {nextSkill}
-                </h2>
-                <p className="mt-1.5 text-sm text-ink-soft">
-                  High demand · Strengthen category
-                </p>
-              </div>
-              <Link
-                href="/skills/erp-workflow"
-                className="mt-5 inline-flex items-center gap-2 rounded-full bg-roar-maroon px-5 py-2.5 text-sm font-semibold text-white"
-              >
-                Start Next Skill
-                <ArrowRight size={14} strokeWidth={2.5} />
-              </Link>
-            </div>
-          </motion.div>
-
-          {/* Skill Map */}
-          <motion.div variants={staggerItem} className="rounded-3xl border border-paper-line bg-white p-7 shadow-card">
-            <p className="mb-5 font-mono text-[11px] uppercase tracking-wide text-ink-faint">
-              Skill Map
+    <div className="flex flex-col w-full bg-background min-h-screen pb-16">
+      {/* Maroon Hero Header */}
+      <section className="relative overflow-hidden bg-brand-primary px-6 py-12 md:py-16 rounded-bl-3xl">
+        <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
+        <div className="relative z-10 mx-auto flex w-full max-w-6xl items-start justify-between">
+          <div className="space-y-1.5">
+            <h1 className="font-display text-3xl font-bold tracking-tight text-white md:text-[34px]">
+              Good morning, Jana.
+            </h1>
+            <p className="text-[15px] font-medium text-white/90 md:text-base">
+              Here&apos;s what Santa Rosa employers are looking for right now.
             </p>
-            <div className="grid gap-6 sm:grid-cols-2">
-              {/* Ready */}
-              <div>
-                <div className="mb-3 flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-green-500" />
-                  <span className="font-mono text-[11px] uppercase tracking-wide text-ink-faint">
-                    Ready
-                  </span>
-                </div>
-                <div className="flex flex-col gap-2">
-                  {ready.map((skill) => (
-                    <div
-                      key={skill}
-                      className="flex items-center gap-2 rounded-xl border border-paper-line bg-paper px-4 py-2.5"
-                    >
-                      <CheckCircle2 size={14} className="shrink-0 text-green-600" strokeWidth={2.5} />
-                      <span className="text-sm font-medium text-ink">{skill}</span>
-                      {skill === "ERP Workflow" && credentialEarned && (
-                        <span className="ml-auto flex items-center gap-1 rounded-full bg-roar-maroon/10 px-2 py-0.5 font-mono text-[10px] text-roar-maroon">
-                          <Shield size={9} strokeWidth={2.5} />
-                          Verified
-                        </span>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Strengthen */}
-              <div>
-                <div className="mb-3 flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-roar-yellow" />
-                  <span className="font-mono text-[11px] uppercase tracking-wide text-ink-faint">
-                    Strengthen
-                  </span>
-                </div>
-                <div className="flex flex-col gap-2">
-                  {strengthen.map((skill) => (
-                    <div
-                      key={skill}
-                      className="flex items-center gap-2 rounded-xl border border-paper-line bg-paper px-4 py-2.5"
-                    >
-                      <TrendingUp size={14} className="shrink-0 text-roar-amber" strokeWidth={2.5} />
-                      <span className="text-sm font-medium text-ink-soft">{skill}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Bottom row: Credentials + Squad + Demand Watch */}
-          <motion.div variants={staggerItem} className="grid gap-4 sm:grid-cols-3">
-            {/* Credentials */}
-            <div className="rounded-3xl border border-paper-line bg-white p-6">
-              <div className="mb-4 flex items-center gap-2">
-                <Shield size={14} className="text-ink-faint" strokeWidth={2} />
-                <p className="font-mono text-[11px] uppercase tracking-wide text-ink-faint">
-                  Credentials
-                </p>
-              </div>
-              {credentialEarned && credential ? (
-                <Link
-                  href="/credentials/erp-workflow"
-                  className="group flex items-center justify-between rounded-xl border border-roar-maroon/20 bg-roar-maroon/[0.04] px-4 py-3 transition-colors hover:bg-roar-maroon/[0.07]"
-                >
-                  <div>
-                    <p className="text-sm font-medium text-ink">{credential.skillName}</p>
-                    <p className="font-mono text-[10px] text-roar-maroon">Verified</p>
-                  </div>
-                  <ChevronRight size={14} className="text-roar-maroon" />
-                </Link>
-              ) : (
-                <p className="text-sm text-ink-faint">
-                  Complete a skill pathway to earn your first credential.
-                </p>
-              )}
-            </div>
-
-            {/* Squad */}
-            <div className="rounded-3xl border border-paper-line bg-white p-6">
-              <div className="mb-4 flex items-center gap-2">
-                <Users size={14} className="text-ink-faint" strokeWidth={2} />
-                <p className="font-mono text-[11px] uppercase tracking-wide text-ink-faint">
-                  Squad
-                </p>
-              </div>
-              {squadJoined ? (
-                <Link
-                  href="/squads/erp-fundamentals"
-                  className="group flex items-center justify-between rounded-xl border border-paper-line px-4 py-3 transition-colors hover:bg-paper-dim"
-                >
-                  <div>
-                    <p className="text-sm font-medium text-ink">ERP Fundamentals Squad</p>
-                    <p className="font-mono text-[10px] text-ink-faint">
-                      {learningProgress}% complete
-                    </p>
-                  </div>
-                  <ChevronRight size={14} className="text-ink-faint" />
-                </Link>
-              ) : (
-                <p className="text-sm text-ink-faint">
-                  No squad yet.{" "}
-                  <Link href="/squads/match" className="text-roar-maroon underline-offset-2 hover:underline">
-                    Find one →
-                  </Link>
-                </p>
-              )}
-            </div>
-
-            {/* Demand Watch */}
-            <div className="rounded-3xl border border-paper-line bg-white p-6">
-              <div className="mb-4 flex items-center gap-2">
-                <Flame size={14} className="text-ink-faint" strokeWidth={2} />
-                <p className="font-mono text-[11px] uppercase tracking-wide text-ink-faint">
-                  Demand Watch
-                </p>
-              </div>
-              <p className="mb-4 text-sm font-medium text-ink">
-                2 skills relevant to your pathway are rising.
-              </p>
-              <div className="space-y-2">
-                {DEMAND_WATCH.slice(0, 2).map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <div key={item.skill} className="flex items-center gap-2">
-                      <Icon size={12} className="shrink-0 text-ink-faint" strokeWidth={2.5} />
-                      <span className="flex-1 truncate text-sm text-ink-soft">{item.skill}</span>
-                      <span
-                        className={`shrink-0 rounded-full border px-2 py-0.5 font-mono text-[10px] ${trendClass[item.trend]}`}
-                      >
-                        {trendLabel[item.trend]}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Demo Reset */}
-          <motion.div variants={staggerItem} className="text-center">
-            <DemoResetButton />
-          </motion.div>
-        </motion.div>
+          </div>
+          <button aria-label="Notifications" className="relative mt-1 rounded-full p-2 transition-colors hover:bg-white/10">
+            <Bell size={22} className="text-white" strokeWidth={2} />
+            <span className="absolute right-2.5 top-2 h-2.5 w-2.5 rounded-full border-2 border-brand-primary bg-brand-signal" />
+          </button>
+        </div>
       </section>
-    </>
-  );
-}
 
-// ── Demo Reset Button ─────────────────────────────────────────────────────────
+      {/* Main Content Area */}
+      <div className="relative z-20 mx-auto w-full max-w-6xl -mt-6 px-4 sm:px-6 md:-mt-8">
+        
+        {/* Industry Pulse Summary Panel */}
+        <div className="mb-8 flex flex-col items-start gap-6 rounded-2xl border border-border-subtle bg-surface p-6 shadow-card md:flex-row md:items-center md:gap-8">
+          <div className="flex shrink-0 flex-col gap-2 pr-6 md:border-r md:border-border-subtle">
+            <div className="flex items-center gap-2">
+              <h2 className="font-display text-[17px] font-bold text-ink">Santa Rosa Industry Pulse</h2>
+              <span className="flex items-center gap-1.5 rounded-full bg-brand-signal/15 px-2.5 py-0.5 text-xs font-semibold text-roar-amber">
+                <span className="h-1.5 w-1.5 rounded-full bg-brand-signal animate-pulse" />
+                Live demand intelligence
+              </span>
+            </div>
+          </div>
 
-function DemoResetButton() {
-  const router = useRouter();
-  const [confirming, setConfirming] = useState(false);
+          <div className="grid w-full grid-cols-2 gap-y-6 md:grid-cols-4 md:gap-x-8">
+            <div className="flex flex-col gap-1">
+              <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-text-secondary">
+                <TrendingUp size={14} className="text-brand-primary" /> Opportunities analyzed
+              </span>
+              <span className="font-display text-[22px] font-bold text-ink leading-none">{industryPulseStats.opportunities}</span>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-text-secondary">
+                <Building2 size={14} className="text-brand-primary" /> Employers represented
+              </span>
+              <span className="font-display text-[22px] font-bold text-ink leading-none">{industryPulseStats.employers}</span>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-text-secondary">
+                <MapPin size={14} className="text-brand-primary" /> PEZA zones monitored
+              </span>
+              <span className="font-display text-[22px] font-bold text-ink leading-none">{industryPulseStats.zones}</span>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-text-secondary">
+                <Clock size={14} className="text-brand-signal" /> Updated
+              </span>
+              <span className="font-display text-base font-bold text-brand-primary pt-1">{industryPulseStats.updated}</span>
+            </div>
+          </div>
+        </div>
 
-  function handleReset() {
-    // Import resetAllProgress dynamically to keep initial render clean
-    import("@/lib/studentState").then(({ resetAllProgress }) => {
-      resetAllProgress();
-      router.push("/");
-    });
-  }
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          
+          {/* LEFT: Skills gaining demand */}
+          <div className="flex flex-col rounded-2xl border border-border-subtle bg-surface p-7 shadow-sm lg:col-span-2">
+            <div className="mb-8">
+              <h3 className="font-display text-lg font-bold text-ink">Skills gaining demand</h3>
+              <p className="mt-1 text-[13px] text-text-secondary">Based on skills appearing across recently analyzed local opportunities.</p>
+            </div>
+            
+            <div className="flex flex-col gap-6">
+              {skillsDemandData.map((skill) => (
+                <div key={skill.rank} className="flex items-center gap-4">
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-paper-dim text-[13px] font-semibold text-text-secondary">
+                    {skill.rank}
+                  </div>
+                  <div className="w-32 shrink-0 font-semibold text-ink md:w-44 text-[15px]">{skill.name}</div>
+                  
+                  {/* Sparkline approximation */}
+                  <svg className="hidden h-6 w-16 shrink-0 text-brand-signal md:block" viewBox="0 0 64 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 20 L 16 12 L 28 16 L 44 4 L 60 8" />
+                  </svg>
 
-  return (
-    <div className="inline-block">
-      <AnimatePresence mode="wait">
-        {!confirming ? (
-          <motion.button
-            key="trigger"
-            type="button"
-            onClick={() => setConfirming(true)}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="font-mono text-[11px] uppercase tracking-wide text-ink-faint hover:text-ink-soft"
-          >
-            Reset Demo Progress
-          </motion.button>
-        ) : (
-          <motion.div
-            key="confirm"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            className="flex items-center gap-3 rounded-2xl border border-paper-line bg-white px-5 py-3"
-          >
-            <span className="text-sm text-ink-soft">Reset all progress? This can&apos;t be undone.</span>
-            <button
-              type="button"
-              onClick={handleReset}
-              className="rounded-full bg-roar-maroon px-4 py-1.5 font-mono text-[11px] text-white"
-            >
-              Reset
-            </button>
-            <button
-              type="button"
-              onClick={() => setConfirming(false)}
-              className="font-mono text-[11px] text-ink-faint hover:text-ink"
-            >
-              Cancel
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                  <div className="h-[6px] flex-1 overflow-hidden rounded-full bg-paper-dim">
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      animate={{ width: `${skill.progress}%` }}
+                      transition={{ duration: 1, delay: 0.1 * skill.rank }}
+                      className="h-full rounded-full bg-brand-primary"
+                    />
+                  </div>
+                  <div className="w-12 shrink-0 text-right text-[15px] font-semibold text-success flex items-center justify-end gap-1">
+                    <TrendingUp size={12} strokeWidth={3} />
+                    {skill.growth}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* RIGHT: Your readiness */}
+          <div className="flex flex-col rounded-2xl border border-border-subtle bg-surface p-7 shadow-sm">
+            <h3 className="font-display text-lg font-bold text-ink">Your readiness</h3>
+            <div className="mt-3">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-text-secondary">Target role</p>
+              <p className="font-semibold text-ink leading-tight mt-0.5">{readinessData.targetRole}</p>
+            </div>
+
+            <div className="my-8 flex items-center justify-center">
+               <ReadinessRing percentage={readinessData.score} size={150} strokeWidth={12} label="Readiness" />
+            </div>
+
+            <div className="flex flex-col gap-5">
+              <div>
+                <p className="mb-2.5 flex items-center gap-1.5 text-[13px] font-semibold text-success">
+                  Strong skills <CheckCircle2 size={14} />
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {readinessData.strongSkills.map(skill => (
+                    <span key={skill} className="rounded-full bg-success/10 px-3 py-1.5 text-xs font-semibold text-success">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              
+              <div>
+                <p className="mb-2.5 flex items-center gap-1.5 text-[13px] font-semibold text-roar-amber">
+                  Skill gaps <ShieldAlert size={14} />
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {readinessData.skillGaps.map(skill => (
+                    <span key={skill} className="rounded-full bg-brand-signal/15 px-3 py-1.5 text-xs font-semibold text-roar-amber">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <Link href="/audit" className="mt-8 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-primary py-3.5 text-[15px] font-semibold text-white shadow-md transition-transform hover:scale-[1.02] hover:bg-brand-primary-dark">
+              Check my readiness <ArrowRight size={16} />
+            </Link>
+          </div>
+        </div>
+
+        {/* Lower Section */}
+        <div className="mt-14 flex flex-col gap-6">
+          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <h2 className="font-display text-[22px] font-bold text-ink">Demand relevant to your program</h2>
+            
+            <div className="flex flex-wrap gap-4">
+              <div className="flex items-center gap-2.5">
+                <label className="text-xs font-semibold uppercase tracking-wider text-text-secondary">Program</label>
+                <select className="rounded-lg border border-border-subtle bg-surface px-3 py-2 text-[13px] font-medium text-ink outline-none focus:border-brand-primary">
+                  <option>Bachelor of Accountancy</option>
+                  <option>Computer Science</option>
+                </select>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <label className="text-xs font-semibold uppercase tracking-wider text-text-secondary">PEZA Zone</label>
+                <select className="rounded-lg border border-border-subtle bg-surface px-3 py-2 text-[13px] font-medium text-ink outline-none focus:border-brand-primary">
+                  <option>All Zones</option>
+                  <option>Laguna Technopark</option>
+                </select>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <label className="text-xs font-semibold uppercase tracking-wider text-text-secondary">Demand Level</label>
+                <select className="rounded-lg border border-border-subtle bg-surface px-3 py-2 text-[13px] font-medium text-ink outline-none focus:border-brand-primary">
+                  <option>All Levels</option>
+                  <option>High Demand</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+            {roleIntelligenceCards.map((role) => (
+              <div key={role.role} className="flex flex-col rounded-2xl border border-border-subtle bg-surface p-6 shadow-sm hover:border-brand-primary/30 hover:shadow-capsule transition-all">
+                <div className="flex items-start justify-between">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-primary/5 text-brand-primary">
+                    <Briefcase size={20} />
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <span className="font-display text-xl font-bold text-ink">{role.match}%</span>
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-text-secondary">Match</span>
+                  </div>
+                </div>
+                
+                <h3 className="mt-5 font-semibold text-ink leading-tight text-[15px]">{role.role}</h3>
+                <p className="mt-1 text-[13px] text-brand-primary font-semibold">{role.opportunities} opportunities analyzed</p>
+
+                <div className="mt-6 mb-6">
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-text-secondary mb-2.5">Top Skill Tags</p>
+                  <div className="flex flex-wrap gap-2">
+                    {role.skillTags.map(tag => (
+                      <span key={tag} className="rounded-md border border-border-subtle bg-paper-dim px-2.5 py-1 text-[11px] font-semibold text-ink-soft">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] text-text-secondary">
+                  <span className="flex items-center gap-1.5 text-roar-amber font-semibold">
+                    <TrendingUp size={12} strokeWidth={2.5} /> {role.metadata.demand}
+                  </span>
+                  <span className="flex items-center gap-1.5 font-medium">
+                    <MapPin size={12} /> {role.metadata.location}
+                  </span>
+                  <span className="flex items-center gap-1.5 font-medium">
+                    <Users size={12} /> {role.metadata.employers} employers
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
     </div>
   );
 }
