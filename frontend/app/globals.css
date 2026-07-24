@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --brand-primary: #710000;
+  --brand-primary-dark: #5a0000;
+  --brand-signal: #FFB800;
+  --background: #FBFAF7;
+  --surface: #FFFFFF;
+  --text-primary: #1C1A17;
+  --text-secondary: #4A463F;
+  --border-subtle: #E7E2D5;
+  --success: #2e7d32;
+}
+
+* {
+  scrollbar-color: #d8d2c0 #FBFAF7;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+}
+
+::selection {
+  background-color: var(--brand-signal);
+  color: var(--text-primary);
+}
+
+/* Visible focus states everywhere */
+:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.font-feature-tabular {
+  font-variant-numeric: tabular-nums;
+}
