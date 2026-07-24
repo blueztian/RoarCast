@@ -1,64 +1,45 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 
 interface ReadinessGaugeProps {
-  score: number;      // 0-100
+  /** 0-100 */
+  score: number;
+  /** outer diameter in px, default 136 */
   size?: number;
   strokeWidth?: number;
 }
 
 /**
- * ReadinessGauge — 270° two-tone arc speedometer.
+ * ReadinessGauge
  *
- * Green (bottom) = achieved mastery region.
- * Orange (upper) = in-progress region.
- * The SVG is rotated 135° to place the start at 7-o'clock.
+ * A 270° arc gauge (speedometer style) that fills from bottom-left to
+ * bottom-right clockwise, showing the student's readiness score.
+ * Used on the Home / Career Dashboard page.
  */
 export default function ReadinessGauge({
   score,
-  size = 140,
-  strokeWidth = 13,
+  size = 136,
+  strokeWidth = 12,
 }: ReadinessGaugeProps) {
-  const r       = (size - strokeWidth) / 2;
-  const circ    = 2 * Math.PI * r;
-  const track   = circ * 0.75;          // 270° of arc
-  const fill    = track * (score / 100);
-  const green   = fill * 0.55;          // bottom 55% = green
-  const orange  = fill - green;         // upper 45% = orange
-
-  const greenRef  = useRef<SVGCircleElement>(null);
-  const orangeRef = useRef<SVGCircleElement>(null);
-
-  // Animate both arcs via direct DOM style after mount
-  useEffect(() => {
-    const ease = "cubic-bezier(0.16,1,0.3,1)";
-
-    const t1 = setTimeout(() => {
-      const el = greenRef.current;
-      if (!el) return;
-      el.style.transition = `stroke-dasharray 1.15s ${ease}`;
-      el.setAttribute("stroke-dasharray", `${green} ${circ - green}`);
-    }, 160);
-
-    const t2 = setTimeout(() => {
-      const el = orangeRef.current;
-      if (!el) return;
-      el.style.transition = `stroke-dasharray 0.95s ${ease}`;
-      // Multi-segment dasharray: skip `green` px, then draw `orange` px
-      el.setAttribute("stroke-dasharray", `0 ${green} ${orange} ${circ}`);
-    }, 440);
-
-    return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, [score, green, orange, circ]);
+  const shouldReduceMotion = useReducedMotion();
+  const r = (size - strokeWidth) / 2;
+  const circ = 2 * Math.PI * r;
+  // 270° arc = 75% of the full circumference
+  const trackArc = circ * 0.75;
+  const fillArc   = trackArc * (score / 100);
 
   return (
     <div
-      className="relative shrink-0"
+      className="relative"
       style={{ width: size, height: size }}
       role="img"
-      aria-label={`Readiness score: ${score}%`}
+      aria-label={`${score}% Job Ready`}
     >
+      {/*
+        SVG is rotated 135° so the arc begins at the bottom-left
+        (7-8 o'clock) and ends at the bottom-right (4-5 o'clock).
+      */}
       <svg
         width={size}
         height={size}
@@ -66,42 +47,54 @@ export default function ReadinessGauge({
         style={{ transform: "rotate(135deg)" }}
         aria-hidden="true"
       >
-        {/* Track */}
+        <defs>
+          <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stopColor="#f59e0b" />
+            <stop offset="100%" stopColor="#fb923c" />
+          </linearGradient>
+        </defs>
+
+        {/* Track — full 270° arc */}
         <circle
-          cx={size / 2} cy={size / 2} r={r}
-          fill="none" stroke="#ede9e3"
+          cx={size / 2}
+          cy={size / 2}
+          r={r}
+          fill="none"
+          stroke="#ede9e4"
           strokeWidth={strokeWidth}
-          strokeDasharray={`${track} ${circ - track}`}
+          strokeDasharray={`${trackArc} ${circ - trackArc}`}
           strokeLinecap="round"
         />
-        {/* Green — achieved */}
-        <circle
-          ref={greenRef}
-          cx={size / 2} cy={size / 2} r={r}
-          fill="none" stroke="#22c55e"
+
+        {/* Fill — animated portion based on score */}
+        <motion.circle
+          cx={size / 2}
+          cy={size / 2}
+          r={r}
+          fill="none"
+          stroke="url(#gaugeGrad)"
           strokeWidth={strokeWidth}
           strokeLinecap="round"
-          strokeDasharray={`0 ${circ}`}
-        />
-        {/* Orange — in progress */}
-        <circle
-          ref={orangeRef}
-          cx={size / 2} cy={size / 2} r={r}
-          fill="none" stroke="#f59e0b"
-          strokeWidth={strokeWidth}
-          strokeLinecap="round"
-          strokeDasharray={`0 ${circ}`}
+          initial={{ strokeDasharray: `0 ${circ}` }}
+          animate={{
+            strokeDasharray: shouldReduceMotion
+              ? `${fillArc} ${circ - fillArc}`
+              : `${fillArc} ${circ - fillArc}`,
+          }}
+          transition={
+            shouldReduceMotion
+              ? { duration: 0 }
+              : { duration: 1.3, delay: 0.2, ease: [0.16, 1, 0.3, 1] }
+          }
         />
       </svg>
 
       {/* Centre label */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-        <span className="font-display text-[31px] font-bold leading-none tracking-tight text-[#1c1a17]">
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="font-display text-[32px] font-bold leading-none text-[#201d1d]">
           {score}%
         </span>
-        <span className="mt-1 text-[11px] font-semibold tracking-wide text-[#8a8480]">
-          Job ready
-        </span>
+        <span className="mt-1.5 text-[11.5px] font-semibold text-[#7a7373]">Job Ready</span>
       </div>
     </div>
   );

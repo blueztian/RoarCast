@@ -2,388 +2,281 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
-  Bell, Radio, ChevronRight, TrendingUp,
-  Database, RefreshCw, Layers, Briefcase,
-  Pencil, ArrowRight, MapPin,
+  Bell, Radio, ChevronRight,
+  TrendingUp, Database, RefreshCw, Layers,
+  Briefcase, Pencil,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import SignalBackground from "@/components/SignalBackground";
-import ReadinessGauge from "@/components/ReadinessGauge";
-import {
-  staggerContainer, staggerItem, cardHover, buttonPress,
-} from "@/lib/motion";
+import ReadinessRing from "@/components/ReadinessRing";
 
-// ─── Canonical student data ──────────────────────────────────────────────────
-// All numbers are internally consistent:
-// • Target role match (market) = 82 %  → what RoarCast found for this role
-// • Personal readiness score   = 72 %  → how ready Jana is RIGHT NOW
-// • Skill gaps are the delta between the 72 % and the full 100 %
-// Industry-wide data (pulse, skills demand, PEZA zones) lives in
-// data/industryPulse.ts and is used exclusively by the Explore pages.
+// ─── Mock Data ─────────────────────────────────────────────────────────────────
+// Industry Pulse data lives in data/industryPulse.ts — reserved for Explore pages.
 
-const STUDENT = {
+const studentProfile = {
   name: "Jana",
-  program: "BS Accountancy",
-  greeting: () => {
-    const h = new Date().getHours();
-    if (h < 12) return "Good morning";
-    if (h < 17) return "Good afternoon";
-    return "Good evening";
-  },
+  greeting: "Good morning",
 };
 
-const READINESS = {
+const readiness = {
   score: 72,
-  trend: +12,   // percentage points vs last month
+  trend: "+12%",
   targetRole: "Junior Accounting Operations Associate",
-  location: "Santa Rosa, Laguna",
 };
 
-const SKILL_GAPS: { id: string; name: string; priority: "High" | "Medium" | "Low"; icon: React.ElementType }[] = [
-  { id: "sap-erp",    name: "SAP ERP",             priority: "High",   icon: Database  },
-  { id: "data-recon", name: "Data Reconciliation",  priority: "Medium", icon: RefreshCw },
-  { id: "erp-sys",    name: "ERP Systems",          priority: "Medium", icon: Layers    },
+const skillGaps = [
+  { id: "sap-erp",    name: "SAP ERP",            priority: "High",   icon: Database  },
+  { id: "data-recon", name: "Data Reconciliation", priority: "Medium", icon: RefreshCw },
+  { id: "erp-sys",    name: "ERP Systems",         priority: "Medium", icon: Layers    },
 ];
 
-// 82 % = market match (how well this role fits Jana's profile in the market)
-// Distinct from Jana's personal readiness score of 72 %.
-const RECOMMENDATION = {
-  role: "Junior Accounting Operations Associate",
-  matchPct: 82,
-  employer: "Laguna Technopark Employers",
-  href: "/explore",
+const recommendation = {
+  role:  "Junior Accounting Operations Associate",
+  match: 72,
+  href:  "/explore",
 };
 
-const QUICK_ACTION = {
+const quickAction = {
   title: "Continue your readiness plan",
-  sub: "3 tasks due this week",
-  href: "/learn/erp-foundations",
+  meta:  "3 tasks due this week",
+  href:  "/learn/erp-foundations",
 };
 
-// ─── Motion variants ─────────────────────────────────────────────────────────
-// Use shared presets from /lib/motion — never invent one-off styles.
-
-const heroVariants = {
-  hidden: { opacity: 0, y: -8 },
-  visible: {
-    opacity: 1, y: 0,
-    transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] as const },
-  },
+// ─── Animations ────────────────────────────────────────────────────────────────
+const stagger = {
+  hidden: { opacity: 0 },
+  show:   { opacity: 1, transition: { staggerChildren: 0.09 } },
+};
+const fadeUp = {
+  hidden: { opacity: 0, y: 16 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.42, ease: "easeOut" } },
 };
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-
-/** Animated counter: counts up from 0 → target over ~1 s */
-function useCountUp(target: number, delay = 300) {
-  const [val, setVal] = useState(0);
-  useEffect(() => {
-    const start = performance.now();
-    const dur   = 1100;
-    let raf: number;
-    const tick = (now: number) => {
-      const t = Math.min((now - start - delay) / dur, 1);
-      if (t <= 0) { raf = requestAnimationFrame(tick); return; }
-      const eased = 1 - Math.pow(1 - t, 3);  // ease-out cubic
-      setVal(Math.round(eased * target));
-      if (t < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [target, delay]);
-  return val;
-}
-
-type Priority = "High" | "Medium" | "Low";
-
-function PriorityBadge({ level }: { level: Priority }) {
-  const styles: Record<Priority, string> = {
-    High:   "bg-[#4a0404] text-white",
-    Medium: "bg-[#f59e0b] text-white",
-    Low:    "bg-[#e5e2de] text-[#6b6560]",
-  };
+// ─── Priority Badge ────────────────────────────────────────────────────────────
+function PriorityBadge({ level }: { level: string }) {
+  const isHigh = level === "High";
   return (
-    <span className={cn(
-      "rounded-full px-3 py-1 text-[11.5px] font-bold leading-none tracking-wide",
-      styles[level]
-    )}>
+    <span
+      className={cn(
+        "rounded-full px-3 py-1.5 text-[11.5px] font-bold leading-none",
+        isHigh
+          ? "bg-[#4a0000] text-white"
+          : "bg-[#f59e0b] text-white"
+      )}
+    >
       {level}
     </span>
   );
 }
 
-// ─── Page ────────────────────────────────────────────────────────────────────
+// ─── Page ──────────────────────────────────────────────────────────────────────
 export default function DashboardPage() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
-
-  const displayScore = useCountUp(READINESS.score, 600);
-
   if (!mounted) return null;
 
-  const greeting = STUDENT.greeting();
-
   return (
-    <div className="flex min-h-screen w-full flex-col bg-[#f0ece8] font-sans antialiased">
+    <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans">
 
-      {/* ── HERO HEADER ────────────────────────────────────────────────────── */}
-      <motion.header
-        variants={heroVariants}
-        initial="hidden"
-        animate="visible"
-        className="relative overflow-hidden bg-gradient-to-br from-[#730000] via-[#4e0000] to-[#260000] px-5 pt-[3.75rem] pb-32 rounded-b-[2.75rem]"
-      >
-        <SignalBackground
-          className="absolute inset-0 z-0 pointer-events-none opacity-30 mix-blend-screen"
-        />
+      {/* ── Hero Header (compressed) ─────────────────────────────────────────── */}
+      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-20 rounded-b-[3rem]">
+        <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
 
         <div className="relative z-10">
-          {/* Top bar */}
-          <div className="flex items-center justify-between mb-7">
+          {/* Logo + Bell */}
+          <div className="flex items-center justify-between mb-6">
             <Link
               href="/dashboard"
-              className="flex items-center gap-2.5 font-display text-[19px] font-bold tracking-tight text-white"
+              className="flex items-center gap-2.5 font-display text-[20px] font-bold tracking-tight text-white"
             >
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/95 shadow-md shadow-black/20">
-                <Radio size={17} strokeWidth={2.5} className="text-[#f59e0b]" aria-hidden="true" />
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-sm">
+                <Radio size={18} strokeWidth={2.5} className="text-[#f59e0b]" aria-hidden="true" />
               </span>
               RoarCast
             </Link>
 
-            <motion.button
-              {...buttonPress}
-              aria-label="Notifications"
-              className="relative flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm transition-colors hover:bg-white/20"
-            >
-              <Bell size={20} strokeWidth={1.6} />
-              {/* Live pulse dot */}
-              <span className="absolute right-2 top-2 flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#f59e0b] opacity-60" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#f59e0b]" />
-              </span>
-            </motion.button>
+            <button aria-label="Notifications" className="relative p-1.5">
+              <Bell size={24} className="text-white" strokeWidth={1.5} />
+              <span
+                aria-hidden="true"
+                className="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border-2 border-[#4a0000] bg-[#f59e0b]"
+              />
+            </button>
           </div>
 
           {/* Greeting */}
-          <div>
-            <p className="text-[13px] font-medium text-white/60 mb-1">{greeting},</p>
-            <h1 className="font-display text-[28px] font-bold leading-[1.15] tracking-tight text-white">
-              {STUDENT.name} 👋
+          <div className="space-y-0.5">
+            <h1 className="font-display text-[26px] font-bold leading-tight tracking-tight text-white">
+              {studentProfile.greeting}, {studentProfile.name}
             </h1>
-            <p className="mt-2 text-[13px] leading-relaxed text-white/65">
-              <Link href="/explore" className="underline underline-offset-2 hover:text-white/90 transition-colors">
-                See where
-              </Link>{" "}
-              Santa Rosa&apos;s job market is moving.
+            <p className="text-[13.5px] text-white/75">
+              See where Santa Rosa&apos;s job market is moving.
             </p>
           </div>
         </div>
-      </motion.header>
+      </header>
 
-      {/* ── CARD STACK ─────────────────────────────────────────────────────── */}
+      {/* ── Content ──────────────────────────────────────────────────────────── */}
       <motion.div
-        variants={staggerContainer}
+        variants={stagger}
         initial="hidden"
-        animate="visible"
-        className="relative z-10 mx-4 -mt-[4.5rem] flex flex-col gap-3 pb-32"
+        animate="show"
+        className="relative z-10 mx-4 -mt-14 flex flex-col gap-4 pb-36"
       >
 
-        {/* ── 1 · READINESS SCORE ──────────────────────────────────────────── */}
+        {/* ── 1 · Your Readiness Score ──────────────────────────────────────── */}
         <motion.section
-          variants={staggerItem}
-          {...cardHover}
+          variants={fadeUp}
           aria-labelledby="readiness-heading"
-          className="overflow-hidden rounded-[22px] bg-white shadow-[0_2px_16px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.04)]"
-        >
-          <div className="px-5 pt-5 pb-4">
-            <h2
-              id="readiness-heading"
-              className="mb-4 text-[13px] font-bold tracking-wide text-[#1c1a17]"
-            >
-              Your Readiness Score
-            </h2>
-
-            {/* Gauge + Target Role */}
-            <div className="flex items-center gap-4">
-              {/* Pass displayScore so label also counts up, but gauge uses real value */}
-              <div className="relative">
-                <ReadinessGauge score={READINESS.score} size={138} strokeWidth={13} />
-                {/* Override the internal label with the counted-up value */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                  <span className="font-display text-[31px] font-bold leading-none tracking-tight text-[#1c1a17] font-feature-tabular">
-                    {displayScore}%
-                  </span>
-                  <span className="mt-1 text-[10.5px] font-semibold tracking-wide text-[#8a8480]">
-                    Job ready
-                  </span>
-                </div>
-              </div>
-
-              {/* Target role */}
-              <div className="flex flex-1 flex-col min-w-0 pt-1">
-                <span className="text-[10px] font-bold uppercase tracking-[0.08em] text-[#a09a95] mb-1.5">
-                  Target Role
-                </span>
-                <p className="font-display text-[15.5px] font-bold leading-snug text-[#1c1a17]">
-                  {READINESS.targetRole}
-                </p>
-                <div className="mt-1 flex items-center gap-1.5 text-[11.5px] text-[#8a8480]">
-                  <MapPin size={11} strokeWidth={2} aria-hidden="true" />
-                  {READINESS.location}
-                </div>
-                <motion.button
-                  {...buttonPress}
-                  className="mt-3 self-start text-[12.5px] font-semibold text-[#d97706] transition-opacity hover:opacity-75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f59e0b]/50 rounded"
-                  aria-label="Change your target role"
-                >
-                  Change target ›
-                </motion.button>
-              </div>
-            </div>
-
-            {/* Trend */}
-            <div className="mt-3 flex items-center gap-1.5">
-              <span className="flex items-center gap-1 text-[12.5px] font-bold text-emerald-500">
-                <TrendingUp size={13} strokeWidth={2.5} aria-hidden="true" />
-                +{READINESS.trend}% vs last month
-              </span>
-              <span className="text-[11.5px] text-[#a09a95]">· Keep going!</span>
-            </div>
-          </div>
-
-          {/* Skill Gaps — inside the same card, separated by a divider */}
-          <div className="mx-5 h-px bg-[#f0ece8]" aria-hidden="true" />
-
-          <div className="px-5 pt-4 pb-5">
-            <div className="mb-3.5 flex items-center justify-between">
-              <h3 className="text-[13px] font-bold text-[#1c1a17]">Top Skill Gaps</h3>
-              <motion.button
-                {...buttonPress}
-                className="flex items-center gap-0.5 text-[12px] font-semibold text-[#d97706] hover:opacity-75"
-              >
-                See all <ChevronRight size={13} aria-hidden="true" />
-              </motion.button>
-            </div>
-
-            <ul className="flex flex-col gap-2.5" aria-label="Your top skill gaps">
-              {SKILL_GAPS.map((gap, i) => {
-                const Icon = gap.icon;
-                return (
-                  <motion.li
-                    key={gap.id}
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.55 + i * 0.07, duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
-                    className="flex items-center gap-3"
-                  >
-                    <span
-                      className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-xl border border-[#ede9e3] bg-[#faf8f5]"
-                      aria-hidden="true"
-                    >
-                      <Icon size={16} className="text-[#7a7570]" strokeWidth={1.75} />
-                    </span>
-                    <span className="flex-1 text-[13.5px] font-semibold text-[#1c1a17]">
-                      {gap.name}
-                    </span>
-                    <PriorityBadge level={gap.priority} />
-                  </motion.li>
-                );
-              })}
-            </ul>
-          </div>
-        </motion.section>
-
-        {/* ── 2 · RECOMMENDED FOR YOU ──────────────────────────────────────── */}
-        <motion.section
-          variants={staggerItem}
-          aria-labelledby="recommend-heading"
-          className="rounded-[22px] bg-white px-5 pt-5 pb-5 shadow-[0_2px_16px_rgba(0,0,0,0.07),0_0_0_1px_rgba(0,0,0,0.04)]"
+          className="rounded-[24px] bg-white p-5 shadow-[0_4px_24px_rgba(0,0,0,0.07)]"
         >
           <h2
-            id="recommend-heading"
-            className="mb-4 text-[13px] font-bold tracking-wide text-[#1c1a17]"
+            id="readiness-heading"
+            className="mb-4 text-[13px] font-bold text-[#201d1d]"
           >
+            Your Readiness Score
+          </h2>
+
+          {/* Gauge + Target Role */}
+          <div className="flex items-center gap-4">
+            {/* Full-circle ring — sized for mobile */}
+            <div className="shrink-0">
+              <ReadinessRing
+                percentage={readiness.score}
+                size={128}
+                strokeWidth={10}
+                label="Job Ready"
+              />
+            </div>
+
+            {/* Target Role panel */}
+            <div className="flex flex-1 flex-col rounded-[16px] border border-black/[0.07] bg-[#faf9f8] p-3.5">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-[#9c9595]">
+                Target Role
+              </span>
+              <p className="mt-1.5 font-display text-[14.5px] font-bold leading-snug text-[#201d1d]">
+                {readiness.targetRole}
+              </p>
+              <button
+                className="mt-3 self-start text-[12px] font-bold text-[#f59e0b] transition-opacity hover:opacity-70"
+                aria-label="Change target role"
+              >
+                Change target
+              </button>
+            </div>
+          </div>
+
+          {/* Trend */}
+          <p className="mt-3 flex items-center gap-1.5 text-[13px] font-bold text-emerald-600">
+            <TrendingUp size={14} strokeWidth={2.5} aria-hidden="true" />
+            {readiness.trend} vs last month
+          </p>
+        </motion.section>
+
+        {/* ── 2 · Top Skill Gaps ────────────────────────────────────────────── */}
+        <motion.section
+          variants={fadeUp}
+          aria-labelledby="gaps-heading"
+          className="rounded-[24px] bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
+        >
+          <div className="mb-3 flex items-center justify-between">
+            <h2 id="gaps-heading" className="text-[14px] font-bold text-[#201d1d]">
+              Top Skill Gaps
+            </h2>
+            <button className="flex items-center gap-0.5 text-[12px] font-semibold text-[#6b0000]">
+              See all <ChevronRight size={14} aria-hidden="true" />
+            </button>
+          </div>
+
+          <ul className="flex flex-col divide-y divide-black/[0.04]" aria-label="Top skill gaps">
+            {skillGaps.map((gap) => {
+              const Icon = gap.icon;
+              return (
+                <li key={gap.id} className="flex items-center gap-3 py-3">
+                  <span
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#f59e0b]/20 bg-[#fff8ee]"
+                    aria-hidden="true"
+                  >
+                    <Icon size={16} className="text-[#f59e0b]" strokeWidth={2} />
+                  </span>
+                  <span className="flex-1 text-[14px] font-semibold text-[#201d1d]">
+                    {gap.name}
+                  </span>
+                  <PriorityBadge level={gap.priority} />
+                </li>
+              );
+            })}
+          </ul>
+        </motion.section>
+
+        {/* ── 3 · Recommended for You ───────────────────────────────────────── */}
+        <motion.section
+          variants={fadeUp}
+          aria-labelledby="rec-heading"
+          className="rounded-[24px] bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
+        >
+          <h2 id="rec-heading" className="mb-3 text-[14px] font-bold text-[#201d1d]">
             Recommended for you
           </h2>
 
-          <motion.div
-            {...cardHover}
-            className="flex items-center gap-3.5 rounded-xl border border-[#f0ece8] bg-[#faf8f5] p-3.5 cursor-pointer"
-          >
-            {/* Icon */}
+          <div className="flex items-center gap-3.5">
             <span
-              className="flex h-[46px] w-[46px] shrink-0 items-center justify-center rounded-full bg-[#3a0000] text-white shadow-sm"
+              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#3a0000] text-white shadow-sm"
               aria-hidden="true"
             >
-              <Briefcase size={19} strokeWidth={1.5} />
+              <Briefcase size={20} strokeWidth={1.5} />
             </span>
-
-            {/* Text */}
-            <div className="flex min-w-0 flex-1 flex-col">
-              <p className="text-[13.5px] font-bold leading-snug text-[#1c1a17] truncate">
-                {RECOMMENDATION.role}
+            <div className="flex flex-1 flex-col">
+              <p className="text-[14.5px] font-bold leading-snug text-[#201d1d]">
+                {recommendation.role}
               </p>
-              <p className="mt-0.5 text-[12px] font-bold text-emerald-500">
-                {RECOMMENDATION.matchPct}% match
+              <p className="mt-0.5 text-[13px] font-bold text-emerald-600">
+                {recommendation.match}% match
               </p>
             </div>
-
-            {/* CTA */}
             <Link
-              href={RECOMMENDATION.href}
-              className="shrink-0 rounded-full border border-[#ddd8d2] bg-white px-3.5 py-1.5 text-[12px] font-semibold text-[#5a5650] shadow-sm transition-colors hover:bg-[#f0ece8] active:scale-95"
-              onClick={(e) => e.stopPropagation()}
+              href={recommendation.href}
+              className="shrink-0 rounded-full bg-[#f0ede9] px-4 py-2 text-[12.5px] font-semibold text-[#5e5a5a] transition-colors hover:bg-[#e8e4df]"
             >
               View role
             </Link>
-          </motion.div>
+          </div>
         </motion.section>
 
-        {/* ── 3 · QUICK ACTION ─────────────────────────────────────────────── */}
+        {/* ── 4 · Quick Action ──────────────────────────────────────────────── */}
         <motion.section
-          variants={staggerItem}
-          aria-labelledby="quick-action-heading"
-          className="rounded-[22px] bg-white px-5 pt-5 pb-5 shadow-[0_2px_16px_rgba(0,0,0,0.07),0_0_0_1px_rgba(0,0,0,0.04)]"
+          variants={fadeUp}
+          aria-labelledby="action-heading"
+          className="rounded-[24px] bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
         >
-          <h2
-            id="quick-action-heading"
-            className="mb-4 text-[13px] font-bold tracking-wide text-[#1c1a17]"
-          >
+          <h2 id="action-heading" className="mb-3 text-[14px] font-bold text-[#201d1d]">
             Quick action
           </h2>
 
-          <motion.div {...cardHover}>
-            <Link
-              href={QUICK_ACTION.href}
-              className="flex items-center gap-3.5 rounded-xl border border-[#f0ece8] bg-[#faf8f5] p-3.5 transition-colors hover:bg-[#f5f0eb]"
-              aria-label={`Quick action: ${QUICK_ACTION.title}. ${QUICK_ACTION.sub}`}
+          <Link
+            href={quickAction.href}
+            className="flex items-center gap-3.5"
+            aria-label={quickAction.title}
+          >
+            <span
+              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#f59e0b]/25 bg-[#fff8ee] text-[#f59e0b]"
+              aria-hidden="true"
             >
-              {/* Icon */}
-              <span
-                className="flex h-[46px] w-[46px] shrink-0 items-center justify-center rounded-full bg-[#f59e0b] text-white shadow-sm shadow-[#f59e0b]/30"
-                aria-hidden="true"
-              >
-                <Pencil size={17} strokeWidth={2} />
-              </span>
-
-              {/* Text */}
-              <div className="flex min-w-0 flex-1 flex-col">
-                <p className="text-[13.5px] font-bold leading-snug text-[#1c1a17]">
-                  {QUICK_ACTION.title}
-                </p>
-                <p className="mt-0.5 text-[11.5px] text-[#8a8480]">{QUICK_ACTION.sub}</p>
-              </div>
-
-              {/* Arrow */}
-              <span
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#ddd8d2] bg-white text-[#5a5650] shadow-sm"
-                aria-hidden="true"
-              >
-                <ArrowRight size={15} strokeWidth={2.5} />
-              </span>
-            </Link>
-          </motion.div>
+              <Pencil size={19} strokeWidth={2} />
+            </span>
+            <div className="flex flex-1 flex-col">
+              <p className="text-[14.5px] font-bold text-[#201d1d]">{quickAction.title}</p>
+              <p className="mt-0.5 text-[12.5px] text-[#9c9595]">{quickAction.meta}</p>
+            </div>
+            <span
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#f5f3f0] text-[#5e5a5a]"
+              aria-hidden="true"
+            >
+              <ChevronRight size={18} strokeWidth={2.5} />
+            </span>
+          </Link>
         </motion.section>
 
       </motion.div>
