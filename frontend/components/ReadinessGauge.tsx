@@ -1,11 +1,9 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef } from "react";
 
 interface ReadinessGaugeProps {
-  /** 0-100 */
   score: number;
-  /** outer diameter in px, default 136 */
   size?: number;
   strokeWidth?: number;
 }
@@ -13,21 +11,59 @@ interface ReadinessGaugeProps {
 /**
  * ReadinessGauge
  *
- * A 270° arc gauge (speedometer style) that fills from bottom-left to
- * bottom-right clockwise, showing the student's readiness score.
- * Used on the Home / Career Dashboard page.
+ * A 270° arc gauge (speedometer style) with two-tone fill:
+ * - Green (bottom / achieved portion)
+ * - Orange (upper / in-progress portion)
+ *
+ * The SVG is rotated 135° so the arc starts at 7-o'clock (bottom-left)
+ * and ends at 5-o'clock (bottom-right).
  */
 export default function ReadinessGauge({
   score,
   size = 136,
-  strokeWidth = 12,
+  strokeWidth = 13,
 }: ReadinessGaugeProps) {
-  const shouldReduceMotion = useReducedMotion();
-  const r = (size - strokeWidth) / 2;
-  const circ = 2 * Math.PI * r;
-  // 270° arc = 75% of the full circumference
-  const trackArc = circ * 0.75;
-  const fillArc   = trackArc * (score / 100);
+  const r      = (size - strokeWidth) / 2;
+  const circ   = 2 * Math.PI * r;
+  const track  = circ * 0.75;           // 270° arc
+  const fill   = track * (score / 100); // filled portion
+
+  // Split: first 55% of fill = green (achieved), rest = orange (in progress)
+  const green  = fill * 0.55;
+  const orange = fill - green;
+
+  const greenRef  = useRef<SVGCircleElement>(null);
+  const orangeRef = useRef<SVGCircleElement>(null);
+
+  useEffect(() => {
+    // Stagger the two arcs for a satisfying reveal
+    const t1 = setTimeout(() => {
+      if (!greenRef.current) return;
+      greenRef.current.style.transition =
+        "stroke-dasharray 1.1s cubic-bezier(0.16,1,0.3,1)";
+      greenRef.current.setAttribute(
+        "stroke-dasharray",
+        `${green} ${circ - green}`
+      );
+    }, 150);
+
+    const t2 = setTimeout(() => {
+      if (!orangeRef.current) return;
+      orangeRef.current.style.transition =
+        "stroke-dasharray 0.95s cubic-bezier(0.16,1,0.3,1)";
+      // Multi-value dasharray: gap of `green` skips to where green ends,
+      // then draws `orange` length, then a huge gap for the rest.
+      orangeRef.current.setAttribute(
+        "stroke-dasharray",
+        `0 ${green} ${orange} ${circ}`
+      );
+    }, 420);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [score, green, orange, circ]);
 
   return (
     <div
@@ -36,10 +72,6 @@ export default function ReadinessGauge({
       role="img"
       aria-label={`${score}% Job Ready`}
     >
-      {/*
-        SVG is rotated 135° so the arc begins at the bottom-left
-        (7-8 o'clock) and ends at the bottom-right (4-5 o'clock).
-      */}
       <svg
         width={size}
         height={size}
@@ -47,45 +79,42 @@ export default function ReadinessGauge({
         style={{ transform: "rotate(135deg)" }}
         aria-hidden="true"
       >
-        <defs>
-          <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stopColor="#f59e0b" />
-            <stop offset="100%" stopColor="#fb923c" />
-          </linearGradient>
-        </defs>
-
-        {/* Track — full 270° arc */}
+        {/* Track — full 270° in light gray */}
         <circle
           cx={size / 2}
           cy={size / 2}
           r={r}
           fill="none"
-          stroke="#ede9e4"
+          stroke="#e8e3de"
           strokeWidth={strokeWidth}
-          strokeDasharray={`${trackArc} ${circ - trackArc}`}
+          strokeDasharray={`${track} ${circ - track}`}
           strokeLinecap="round"
         />
 
-        {/* Fill — animated portion based on score */}
-        <motion.circle
+        {/* Green arc — bottom / achieved portion */}
+        <circle
+          ref={greenRef}
           cx={size / 2}
           cy={size / 2}
           r={r}
           fill="none"
-          stroke="url(#gaugeGrad)"
+          stroke="#22c55e"
           strokeWidth={strokeWidth}
           strokeLinecap="round"
-          initial={{ strokeDasharray: `0 ${circ}` }}
-          animate={{
-            strokeDasharray: shouldReduceMotion
-              ? `${fillArc} ${circ - fillArc}`
-              : `${fillArc} ${circ - fillArc}`,
-          }}
-          transition={
-            shouldReduceMotion
-              ? { duration: 0 }
-              : { duration: 1.3, delay: 0.2, ease: [0.16, 1, 0.3, 1] }
-          }
+          strokeDasharray={`0 ${circ}`} /* start invisible, animated via ref */
+        />
+
+        {/* Orange arc — upper / in-progress portion */}
+        <circle
+          ref={orangeRef}
+          cx={size / 2}
+          cy={size / 2}
+          r={r}
+          fill="none"
+          stroke="#f59e0b"
+          strokeWidth={strokeWidth}
+          strokeLinecap="round"
+          strokeDasharray={`0 ${circ}`} /* start invisible, animated via ref */
         />
       </svg>
 
@@ -94,7 +123,9 @@ export default function ReadinessGauge({
         <span className="font-display text-[32px] font-bold leading-none text-[#201d1d]">
           {score}%
         </span>
-        <span className="mt-1.5 text-[11.5px] font-semibold text-[#7a7373]">Job Ready</span>
+        <span className="mt-1.5 text-[11.5px] font-semibold text-[#7a7373]">
+          Job ready
+        </span>
       </div>
     </div>
   );
