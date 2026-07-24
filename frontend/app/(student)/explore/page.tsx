@@ -34,11 +34,11 @@ export default function ExplorePage() {
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans">
       
       {/* ── Red Header (No hero, just title) ─────────────────────────────────────────── */}
-      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-14 pb-16 rounded-b-[3rem]">
+      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14 rounded-b-[2.5rem]">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
-        <div className="relative z-10 flex items-center gap-3">
-          <Compass size={28} className="text-[#f59e0b]" strokeWidth={2} />
-          <h1 className="font-display text-[26px] font-bold leading-tight tracking-tight text-white">
+        <div className="relative z-10 flex items-center gap-2.5">
+          <Compass size={26} className="text-[#f59e0b]" strokeWidth={2} />
+          <h1 className="font-display text-[24px] font-bold leading-tight tracking-tight text-white">
             Explore
           </h1>
         </div>
@@ -49,14 +49,14 @@ export default function ExplorePage() {
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="relative z-10 mx-4 -mt-10 flex flex-col gap-6 pb-36"
+        className="relative z-10 mx-4 -mt-8 flex flex-col gap-4 pb-32"
       >
         {/* Santa Rosa Industry Pulse Panel */}
         <motion.div
           variants={fadeUpItem}
-          className="flex flex-col rounded-[24px] bg-white p-5 shadow-[0_4px_24px_rgba(0,0,0,0.07)]"
+          className="flex flex-col rounded-[24px] bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
         >
-          <div className="flex items-start justify-between mb-6">
+          <div className="flex items-start justify-between mb-4">
             <h2 className="w-[60%] font-display text-[20px] font-bold leading-tight text-[#201d1d]">
               Santa Rosa Industry Pulse
             </h2>
@@ -73,7 +73,7 @@ export default function ExplorePage() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between border-b border-black/[0.06] pb-5">
+          <div className="flex items-center justify-between border-b border-black/[0.06] pb-4">
             <div className="flex items-center gap-3">
               <div className="flex h-[52px] w-[52px] items-center justify-center rounded-full bg-[#6b0000]/5">
                 <BarChart2 size={24} className="text-[#6b0000]" strokeWidth={1.5} />
@@ -103,8 +103,8 @@ export default function ExplorePage() {
             </div>
           </div>
 
-          <div className="pt-4">
-            <p className="mb-3 flex items-center gap-2 text-[13px] text-[#7a7373]">
+          <div className="pt-3">
+            <p className="mb-2 flex items-center gap-2 text-[12.5px] text-[#7a7373]">
               <MapPin size={16} className="text-[#7a7373]" strokeWidth={1.5} />
               Across Santa Rosa PEZA zones
             </p>
@@ -123,7 +123,7 @@ export default function ExplorePage() {
 
         {/* Skills rising this month */}
         <motion.div variants={fadeUpItem} className="flex flex-col">
-          <div className="mb-4 flex items-center justify-between px-1">
+          <div className="mb-3 flex items-center justify-between px-1">
             <h3 className="font-display text-[18px] font-bold text-[#201d1d]">
               Skills rising this month
             </h3>
@@ -158,8 +158,8 @@ export default function ExplorePage() {
         </motion.div>
 
         {/* Demand relevant to your program */}
-        <motion.div variants={fadeUpItem} className="mt-2 flex flex-col">
-          <div className="mb-4 flex items-center justify-between px-1">
+        <motion.div variants={fadeUpItem} className="mt-1 flex flex-col">
+          <div className="mb-3 flex items-center justify-between px-1">
             <h3 className="font-display text-[18px] font-bold text-[#201d1d]">
               Trending Roles
             </h3>
@@ -168,12 +168,12 @@ export default function ExplorePage() {
             </button>
           </div>
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
             {roleIntelligenceCards.map((role, idx) => (
               <div
                 key={role.role}
                 className={cn(
-                  "flex flex-col overflow-hidden rounded-[20px] p-5 shadow-sm transition-all relative",
+                  "flex flex-col overflow-hidden rounded-[20px] p-4 shadow-sm transition-all relative",
                   idx === 0
                     ? "border-[1.5px] border-[#6b0000] bg-white"
                     : "border border-black/[0.08] bg-[#faf9f8]"
@@ -237,8 +237,8 @@ export default function ExplorePage() {
                   </div>
                 </div>
 
-                <div className="mb-5 mt-6">
-                  <p className="mb-2.5 text-[11px] font-medium text-[#7a7373]">
+                <div className="mb-4 mt-5">
+                  <p className="mb-2 text-[11px] font-medium text-[#7a7373]">
                     Top Skill Tags
                   </p>
                   <div className="flex flex-wrap gap-2">
@@ -258,7 +258,7 @@ export default function ExplorePage() {
                   </div>
                 </div>
 
-                <div className="mt-auto flex items-center justify-end pt-4 text-[11.5px] font-bold">
+                <div className="mt-auto flex items-center justify-end pt-3 text-[11.5px] font-bold">
                   <span
                     className={cn(
                       "flex items-center gap-1.5",
