@@ -87,7 +87,7 @@ export default function CredentialsPage() {
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="relative z-10 mx-4 -mt-8 flex flex-col gap-4 pb-12"
+        className="relative z-10 mx-4 -mt-8 flex flex-col gap-3 pb-12"
       >
         {/* The first credential card overlaps the red header, fixing the text overlap issue. */}
         {credentialsData.map((cred) => (
@@ -128,37 +128,32 @@ function CredentialCard({ cred, isExpanded, onToggle }: { cred: any, isExpanded:
   return (
     <motion.div 
       variants={fadeUpItem}
-      className="flex flex-col overflow-hidden rounded-[24px] bg-white border-l-4 border-l-[#6b0000] border-y border-r border-black/[0.05] shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
+      className="flex flex-col overflow-hidden rounded-[20px] bg-white border-l-4 border-l-[#6b0000] border-y border-r border-black/[0.05] shadow-[0_2px_10px_rgba(0,0,0,0.04)]"
     >
-      <div className="flex flex-col p-4">
+      <div className="flex flex-col px-4 py-3.5">
         <div className="flex items-start justify-between">
           <div className="flex flex-col">
-            <h3 className="font-display text-[17px] font-bold leading-tight text-[#201d1d] pr-2">
+            <h3 className="font-display text-[16.5px] font-bold leading-tight text-[#201d1d] pr-2">
               {cred.title}
             </h3>
-            <p className="mt-0.5 text-[11.5px] text-[#7a7373]">
+            <p className="mt-0.5 text-[11px] text-[#7a7373]">
               Issued: {cred.issued}
             </p>
           </div>
-          <div className="flex shrink-0 items-center gap-1.5 rounded-full bg-emerald-50 px-2 py-1 text-emerald-700 border border-emerald-100">
+          <div className="flex shrink-0 items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 text-emerald-700 border border-emerald-100">
             <CheckCircle2 size={12} strokeWidth={2.5} />
-            <span className="text-[10px] font-bold uppercase tracking-wider">
+            <span className="text-[9.5px] font-bold uppercase tracking-wider">
               Verified
             </span>
           </div>
         </div>
 
-        <div className="mt-3 flex flex-col gap-1.5">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-[#7a7373]">
-            Competencies
-          </span>
-          <div className="flex flex-wrap gap-1.5">
-            {cred.competencies.map((comp: string) => (
-              <span key={comp} className="rounded-md bg-[#faf9f8] border border-black/[0.04] px-2 py-1 text-[11px] font-medium text-[#201d1d]">
-                {comp}
-              </span>
-            ))}
-          </div>
+        <div className="mt-2.5 flex flex-wrap gap-1.5">
+          {cred.competencies.map((comp: string) => (
+            <span key={comp} className="rounded-md bg-[#faf9f8] border border-black/[0.04] px-2 py-1 text-[10.5px] font-medium text-[#201d1d]">
+              {comp}
+            </span>
+          ))}
         </div>
       </div>
 
@@ -170,17 +165,17 @@ function CredentialCard({ cred, isExpanded, onToggle }: { cred: any, isExpanded:
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden border-t border-black/[0.04] bg-[#faf9f8]"
           >
-            <div className="flex flex-col items-center p-5 text-center">
-              <div className="flex h-32 w-32 items-center justify-center rounded-[16px] bg-white shadow-sm border border-black/[0.05]">
-                <QrCode size={80} className="text-[#201d1d]" strokeWidth={1} />
+            <div className="flex flex-col items-center p-4 text-center">
+              <div className="flex h-24 w-24 items-center justify-center rounded-[12px] bg-white shadow-sm border border-black/[0.05]">
+                <QrCode size={60} className="text-[#201d1d]" strokeWidth={1} />
               </div>
-              <span className="mt-3 text-[13px] font-bold text-[#201d1d]">
+              <span className="mt-2.5 text-[12.5px] font-bold text-[#201d1d]">
                 Scan to verify credential
               </span>
-              <span className="mt-1 text-[11.5px] text-[#7a7373]">
+              <span className="mt-0.5 text-[11px] text-[#7a7373]">
                 Issued to: <span className="font-bold">{cred.issuedTo}</span>
               </span>
-              <div className="mt-3 flex items-center justify-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[10.5px] font-bold text-[#9c9595] shadow-sm border border-black/[0.04]">
+              <div className="mt-2.5 flex items-center justify-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[10px] font-bold text-[#9c9595] shadow-sm border border-black/[0.04]">
                 <ShieldCheck size={14} /> ID: {cred.credentialId}
               </div>
             </div>
@@ -191,13 +186,13 @@ function CredentialCard({ cred, isExpanded, onToggle }: { cred: any, isExpanded:
       <button
         onClick={onToggle}
         className={cn(
-          "flex w-full items-center justify-between border-t border-black/[0.05] p-3.5 transition-colors hover:bg-[#faf9f8]",
+          "flex w-full items-center justify-between border-t border-black/[0.05] px-4 py-2.5 transition-colors hover:bg-[#faf9f8]",
           isExpanded ? "bg-[#faf9f8]" : "bg-white"
         )}
       >
         <div className="flex items-center gap-2 text-[#201d1d]">
-          <QrCode size={16} className={isExpanded ? "text-[#6b0000]" : "text-[#9c9595]"} />
-          <span className="text-[12.5px] font-bold">
+          <QrCode size={15} className={isExpanded ? "text-[#6b0000]" : "text-[#9c9595]"} />
+          <span className="text-[12px] font-bold">
             {isExpanded ? "Hide verification code" : "QR verifiable"}
           </span>
         </div>
