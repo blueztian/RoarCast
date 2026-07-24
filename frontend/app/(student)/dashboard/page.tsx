@@ -97,13 +97,13 @@ export default function DashboardPage() {
               RoarCast
             </Link>
 
-            <Link href="/admin" className="relative p-1.5">
+            <button className="relative p-1.5">
               <Bell size={24} className="text-white" strokeWidth={1.5} />
               <span
                 aria-hidden="true"
                 className="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border-2 border-[#4a0000] bg-[#f59e0b]"
               />
-            </Link>
+            </button>
           </div>
 
           {/* Greeting */}
