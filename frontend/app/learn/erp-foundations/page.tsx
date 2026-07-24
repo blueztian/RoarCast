@@ -39,7 +39,7 @@ export interface Module {
   };
 }
 
-export const MODULES: Module[] = [
+const MODULES: Module[] = [
   {
     id: "erp-foundations",
     index: 0,

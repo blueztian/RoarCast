@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, ArrowDown, GraduationCap, Building2, Landmark, Radio } from "lucide-react";
-import HeroSignalField from "@/components/HeroSignalField";
+import { GraduationCap, Building2, Landmark, Radio } from "lucide-react";
+import AnimatedHero from "@/components/AnimatedHero";
 import DemandBadge from "@/components/DemandBadge";
 import SkillTag from "@/components/SkillTag";
 import ReadinessRing from "@/components/ReadinessRing";
@@ -13,12 +13,6 @@ import { mockSkillResults, overallReadiness } from "@/data/mockSkills";
 
 import ParticlesBackground from "@/components/ParticlesBackground";
 
-const floatingSignals = [
-  { label: "Advanced Excel", note: "High Demand", pos: "left-[4%] top-[22%]", delay: 0 },
-  { label: "ERP Systems", note: "Rising", pos: "right-[6%] top-[16%]", delay: 0.6 },
-  { label: "Quality Control", note: "Rising", pos: "left-[10%] bottom-[20%]", delay: 1.1 },
-  { label: "PLC Fundamentals", note: "High Demand", pos: "right-[3%] bottom-[26%]", delay: 1.7 },
-];
 
 const howItWorks = [
   {
@@ -47,96 +41,7 @@ export default function LandingPage() {
   return (
     <>
       <ParticlesBackground />
-      {/* HERO */}
-      <section className="relative flex min-h-[100svh] items-center overflow-hidden pt-28 sm:pt-24">
-        <HeroSignalField />
-
-        <div className="relative z-10 mx-auto w-full max-w-3xl px-6 text-center">
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-6 font-mono text-xs uppercase tracking-[0.2em] text-roar-amber"
-          >
-            Live Workforce Signals • Santa Rosa
-          </motion.p>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-balance font-display text-4xl font-semibold leading-[1.08] text-ink sm:text-6xl"
-          >
-            Know what employers need before you graduate.
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="mx-auto mt-6 max-w-xl text-balance text-base leading-relaxed text-ink-soft sm:text-lg"
-          >
-            RoarCast turns changing industry demand into a personal skill roadmap—showing what you
-            already have, what you&rsquo;re missing, and what to build next.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
-          >
-            <Link
-              href="/signup"
-              className="inline-flex items-center gap-2 rounded-full bg-roar-maroon px-7 py-3.5 text-sm font-semibold text-white shadow-glow transition-transform hover:scale-[1.03]"
-            >
-              Take the 60-Second Micro-Audit
-              <ArrowRight size={16} strokeWidth={2.5} />
-            </Link>
-            <Link
-              href="#skill-signals"
-              className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/80 px-7 py-3.5 text-sm font-semibold text-ink-soft backdrop-blur transition-colors hover:border-ink/20 hover:text-ink"
-            >
-              Explore Skill Signals
-            </Link>
-          </motion.div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.45 }}
-            className="mt-5 font-mono text-[11px] uppercase tracking-wide text-ink-faint"
-          >
-            Free • No résumé required • ~60 seconds
-          </motion.p>
-        </div>
-
-        {/* floating mock demand chips */}
-        <div className="pointer-events-none absolute inset-0 z-10 hidden sm:block">
-          {floatingSignals.map((s) => (
-            <motion.div
-              key={s.label}
-              className={`absolute ${s.pos}`}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: [0, -10, 0] }}
-              transition={{
-                opacity: { duration: 0.8, delay: s.delay },
-                y: { duration: 6, repeat: Infinity, ease: "easeInOut", delay: s.delay },
-              }}
-            >
-              <div className="flex items-center gap-2 rounded-full border border-paper-line bg-white/85 px-4 py-2 text-xs font-medium text-ink-soft shadow-capsule backdrop-blur">
-                <span className="h-1.5 w-1.5 rounded-full bg-roar-yellow" />
-                {s.label}
-                <span className="text-roar-amber">{s.note}</span>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 sm:block">
-          <ArrowDown size={18} className="animate-bounce text-ink-faint" aria-hidden="true" />
-        </div>
-      </section>
+      <AnimatedHero />
 
       {/* A. LIVE SKILL SIGNALS */}
       <section id="skill-signals" className="border-y border-paper-line bg-white py-16 sm:py-20">
