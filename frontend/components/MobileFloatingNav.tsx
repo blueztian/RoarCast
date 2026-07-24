@@ -66,7 +66,7 @@ export default function MobileFloatingNav() {
                 {active && (
                   <motion.div
                     layoutId="mobile-nav-indicator"
-                    className="absolute -bottom-2 h-1 w-1 rounded-full bg-brand-primary"
+                    className="absolute -top-3 h-0.5 w-6 rounded-full bg-brand-primary"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
