@@ -6,13 +6,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ArrowDown, Sparkles } from "lucide-react";
 import HeroSignalField from "@/components/HeroSignalField";
 
-const floatingSignals = [
-  { label: "Advanced Excel", note: "High Demand", pos: "left-[4%] top-[22%]", delay: 0 },
-  { label: "ERP Systems", note: "Rising", pos: "right-[6%] top-[16%]", delay: 0.6 },
-  { label: "Quality Control", note: "Rising", pos: "left-[10%] bottom-[20%]", delay: 1.1 },
-  { label: "PLC Fundamentals", note: "High Demand", pos: "right-[3%] bottom-[26%]", delay: 1.7 },
-];
-
 const PHRASES = [
   "before you graduate",
   "before your first interview",
@@ -117,27 +110,7 @@ export default function AnimatedHero() {
         </motion.p>
       </div>
 
-      {/* floating mock demand chips */}
-      <div className="pointer-events-none absolute inset-0 z-10 hidden sm:block" aria-hidden="true">
-        {floatingSignals.map((s) => (
-          <motion.div
-            key={s.label}
-            className={`absolute ${s.pos}`}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: [0, -10, 0] }}
-            transition={{
-              opacity: { duration: 0.8, delay: s.delay },
-              y: { duration: 6, repeat: Infinity, ease: "easeInOut", delay: s.delay },
-            }}
-          >
-            <div className="flex items-center gap-2 rounded-full border border-paper-line bg-white/85 px-4 py-2 text-xs font-medium text-ink-soft shadow-capsule backdrop-blur">
-              <span className="h-1.5 w-1.5 rounded-full bg-roar-yellow" />
-              {s.label}
-              <span className="text-roar-amber">{s.note}</span>
-            </div>
-          </motion.div>
-        ))}
-      </div>
+
 
       <div className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 sm:block" aria-hidden="true">
         <ArrowDown size={18} className="animate-bounce text-ink-faint" />
