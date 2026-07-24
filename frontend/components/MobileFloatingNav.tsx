@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 import { LayoutDashboard, Compass, ShieldCheck, UserCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -57,10 +58,19 @@ export default function MobileFloatingNav() {
               )}
               aria-current={active ? "page" : undefined}
             >
-              <Icon size={20} strokeWidth={active ? 2.5 : 2} />
-              <span className="text-[10px] font-medium tracking-wide">
-                {item.label}
-              </span>
+              <div className="relative flex flex-col items-center justify-center gap-1">
+                <Icon size={20} strokeWidth={active ? 2.5 : 2} />
+                <span className="text-[10px] font-medium tracking-wide">
+                  {item.label}
+                </span>
+                {active && (
+                  <motion.div
+                    layoutId="mobile-nav-indicator"
+                    className="absolute -bottom-2 h-1 w-1 rounded-full bg-brand-primary"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+              </div>
             </Link>
           );
         })}
