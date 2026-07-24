@@ -3,315 +3,390 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { 
-  Bell, MapPin, Building2, Clock, CheckCircle2, ShieldAlert, 
-  TrendingUp, Briefcase, ArrowRight, Users, Radio, ChevronRight, Activity, BarChart2, Target, Focus, ChevronDown, Database, Sheet, Cpu, ShieldCheck
+import {
+  Bell, Radio, ArrowRight, ChevronRight,
+  TrendingUp, Database, RefreshCw, Layers,
+  BookOpen, BadgeCheck, Briefcase, BarChart2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import SignalBackground from "@/components/SignalBackground";
-import ReadinessRing from "@/components/ReadinessRing";
+import ReadinessGauge from "@/components/ReadinessGauge";
 
-// --- Mock Data Structures ---
-const industryPulseStats = {
-  opportunities: "1,284",
-  employers: "132",
-  zones: "5",
-  updated: "2 hours ago",
-  zoneChips: [
-    "Laguna Technopark",
-    "Technopark Annex",
-    "LIIP",
-    "Greenfield Automotive Park",
-    "Toyota Santa Rosa SEZ"
-  ]
+// ─── Mock Data ─────────────────────────────────────────────────────────────────
+// Industry Pulse data has been moved to data/industryPulse.ts for use in Explore.
+// Home only contains personalised career data.
+
+const studentProfile = {
+  name: "Jana",
+  greeting: "Good morning",
 };
 
-const skillsDemandData = [
-  { rank: 1, name: "SAP ERP", growth: "+24%", progress: 85 },
-  { rank: 2, name: "Advanced Excel", growth: "+18%", progress: 70 },
-  { rank: 3, name: "PLC Programming", growth: "+16%", progress: 65 },
-  { rank: 4, name: "Quality Assurance", growth: "+13%", progress: 55 },
-  { rank: 5, name: "Power BI", growth: "+11%", progress: 45 },
-];
-
-const readinessData = {
-  targetRole: "Junior Accounting Operations Associate",
+const readiness = {
   score: 72,
-  strongSkills: ["Excel", "Data Reconciliation"],
-  skillGaps: ["SAP ERP", "ERP Systems"],
-  requiredTags: ["Excel", "SAP ERP", "Data Reconciliation", "ERP Systems"]
+  trend: "+12%",
+  targetRole: "Junior Accounting Operations Associate",
 };
 
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.15 } }
-};
-
-const fadeUpItem = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
-};
-
-// ... roleIntelligenceCards omitted for mobile, but kept for desktop
-const roleIntelligenceCards = [
-  {
-    role: "Junior Accounting Operations Associate",
-    opportunities: 47,
-    match: 72,
-    skillTags: ["SAP ERP", "Excel", "Reconciliation", "ERP Systems"],
-    metadata: { demand: "High demand", location: "Laguna Technopark", employers: 28 }
-  },
-  {
-    role: "Finance Operations Analyst",
-    opportunities: 31,
-    match: 65,
-    skillTags: ["Excel", "Power BI", "ERP", "Financial Reporting"],
-    metadata: { demand: "Medium demand", location: "Technopark Annex", employers: 19 }
-  },
-  {
-    role: "Supply Chain Data Assistant",
-    opportunities: 26,
-    match: 58,
-    skillTags: ["Excel", "Data Analysis", "Power BI", "SAP ERP"],
-    metadata: { demand: "Medium demand", location: "Greenfield Automotive Park", employers: 15 }
-  }
+const skillGaps = [
+  { id: "sap-erp",    name: "SAP ERP",             priority: "High",   icon: Database  },
+  { id: "data-recon", name: "Data Reconciliation",  priority: "Medium", icon: RefreshCw },
+  { id: "erp-sys",    name: "ERP Systems",          priority: "Medium", icon: Layers    },
 ];
 
+const learningProgress = { completed: 2, total: 5, percent: 40 };
+const credentialProgress = { earned: 1, total: 4 };
+
+const recommendation = {
+  label: "Recommended for You",
+  title: "Interview with HR: Accounting Firms",
+  meta:  "May 27, 2025 · Santa Rosa, Laguna",
+  href:  "/explore",
+};
+
+const marketSignal = {
+  label:    "Market Signal for You",
+  skill:    "Data Reconciliation",
+  change:   "↑ 18%",
+  location: "Santa Rosa",
+  href:     "/explore",
+};
+
+const nextBestAction = {
+  title: `Continue "Data Reconciliation" Module`,
+  meta:  "Finish in 25 mins · Earn 1 Badge",
+  href:  "/learn/erp-foundations",
+};
+
+// ─── Animations ────────────────────────────────────────────────────────────────
+const stagger = {
+  hidden: { opacity: 0 },
+  show:   { opacity: 1, transition: { staggerChildren: 0.08 } },
+};
+const fadeUp = {
+  hidden: { opacity: 0, y: 18 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.42, ease: "easeOut" } },
+};
+
+// ─── Priority Badge ────────────────────────────────────────────────────────────
+function PriorityBadge({ level }: { level: string }) {
+  const isHigh = level === "High";
+  return (
+    <span
+      className={cn(
+        "rounded-full px-2.5 py-1 text-[11px] font-bold leading-none",
+        isHigh
+          ? "bg-[#fce8e8] text-[#c0392b]"
+          : "bg-[#fff4e5] text-[#d97706]"
+      )}
+    >
+      {level}
+    </span>
+  );
+}
+
+// ─── Page ──────────────────────────────────────────────────────────────────────
 export default function DashboardPage() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
-
   if (!mounted) return null;
 
-  return (
-    <div className="flex flex-col w-full bg-[#fcfbf9] min-h-screen font-sans">
-      
-      {/* ──────────────────────────────────────────────────────────────
-          MOBILE LAYOUT
-          ────────────────────────────────────────────────────────────── */}
-      <div className="md:hidden flex flex-col w-full">
-        {/* Maroon Hero Header */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] to-[#3a0000] px-5 pt-12 pb-24 rounded-b-[3rem]">
-          {/* Subtle network lines background simulation */}
-          <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-50 mix-blend-screen" />
-          
-          <div className="relative z-10 flex flex-col w-full">
-            {/* Top Row (Logo + Bell) */}
-            <div className="flex w-full items-center justify-between mb-8">
-              <Link href="/dashboard" className="flex items-center gap-2.5 font-display text-xl font-bold tracking-tight text-white">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-brand-primary shadow-sm">
-                  <Radio size={18} strokeWidth={2.5} className="text-roar-amber" aria-hidden="true" />
-                </span>
-                RoarCast
-              </Link>
-              <button aria-label="Notifications" className="relative p-2">
-                <Bell size={24} className="text-white" strokeWidth={1.5} />
-                <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full border-2 border-[#5a0000] bg-white" />
-              </button>
-            </div>
+  const credPct = Math.round((credentialProgress.earned / credentialProgress.total) * 100);
 
-            <div className="space-y-1">
-              <h1 className="font-display text-[26px] font-bold tracking-tight text-white leading-tight">
-                Good morning, Jana
-              </h1>
-              <p className="text-[14px] text-white/90">
-                See where Santa Rosa&apos;s job market is moving.
+  return (
+    <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans">
+
+      {/* ── Hero Header ──────────────────────────────────────────────────────── */}
+      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-14 pb-28 rounded-b-[3rem]">
+        <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
+
+        <div className="relative z-10">
+          {/* Logo + Bell */}
+          <div className="flex items-center justify-between mb-8">
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-2.5 font-display text-[20px] font-bold tracking-tight text-white"
+            >
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-sm">
+                <Radio size={18} strokeWidth={2.5} className="text-[#f59e0b]" aria-hidden="true" />
+              </span>
+              RoarCast
+            </Link>
+
+            <button aria-label="Notifications — 3 unread" className="relative p-2">
+              <Bell size={24} className="text-white" strokeWidth={1.5} />
+              <span
+                aria-hidden="true"
+                className="absolute right-1.5 top-1.5 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#f59e0b] text-[10px] font-bold leading-none text-white"
+              >
+                3
+              </span>
+            </button>
+          </div>
+
+          {/* Greeting */}
+          <div className="space-y-1">
+            <h1 className="font-display text-[28px] font-bold leading-tight tracking-tight text-white">
+              {studentProfile.greeting}, {studentProfile.name}!
+            </h1>
+            <p className="text-[14px] text-white/80">
+              Let&apos;s get you closer to your dream career.
+            </p>
+          </div>
+        </div>
+      </header>
+
+      {/* ── Content ──────────────────────────────────────────────────────────── */}
+      <motion.div
+        variants={stagger}
+        initial="hidden"
+        animate="show"
+        className="relative z-10 mx-4 -mt-16 flex flex-col gap-4 pb-36"
+      >
+
+        {/* ── 1 · Your Readiness ─────────────────────────────────────────────── */}
+        <motion.section
+          variants={fadeUp}
+          aria-labelledby="readiness-heading"
+          className="rounded-[24px] bg-white p-5 shadow-[0_4px_24px_rgba(0,0,0,0.07)]"
+        >
+          <h2
+            id="readiness-heading"
+            className="mb-4 text-[12px] font-bold uppercase tracking-widest text-[#9c9595]"
+          >
+            Your Readiness
+          </h2>
+
+          {/* Gauge + Target Role */}
+          <div className="flex items-start gap-4">
+            <ReadinessGauge score={readiness.score} size={134} strokeWidth={12} />
+
+            <div className="flex flex-1 flex-col pt-1">
+              <span className="text-[10.5px] font-semibold uppercase tracking-wider text-[#9c9595]">
+                Target Role
+              </span>
+              <p className="mt-1 font-display text-[16px] font-bold leading-snug text-[#201d1d]">
+                {readiness.targetRole}
               </p>
+              <button
+                className="mt-3 self-start rounded-full border border-[#6b0000]/35 px-4 py-1.5 text-[12px] font-semibold text-[#6b0000] transition-colors hover:bg-[#6b0000]/5 active:scale-95"
+                aria-label="Change target role"
+              >
+                Change Target
+              </button>
             </div>
           </div>
-        </section>
 
-        <motion.div 
-          variants={staggerContainer}
-          initial="hidden"
-          animate="show"
-          className="relative z-20 mx-4 -mt-16 flex flex-col gap-6"
-        >
-          
-          {/* Santa Rosa Industry Pulse Panel */}
-          <motion.div variants={fadeUpItem} className="flex flex-col rounded-[24px] bg-white p-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/[0.03]">
-            <div className="flex justify-between items-start mb-6">
-              <h2 className="font-display text-[20px] font-bold text-[#201d1d] leading-tight w-[60%]">Santa Rosa Industry Pulse</h2>
-              <div className="flex flex-col items-end gap-1.5">
-                <div className="flex items-center gap-1.5 rounded-full bg-brand-primary/10 px-3 py-1">
-                  <span className="h-1.5 w-1.5 rounded-full bg-brand-primary" />
-                  <span className="text-[12px] font-bold tracking-wide text-brand-primary">LIVE</span>
-                </div>
-                <div className="flex items-center gap-1 text-[11px] text-text-secondary mr-1">
-                  <Activity size={12} className="text-roar-amber" /> System is live
-                </div>
-              </div>
-            </div>
+          {/* Trend */}
+          <p className="mt-2.5 flex items-center gap-1.5 text-[13px] font-bold text-emerald-600">
+            <TrendingUp size={14} strokeWidth={2.5} aria-hidden="true" />
+            {readiness.trend} vs last month
+          </p>
 
-            <div className="flex items-center justify-between pb-5 border-b border-black/[0.06]">
-              <div className="flex items-center gap-3">
-                <div className="flex h-[52px] w-[52px] items-center justify-center rounded-full bg-brand-primary/5">
-                  <BarChart2 size={24} className="text-brand-primary" strokeWidth={1.5} />
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-display text-[28px] font-bold text-brand-primary leading-none tracking-tight">{industryPulseStats.opportunities}</span>
-                  <span className="text-[12px] text-text-secondary mt-0.5">opportunities analyzed</span>
-                </div>
-              </div>
-              
-              <div className="w-[1px] h-12 bg-black/[0.06]" />
+          {/* Divider */}
+          <div className="my-4 h-px bg-black/[0.05]" aria-hidden="true" />
 
-              <div className="flex items-center gap-3 pr-2">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-roar-amber/10">
-                  <Clock size={20} className="text-roar-amber" strokeWidth={1.5} />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[11px] text-text-secondary">Updated</span>
-                  <span className="text-[13px] font-bold text-brand-primary mt-0.5">{industryPulseStats.updated}</span>
-                </div>
-              </div>
-            </div>
+          {/* Top Skill Gaps */}
+          <div className="mb-3 flex items-center justify-between">
+            <h3 className="text-[14.5px] font-bold text-[#201d1d]">Top Skill Gaps</h3>
+            <button className="flex items-center gap-0.5 text-[12px] font-semibold text-[#6b0000]">
+              See all <ChevronRight size={14} aria-hidden="true" />
+            </button>
+          </div>
 
-            <div className="pt-4">
-              <p className="text-[13px] text-text-secondary mb-3 flex items-center gap-2">
-                <MapPin size={16} className="text-text-secondary" strokeWidth={1.5} /> Across Santa Rosa PEZA zones
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {industryPulseStats.zoneChips.map(zone => (
-                  <span key={zone} className="rounded-full border border-black/[0.06] bg-white px-3 py-1.5 text-[11px] font-medium text-[#201d1d] shadow-sm">
-                    {zone}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Skills rising this month */}
-          <motion.div variants={fadeUpItem} className="flex flex-col">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="font-display text-[18px] font-bold text-[#201d1d]">Skills rising this month</h3>
-              <button className="text-[13px] font-semibold text-[#6b0000] flex items-center gap-0.5 hover:underline">
-                View all <ChevronRight size={16} />
-              </button>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-3">
-              {skillsDemandData.slice(0, 4).map((skill, idx) => (
-                <motion.div 
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.3 + (0.1 * idx), duration: 0.4 }}
-                  key={skill.rank} 
-                  className="flex items-center gap-3 rounded-[12px] border border-[#fcead9] bg-white p-3 shadow-sm hover:border-[#f59e0b]/30 transition-colors"
+          <ul className="flex flex-col gap-2.5" aria-label="Top skill gaps">
+            {skillGaps.map((gap) => {
+              const Icon = gap.icon;
+              return (
+                <li
+                  key={gap.id}
+                  className="flex items-center gap-3 rounded-2xl border border-black/[0.05] bg-[#faf9f8] px-3.5 py-3"
                 >
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#fff5ec]">
-                    <TrendingUp size={20} className="text-[#f59e0b]" strokeWidth={2.5} />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="font-bold text-[#201d1d] text-[13px] leading-tight mb-0.5">{skill.name}</span>
-                    <span className="text-[12px] font-bold text-success flex items-center gap-1">
-                      ↑ {skill.growth.replace('+', '')}
-                    </span>
-                  </div>
-                </motion.div>
-              ))}
+                  <span
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white shadow-sm"
+                    aria-hidden="true"
+                  >
+                    <Icon size={15} className="text-[#7a7373]" strokeWidth={1.8} />
+                  </span>
+                  <span className="flex-1 text-[13.5px] font-semibold text-[#201d1d]">
+                    {gap.name}
+                  </span>
+                  <PriorityBadge level={gap.priority} />
+                </li>
+              );
+            })}
+          </ul>
+        </motion.section>
+
+        {/* ── 2 · Learning Progress + Credentials ────────────────────────────── */}
+        <motion.div variants={fadeUp} className="grid grid-cols-2 gap-3">
+
+          {/* Learning Progress */}
+          <section
+            aria-labelledby="learning-heading"
+            className="rounded-[20px] bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
+          >
+            <div className="mb-3 flex items-center gap-2">
+              <BookOpen size={14} strokeWidth={2} className="text-[#9c9595]" aria-hidden="true" />
+              <h2 id="learning-heading" className="text-[11px] font-bold text-[#9c9595]">
+                Learning Progress
+              </h2>
             </div>
-          </motion.div>
 
-          {/* Recommended for your program */}
-          <motion.div variants={fadeUpItem} className="flex flex-col mt-2">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="font-display text-[18px] font-bold text-[#201d1d]">Recommended for your program</h3>
-              <button className="text-[13px] font-semibold text-[#6b0000] flex items-center gap-0.5 hover:underline">
-                View all roles <ChevronRight size={16} />
-              </button>
+            <p className="font-display text-[26px] font-bold leading-none text-[#201d1d]">
+              {learningProgress.completed}
+              <span className="text-[17px] font-medium text-[#9c9595]">
+                {" "}/ {learningProgress.total}
+              </span>
+            </p>
+            <p className="mb-3 mt-0.5 text-[11px] text-[#9c9595]">Modules completed</p>
+
+            <div
+              className="h-2 w-full overflow-hidden rounded-full bg-[#f0ede9]"
+              role="progressbar"
+              aria-valuenow={learningProgress.percent}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-label="Learning progress"
+            >
+              <motion.div
+                className="h-full rounded-full bg-[#f59e0b]"
+                initial={{ width: 0 }}
+                animate={{ width: `${learningProgress.percent}%` }}
+                transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
+              />
+            </div>
+            <p className="mt-1.5 text-[11px] text-[#9c9595]">
+              {learningProgress.percent}% complete
+            </p>
+          </section>
+
+          {/* Credentials */}
+          <section
+            aria-labelledby="cred-heading"
+            className="rounded-[20px] bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
+          >
+            <div className="mb-3 flex items-center gap-2">
+              <BadgeCheck size={14} strokeWidth={2} className="text-[#9c9595]" aria-hidden="true" />
+              <h2 id="cred-heading" className="text-[11px] font-bold text-[#9c9595]">
+                Credentials
+              </h2>
             </div>
 
-            <div className="flex flex-col rounded-[24px] border border-black/[0.04] bg-white p-5 shadow-sm">
-              <div className="flex items-start gap-4">
-                <div className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full bg-brand-primary text-white shadow-md">
-                  <Briefcase size={24} strokeWidth={1.5} />
-                </div>
-                <div className="flex flex-col flex-1">
-                  <span className="font-bold text-[#201d1d] text-[15px] leading-snug">{readinessData.targetRole}</span>
-                  <div className="flex items-center gap-3 mt-2">
-                    <span className="font-display font-bold text-[22px] text-brand-primary leading-none">{readinessData.score}%</span>
-                    <span className="text-[12px] text-text-secondary">readiness</span>
-                    <div className="h-2 flex-1 max-w-[100px] overflow-hidden rounded-full bg-brand-primary/15 ml-2">
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        animate={{ width: `${readinessData.score}%` }}
-                        transition={{ duration: 1, delay: 0.2 }}
-                        className="h-full rounded-full bg-brand-primary"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="shrink-0 mt-2">
-                  {/* Miniature ring */}
-                  <div className="relative h-10 w-10">
-                    <svg className="h-full w-full rotate-[-90deg]" viewBox="0 0 36 36">
-                      <path
-                        className="stroke-brand-primary/15"
-                        strokeWidth="4"
-                        fill="none"
-                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                      />
-                      <path
-                        className="stroke-brand-primary"
-                        strokeWidth="4"
-                        strokeDasharray={`${readinessData.score}, 100`}
-                        fill="none"
-                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
+            <p className="font-display text-[26px] font-bold leading-none text-[#201d1d]">
+              {credentialProgress.earned}
+              <span className="text-[17px] font-medium text-[#9c9595]">
+                {" "}/ {credentialProgress.total}
+              </span>
+            </p>
+            <p className="mb-3 mt-0.5 text-[11px] text-[#9c9595]">Badges earned</p>
 
-              <div className="w-full h-[1px] bg-black/[0.04] my-5" />
-
-              <div className="flex flex-col">
-                <span className="text-[11px] text-text-secondary mb-2.5">Required Skill Tags</span>
-                <div className="flex flex-wrap gap-2 mb-5">
-                  {readinessData.requiredTags.map(tag => (
-                    <span key={tag} className="rounded-md border border-black/[0.06] bg-[#faf9f8] px-2.5 py-1 text-[11px] font-medium text-[#201d1d]">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex flex-col border-r border-black/[0.04] pr-2">
-                    <p className="flex items-center gap-1 text-[12px] font-bold text-success mb-2.5">
-                      You already have <CheckCircle2 size={14} />
-                    </p>
-                    <div className="flex flex-col gap-2 items-start">
-                      {readinessData.strongSkills.map(skill => (
-                        <span key={skill} className="rounded-full bg-[#eaf4ec] px-3 py-1.5 text-[11px] font-medium text-success w-full max-w-fit">
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div className="flex flex-col pl-1">
-                    <p className="flex items-center gap-1 text-[12px] font-bold text-roar-amber mb-2.5">
-                      Skills to strengthen <Focus size={14} />
-                    </p>
-                    <div className="flex flex-col gap-2 items-start">
-                      {readinessData.skillGaps.map(skill => (
-                        <span key={skill} className="rounded-full bg-[#fcead9] px-3 py-1.5 text-[11px] font-medium text-roar-amber w-full max-w-fit">
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <Link href="/audit" className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-[#6b0000] py-3.5 text-[15px] font-semibold text-white transition-transform hover:scale-[1.02]">
-                  Check my readiness <ArrowRight size={18} />
-                </Link>
-              </div>
+            <div
+              className="h-2 w-full overflow-hidden rounded-full bg-[#f0ede9]"
+              role="progressbar"
+              aria-valuenow={credPct}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-label="Credential progress"
+            >
+              <motion.div
+                className="h-full rounded-full bg-[#f59e0b]"
+                initial={{ width: 0 }}
+                animate={{ width: `${credPct}%` }}
+                transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+              />
             </div>
-          </motion.div>
+            <p className="mt-1.5 text-[11.5px] font-bold text-emerald-600">Keep it up!</p>
+          </section>
         </motion.div>
-      </div>
+
+        {/* ── 3 · Recommended + Market Signal ────────────────────────────────── */}
+        <motion.div
+          variants={fadeUp}
+          className="overflow-hidden rounded-[24px] bg-white shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
+        >
+          {/* Recommended for You */}
+          <div className="flex items-center gap-3.5 p-5">
+            <span
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#3a0000] text-white"
+              aria-hidden="true"
+            >
+              <Briefcase size={19} strokeWidth={1.5} />
+            </span>
+            <div className="flex min-w-0 flex-1 flex-col">
+              <span className="text-[10.5px] font-bold uppercase tracking-wide text-[#9c9595]">
+                {recommendation.label}
+              </span>
+              <p className="mt-0.5 truncate text-[13.5px] font-bold text-[#201d1d]">
+                {recommendation.title}
+              </p>
+              <p className="mt-0.5 text-[11.5px] text-[#9c9595]">{recommendation.meta}</p>
+            </div>
+            <Link
+              href={recommendation.href}
+              className="shrink-0 rounded-full border border-[#6b0000]/35 px-3.5 py-1.5 text-[12px] font-semibold text-[#6b0000] transition-colors hover:bg-[#6b0000]/5"
+            >
+              View
+            </Link>
+          </div>
+
+          <div className="mx-5 h-px bg-black/[0.04]" aria-hidden="true" />
+
+          {/* Market Signal for You */}
+          <div className="flex items-center gap-3.5 p-5">
+            <span
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#f59e0b]/15 text-[#d97706]"
+              aria-hidden="true"
+            >
+              <BarChart2 size={19} strokeWidth={1.5} />
+            </span>
+            <div className="flex min-w-0 flex-1 flex-col">
+              <span className="text-[10.5px] font-bold uppercase tracking-wide text-[#9c9595]">
+                {marketSignal.label}
+              </span>
+              <p className="mt-0.5 text-[13px] font-semibold leading-snug text-[#201d1d]">
+                Demand for &ldquo;{marketSignal.skill}&rdquo; is rising in {marketSignal.location}
+              </p>
+            </div>
+            <div className="flex shrink-0 flex-col items-end gap-2">
+              <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11.5px] font-bold text-emerald-600">
+                {marketSignal.change}
+              </span>
+              <Link
+                href={marketSignal.href}
+                className="rounded-full border border-[#6b0000]/35 px-3.5 py-1.5 text-[12px] font-semibold text-[#6b0000] transition-colors hover:bg-[#6b0000]/5"
+              >
+                Details
+              </Link>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ── 4 · Next Best Action ─────────────────────────────────────────────── */}
+        <motion.div variants={fadeUp}>
+          <Link
+            href={nextBestAction.href}
+            className="flex items-center gap-4 rounded-[20px] border border-[#f59e0b]/20 bg-[#fef3e2] p-5 transition-transform active:scale-[0.98]"
+            aria-label={`Next Best Action: ${nextBestAction.title}`}
+          >
+            <div className="flex min-w-0 flex-1 flex-col">
+              <span className="text-[11px] font-bold uppercase tracking-wide text-[#d97706]">
+                Your Next Best Action
+              </span>
+              <p className="mt-1 text-[15px] font-bold leading-snug text-[#201d1d]">
+                {nextBestAction.title}
+              </p>
+              <p className="mt-1 text-[12px] text-[#9c9595]">{nextBestAction.meta}</p>
+            </div>
+            <span
+              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#f59e0b] text-white shadow-md"
+              aria-hidden="true"
+            >
+              <ArrowRight size={22} strokeWidth={2.5} />
+            </span>
+          </Link>
+        </motion.div>
+
+      </motion.div>
     </div>
   );
 }
