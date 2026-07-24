@@ -28,14 +28,11 @@ export default function ProfileReadinessPage() {
         <div className="relative z-10 flex flex-col gap-1">
           <div className="flex items-center gap-2.5">
             <User size={26} className="text-[#f59e0b]" strokeWidth={2} />
-            <span className="text-[11px] font-bold uppercase tracking-widest text-[#f59e0b]">
-              Micro-Audit Result
-            </span>
+            <h1 className="font-display text-[24px] font-bold leading-tight tracking-tight text-white">
+              Your Readiness Snapshot
+            </h1>
           </div>
-          <h1 className="mt-1 font-display text-[24px] font-bold leading-tight tracking-tight text-white">
-            Your Readiness Snapshot
-          </h1>
-          <p className="mt-1 text-[13.5px] text-white/80">
+          <p className="text-[13.5px] text-white/80 ml-[36px]">
             See how your current skills compare with what employers are looking for.
           </p>
         </div>
@@ -76,7 +73,7 @@ export default function ProfileReadinessPage() {
               <path
                 stroke="url(#readinessGrad)"
                 strokeWidth="3.5"
-                strokeDasharray="68, 100"
+                strokeDasharray="72, 100"
                 strokeLinecap="round"
                 fill="none"
                 d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
@@ -84,7 +81,7 @@ export default function ProfileReadinessPage() {
             </svg>
             <div className="flex flex-col items-center">
               <span className="font-display text-[32px] font-bold leading-none text-[#201d1d] tracking-tight">
-                68%
+                72%
               </span>
               <span className="mt-1 text-[12px] font-bold tracking-widest text-[#d97706] uppercase">
                 Ready
