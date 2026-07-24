@@ -42,36 +42,34 @@ export default function MobileFloatingNav() {
     <div className="fixed inset-x-0 bottom-6 z-50 px-4 md:hidden">
       <nav
         aria-label="Mobile Navigation"
-        className="mx-auto flex h-16 w-full max-w-sm items-center justify-around rounded-full border border-border-subtle bg-surface/90 px-2 shadow-capsule backdrop-blur-md"
+        className="mx-auto flex h-16 w-full max-w-sm items-center justify-around rounded-[2rem] border border-black/[0.04] bg-white/95 px-2 shadow-[0_8px_30px_rgb(0,0,0,0.06)] backdrop-blur-xl"
       >
         {NAV_ITEMS.map((item) => {
           const active = isActive(item.href);
           const Icon = item.icon;
 
           return (
-            <Link
-              key={item.label}
-              href={item.href}
-              className={cn(
-                "flex h-12 w-16 flex-col items-center justify-center gap-1 rounded-full transition-colors",
-                active ? "text-brand-primary" : "text-text-secondary hover:text-ink"
-              )}
-              aria-current={active ? "page" : undefined}
-            >
-              <div className="relative flex flex-col items-center justify-center gap-1">
-                <Icon size={20} strokeWidth={active ? 2.5 : 2} />
-                <span className="text-[10px] font-medium tracking-wide">
-                  {item.label}
-                </span>
+              <Link
+                key={item.label}
+                href={item.href}
+                className={cn(
+                  "relative flex h-full w-16 flex-col items-center justify-center gap-1 transition-colors",
+                  active ? "text-[#6b0000]" : "text-[#7a7373] hover:text-[#201d1d]"
+                )}
+                aria-current={active ? "page" : undefined}
+              >
                 {active && (
                   <motion.div
                     layoutId="mobile-nav-indicator"
-                    className="absolute -top-3 h-0.5 w-6 rounded-full bg-brand-primary"
+                    className="absolute top-0 h-[4px] w-8 rounded-b-md bg-[#6b0000]"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
-              </div>
-            </Link>
+                <Icon size={20} strokeWidth={active ? 2.5 : 2} />
+                <span className="text-[10px] font-semibold tracking-wide">
+                  {item.label}
+                </span>
+              </Link>
           );
         })}
       </nav>
