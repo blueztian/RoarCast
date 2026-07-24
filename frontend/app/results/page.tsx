@@ -1,15 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Info, ArrowRight } from "lucide-react";
+import { Info, ArrowRight, LayoutDashboard } from "lucide-react";
 import ReadinessRing from "@/components/ReadinessRing";
 import SkillTag from "@/components/SkillTag";
 import DemandBadge from "@/components/DemandBadge";
 import SkillGapCard from "@/components/SkillGapCard";
 import SkillExplanationDrawer from "@/components/SkillExplanationDrawer";
 import { readinessSummary, priorityGap, overallReadiness, type SkillResult } from "@/data/mockSkills";
+import { markAuditComplete } from "@/lib/studentState";
 
 const groups: { key: keyof typeof readinessSummary; title: string; note: string }[] = [
   { key: "ready", title: "Ready", note: "Already meets what employers expect" },
@@ -19,6 +20,10 @@ const groups: { key: keyof typeof readinessSummary; title: string; note: string 
 
 export default function ResultsPage() {
   const [explaining, setExplaining] = useState<SkillResult | null>(null);
+
+  useEffect(() => {
+    markAuditComplete();
+  }, []);
 
   return (
     <section className="mx-auto max-w-5xl px-6 pb-24 pt-32 sm:pb-32">
@@ -78,14 +83,23 @@ export default function ResultsPage() {
       <SkillGapCard skill={priorityGap} onWhy={() => setExplaining(priorityGap)} />
 
       <div className="mt-16 flex flex-col items-center gap-4 text-center">
-        <p className="text-sm text-ink-faint">Want the full roadmap, saved to your profile?</p>
-        <Link
-          href="/signup"
-          className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-6 py-3 text-sm font-semibold text-ink-soft transition-colors hover:border-ink/20 hover:text-ink"
-        >
-          Start over with a new profile
-          <ArrowRight size={15} />
-        </Link>
+        <p className="text-sm text-ink-faint">Ready to start closing your priority gap?</p>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Link
+            href="/skills/erp-workflow"
+            className="inline-flex items-center gap-2 rounded-full bg-roar-maroon px-6 py-3 text-sm font-semibold text-white shadow-glow transition-transform hover:scale-[1.02]"
+          >
+            View Skill Detail
+            <ArrowRight size={15} />
+          </Link>
+          <Link
+            href="/dashboard"
+            className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-6 py-3 text-sm font-semibold text-ink-soft transition-colors hover:border-ink/20 hover:text-ink"
+          >
+            <LayoutDashboard size={15} />
+            My Dashboard
+          </Link>
+        </div>
       </div>
 
       <SkillExplanationDrawer skill={explaining} onClose={() => setExplaining(null)} />

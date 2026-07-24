@@ -1,18 +1,17 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
   TrendingUp,
   Flame,
-  Minus,
   CheckCircle2,
   Star,
   Users,
   Shield,
-  LayoutDashboard,
   ChevronRight,
 } from "lucide-react";
 import SignalBackground from "@/components/SignalBackground";

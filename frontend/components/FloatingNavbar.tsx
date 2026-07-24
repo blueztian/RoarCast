@@ -2,21 +2,24 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Radio, Menu, X } from "lucide-react";
+import { Radio, Menu, X, LayoutDashboard } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { isAuditComplete, isCredentialEarned } from "@/lib/studentState";
 
 const NAV_LINKS = [
-  { label: "RoarCast", href: "/" },
   { label: "How It Works", href: "/#how-it-works" },
   { label: "Skill Signals", href: "/#skill-signals" },
   { label: "For Institutions", href: "/#for-institutions" },
-  { label: "About", href: "/#about" },
 ];
 
 export default function FloatingNavbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [auditDone, setAuditDone] = useState(false);
+  const [credEarned, setCredEarned] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -24,6 +27,13 @@ export default function FloatingNavbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    setAuditDone(isAuditComplete());
+    setCredEarned(isCredentialEarned());
+  }, [pathname]);
+
+  const isStudentPage = pathname !== "/" && !pathname.startsWith("/#");
 
   return (
     <header className="fixed inset-x-0 top-4 z-50 flex justify-center px-4 sm:top-6">
@@ -45,7 +55,7 @@ export default function FloatingNavbar() {
         </Link>
 
         <ul className="hidden items-center gap-1 md:flex">
-          {NAV_LINKS.slice(1).map((link) => (
+          {!isStudentPage && NAV_LINKS.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
@@ -55,15 +65,36 @@ export default function FloatingNavbar() {
               </Link>
             </li>
           ))}
+          {isStudentPage && auditDone && (
+            <li>
+              <Link
+                href="/dashboard"
+                className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[13px] font-medium text-ink-soft transition-colors hover:bg-paper-dim hover:text-ink"
+              >
+                <LayoutDashboard size={13} strokeWidth={2} />
+                Dashboard
+              </Link>
+            </li>
+          )}
         </ul>
 
         <div className="flex items-center gap-2">
-          <Link
-            href="/signup"
-            className="hidden rounded-full bg-ink px-4 py-2 text-[13px] font-semibold text-paper transition-colors hover:bg-roar-maroon sm:inline-flex"
-          >
-            Take My Audit
-          </Link>
+          {credEarned ? (
+            <Link
+              href="/dashboard"
+              className="hidden items-center gap-1.5 rounded-full bg-roar-maroon px-4 py-2 text-[13px] font-semibold text-white transition-colors hover:bg-[#5a0000] sm:inline-flex"
+            >
+              <LayoutDashboard size={13} strokeWidth={2} />
+              My Dashboard
+            </Link>
+          ) : (
+            <Link
+              href="/signup"
+              className="hidden rounded-full bg-ink px-4 py-2 text-[13px] font-semibold text-paper transition-colors hover:bg-roar-maroon sm:inline-flex"
+            >
+              Take My Audit
+            </Link>
+          )}
           <button
             type="button"
             aria-label={open ? "Close menu" : "Open menu"}
