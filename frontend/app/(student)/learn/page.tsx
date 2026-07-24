@@ -49,7 +49,67 @@ export default function LearnHubPage() {
         animate="show"
         className="relative z-10 mx-4 -mt-8 flex flex-col gap-4 pb-32"
       >
-        {/* ── 1. Co-Op Upskilling Squads (Prioritized) ────────────────────────── */}
+        {/* ── 1. Your Upskilling Roadmap ──────────────────────────────────────── */}
+        <motion.section variants={fadeUpItem} className="flex flex-col rounded-[24px] bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
+          <div className="flex flex-col border-b border-black/[0.06] pb-4">
+            <h2 className="text-[11px] font-bold uppercase tracking-widest text-[#7a7373]">
+              Your Upskilling Roadmap
+            </h2>
+            <p className="mt-1.5 font-display text-[15px] font-bold text-[#201d1d]">
+              {janaProfile.targetRole}
+            </p>
+            
+            <div className="mt-3 flex items-center gap-4">
+              <div className="relative flex h-14 w-14 shrink-0 items-center justify-center">
+                <svg className="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 36 36">
+                  <path
+                    className="stroke-[#f0ede9]"
+                    strokeWidth="4"
+                    fill="none"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  <path
+                    className="stroke-[#f59e0b]"
+                    strokeWidth="4"
+                    strokeDasharray={`${janaProfile.targetReadiness}, 100`}
+                    strokeLinecap="round"
+                    fill="none"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                </svg>
+                <span className="font-display text-[14px] font-bold text-[#201d1d]">
+                  {janaProfile.targetReadiness}%
+                </span>
+              </div>
+              <p className="text-[12.5px] leading-snug text-[#5e5a5a]">
+                Strengthen 2 priority skills to move closer to your target role.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3 pt-3">
+            {janaProfile.priorityGaps.map((gap, i) => (
+              <div key={gap.id} className="flex items-center gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#fcead9] text-[#f59e0b]">
+                  {i === 0 ? <Database size={16} strokeWidth={2} /> : <Layers size={16} strokeWidth={2} />}
+                </div>
+                <div className="flex flex-1 flex-col">
+                  <span className="text-[13px] font-bold text-[#201d1d]">{gap.name}</span>
+                  <span className="text-[11px] font-medium text-[#7a7373]">{gap.status}</span>
+                </div>
+                <span className="rounded-full bg-[#6b0000] px-2.5 py-1 text-[10px] font-bold tracking-wide text-white">
+                  {gap.priority}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <button className="mt-3 w-full rounded-xl bg-[#faf9f8] py-2.5 text-[12.5px] font-bold text-[#201d1d] transition-colors hover:bg-[#f0ede9]">
+            View full roadmap
+          </button>
+        </motion.section>
+
+        {/* ── 2. Co-Op Upskilling Squads (Prioritized) ────────────────────────── */}
         <motion.section variants={fadeUpItem} className="flex flex-col gap-3">
           <div className="mb-1 flex items-end justify-between px-1">
             <div className="flex flex-col gap-0.5">
@@ -150,66 +210,6 @@ export default function LearnHubPage() {
               </div>
             ))}
           </div>
-        </motion.section>
-
-        {/* ── 2. Your Upskilling Roadmap ──────────────────────────────────────── */}
-        <motion.section variants={fadeUpItem} className="flex flex-col rounded-[24px] bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
-          <div className="flex flex-col border-b border-black/[0.06] pb-4">
-            <h2 className="text-[11px] font-bold uppercase tracking-widest text-[#7a7373]">
-              Your Upskilling Roadmap
-            </h2>
-            <p className="mt-1.5 font-display text-[15px] font-bold text-[#201d1d]">
-              {janaProfile.targetRole}
-            </p>
-            
-            <div className="mt-3 flex items-center gap-4">
-              <div className="relative flex h-14 w-14 shrink-0 items-center justify-center">
-                <svg className="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 36 36">
-                  <path
-                    className="stroke-[#f0ede9]"
-                    strokeWidth="4"
-                    fill="none"
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  />
-                  <path
-                    className="stroke-[#f59e0b]"
-                    strokeWidth="4"
-                    strokeDasharray={`${janaProfile.targetReadiness}, 100`}
-                    strokeLinecap="round"
-                    fill="none"
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  />
-                </svg>
-                <span className="font-display text-[14px] font-bold text-[#201d1d]">
-                  {janaProfile.targetReadiness}%
-                </span>
-              </div>
-              <p className="text-[12.5px] leading-snug text-[#5e5a5a]">
-                Strengthen 2 priority skills to move closer to your target role.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-3 pt-3">
-            {janaProfile.priorityGaps.map((gap, i) => (
-              <div key={gap.id} className="flex items-center gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#fcead9] text-[#f59e0b]">
-                  {i === 0 ? <Database size={16} strokeWidth={2} /> : <Layers size={16} strokeWidth={2} />}
-                </div>
-                <div className="flex flex-1 flex-col">
-                  <span className="text-[13px] font-bold text-[#201d1d]">{gap.name}</span>
-                  <span className="text-[11px] font-medium text-[#7a7373]">{gap.status}</span>
-                </div>
-                <span className="rounded-full bg-[#6b0000] px-2.5 py-1 text-[10px] font-bold tracking-wide text-white">
-                  {gap.priority}
-                </span>
-              </div>
-            ))}
-          </div>
-
-          <button className="mt-3 w-full rounded-xl bg-[#faf9f8] py-2.5 text-[12.5px] font-bold text-[#201d1d] transition-colors hover:bg-[#f0ede9]">
-            View full roadmap
-          </button>
         </motion.section>
 
         {/* ── 3. Continue Learning ────────────────────────────────────────────── */}
