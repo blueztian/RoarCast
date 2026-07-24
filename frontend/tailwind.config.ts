@@ -8,21 +8,28 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        brand: {
+          primary: "var(--brand-primary)",
+          "primary-dark": "var(--brand-primary-dark)",
+          signal: "var(--brand-signal)",
+        },
         roar: {
           yellow: "#FFB800",
           amber: "#B67500",
           maroon: "#710000",
         },
         ink: {
-          DEFAULT: "#1C1A17",
-          soft: "#4A463F",
+          DEFAULT: "var(--text-primary)",
+          soft: "var(--text-secondary)",
           faint: "#8A8477",
         },
         paper: {
-          DEFAULT: "#FBFAF7",
+          DEFAULT: "var(--background)",
           dim: "#F3F0E8",
-          line: "#E7E2D5",
+          line: "var(--border-subtle)",
         },
+        surface: "var(--surface)",
+        success: "var(--success)",
       },
       fontFamily: {
         display: ["var(--font-display)", "sans-serif"],

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter, IBM_Plex_Mono } from "next/font/google";
-import FloatingNavbar from "@/components/FloatingNavbar";
 import "./globals.css";
 
 const display = Space_Grotesk({
@@ -31,8 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
       <body className="min-h-screen bg-paper font-body text-ink antialiased">
-        <FloatingNavbar />
-        <main>{children}</main>
+        {children}
       </body>
     </html>
   );
