@@ -41,6 +41,16 @@ const readinessData = {
   requiredTags: ["Excel", "SAP ERP", "Data Reconciliation", "ERP Systems"]
 };
 
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.15 } }
+};
+
+const fadeUpItem = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+};
+
 // ... roleIntelligenceCards omitted for mobile, but kept for desktop
 const roleIntelligenceCards = [
   {
@@ -110,10 +120,15 @@ export default function DashboardPage() {
           </div>
         </section>
 
-        <div className="relative z-20 mx-4 -mt-16 flex flex-col gap-6">
+        <motion.div 
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+          className="relative z-20 mx-4 -mt-16 flex flex-col gap-6"
+        >
           
           {/* Santa Rosa Industry Pulse Panel */}
-          <div className="flex flex-col rounded-[24px] bg-white p-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/[0.03]">
+          <motion.div variants={fadeUpItem} className="flex flex-col rounded-[24px] bg-white p-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/[0.03]">
             <div className="flex justify-between items-start mb-6">
               <h2 className="font-display text-[20px] font-bold text-[#201d1d] leading-tight w-[60%]">Santa Rosa Industry Pulse</h2>
               <div className="flex flex-col items-end gap-1.5">
@@ -163,39 +178,45 @@ export default function DashboardPage() {
                 ))}
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Skills rising this month */}
-          <div className="flex flex-col">
+          <motion.div variants={fadeUpItem} className="flex flex-col">
             <div className="flex justify-between items-center mb-4">
               <h3 className="font-display text-[18px] font-bold text-[#201d1d]">Skills rising this month</h3>
-              <button className="text-[13px] font-semibold text-brand-primary flex items-center gap-0.5">
+              <button className="text-[13px] font-semibold text-[#6b0000] flex items-center gap-0.5 hover:underline">
                 View all <ChevronRight size={16} />
               </button>
             </div>
             
             <div className="grid grid-cols-2 gap-3">
-              {skillsDemandData.slice(0, 4).map((skill) => (
-                <div key={skill.rank} className="flex flex-col rounded-[16px] border border-black/[0.04] bg-white p-4 shadow-sm">
-                  <div className="flex items-start justify-between mb-2">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-roar-amber/10">
-                      <TrendingUp size={18} className="text-roar-amber" strokeWidth={2} />
-                    </div>
+              {skillsDemandData.slice(0, 4).map((skill, idx) => (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.3 + (0.1 * idx), duration: 0.4 }}
+                  key={skill.rank} 
+                  className="flex items-center gap-3 rounded-[12px] border border-[#fcead9] bg-white p-3 shadow-sm hover:border-[#f59e0b]/30 transition-colors"
+                >
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#fff5ec]">
+                    <TrendingUp size={20} className="text-[#f59e0b]" strokeWidth={2.5} />
                   </div>
-                  <span className="font-bold text-[#201d1d] text-[14px] leading-tight mb-1.5">{skill.name}</span>
-                  <span className="text-[13px] font-bold text-success flex items-center gap-1">
-                    ↑ {skill.growth.replace('+', '')}
-                  </span>
-                </div>
+                  <div className="flex flex-col">
+                    <span className="font-bold text-[#201d1d] text-[13px] leading-tight mb-0.5">{skill.name}</span>
+                    <span className="text-[12px] font-bold text-success flex items-center gap-1">
+                      ↑ {skill.growth.replace('+', '')}
+                    </span>
+                  </div>
+                </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Recommended for your program */}
-          <div className="flex flex-col mt-2">
+          <motion.div variants={fadeUpItem} className="flex flex-col mt-2">
             <div className="flex justify-between items-center mb-4">
               <h3 className="font-display text-[18px] font-bold text-[#201d1d]">Recommended for your program</h3>
-              <button className="text-[13px] font-semibold text-brand-primary flex items-center gap-0.5">
+              <button className="text-[13px] font-semibold text-[#6b0000] flex items-center gap-0.5 hover:underline">
                 View all roles <ChevronRight size={16} />
               </button>
             </div>
@@ -287,8 +308,8 @@ export default function DashboardPage() {
                 </Link>
               </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
 
 
