@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Award, CheckCircle2, QrCode, ArrowRight, ShieldCheck, ChevronDown } from "lucide-react";
+import { Award, CheckCircle2, QrCode, ArrowRight, ShieldCheck, ChevronDown, UserSquare2 } from "lucide-react";
 import Link from "next/link";
 import SignalBackground from "@/components/SignalBackground";
 import { cn } from "@/lib/utils";
@@ -89,6 +89,25 @@ export default function CredentialsPage() {
         animate="show"
         className="relative z-10 mx-4 -mt-8 flex flex-col gap-3 pb-12"
       >
+        {/* ── Portfolio entry point ─────────────────────────────────────── */}
+        <motion.div variants={fadeUpItem}>
+          <Link
+            href="/credentials/portfolio"
+            className="flex items-center justify-between rounded-[20px] bg-white px-4 py-3.5 shadow-[0_2px_10px_rgba(0,0,0,0.04)] border border-black/[0.05] transition-colors hover:bg-[#faf9f8]"
+          >
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#6b0000]/8">
+                <UserSquare2 size={18} className="text-[#6b0000]" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[13.5px] font-bold text-[#201d1d]">My Portfolio</span>
+                <span className="text-[11px] text-[#7a7373]">Share your credentials with employers</span>
+              </div>
+            </div>
+            <ArrowRight size={16} className="text-[#9c9595]" />
+          </Link>
+        </motion.div>
+
         {/* The first credential card overlaps the red header, fixing the text overlap issue. */}
         {credentialsData.map((cred) => (
           <CredentialCard 

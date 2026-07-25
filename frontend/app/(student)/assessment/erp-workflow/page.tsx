@@ -3,7 +3,14 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ArrowRight, Check, CheckCircle2, Loader2, AlertCircle } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  CheckCircle2,
+  Loader2,
+  AlertCircle,
+} from "lucide-react";
 import Link from "next/link";
 import SignalBackground from "@/components/SignalBackground";
 import {
@@ -114,7 +121,7 @@ export default function AssessmentPage() {
   const [phase, setPhase] = useState<Phase>("questions");
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>(
-    Array(QUESTIONS.length).fill(null)
+    Array(QUESTIONS.length).fill(null),
   );
   const [analysisStep, setAnalysisStep] = useState(0);
   const [score, setScore] = useState(0);
@@ -201,8 +208,8 @@ export default function AssessmentPage() {
               Complete All Modules First
             </h1>
             <p className="mb-8 text-[15px] leading-relaxed text-ink-soft">
-              Finish all 4 learning modules before taking the final skill check. You
-              have to build the knowledge before you validate it.
+              Finish all 4 learning modules before taking the final skill check.
+              You have to build the knowledge before you validate it.
             </p>
             <Link
               href="/learn/erp-foundations"
@@ -239,8 +246,8 @@ export default function AssessmentPage() {
                         done
                           ? "border-roar-maroon bg-roar-maroon text-white"
                           : active
-                          ? "border-roar-amber text-roar-amber"
-                          : "border-paper-line"
+                            ? "border-roar-amber text-roar-amber"
+                            : "border-paper-line"
                       }`}
                     >
                       {done ? (
@@ -249,7 +256,9 @@ export default function AssessmentPage() {
                         <Loader2 size={13} className="animate-spin" />
                       ) : null}
                     </span>
-                    <span className={`text-sm ${done || active ? "text-ink" : "text-ink-faint"}`}>
+                    <span
+                      className={`text-sm ${done || active ? "text-ink" : "text-ink-faint"}`}
+                    >
                       {step}
                     </span>
                   </div>
@@ -280,7 +289,12 @@ export default function AssessmentPage() {
                   <motion.span
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 280, damping: 22, delay: 0.1 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 280,
+                      damping: 22,
+                      delay: 0.1,
+                    }}
                     className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-roar-maroon text-roar-yellow shadow-glow"
                   >
                     <CheckCircle2 size={40} strokeWidth={1.5} />
@@ -313,7 +327,11 @@ export default function AssessmentPage() {
                       className="h-full rounded-full bg-roar-maroon"
                       initial={{ width: 0 }}
                       animate={{ width: `${score}%` }}
-                      transition={{ delay: 0.4, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                      transition={{
+                        delay: 0.4,
+                        duration: 0.9,
+                        ease: [0.16, 1, 0.3, 1],
+                      }}
                     />
                   </div>
                   <p className="mt-3 text-sm text-ink-soft">
@@ -353,14 +371,20 @@ export default function AssessmentPage() {
                   <p className="mb-2 font-mono text-[11px] uppercase tracking-wide text-ink-faint">
                     Your Score
                   </p>
-                  <p className="font-display text-5xl font-semibold text-ink">{score}%</p>
+                  <p className="font-display text-5xl font-semibold text-ink">
+                    {score}%
+                  </p>
                   <p className="mt-2 text-sm text-ink-soft">
-                    You need {PASS_THRESHOLD}% to earn the credential. You&apos;re close —
-                    reviewing the modules will get you there.
+                    You need {PASS_THRESHOLD}% to earn the credential.
+                    You&apos;re close — reviewing the modules will get you
+                    there.
                   </p>
                 </motion.div>
 
-                <motion.div variants={staggerItem} className="flex flex-col gap-3">
+                <motion.div
+                  variants={staggerItem}
+                  className="flex flex-col gap-3"
+                >
                   <button
                     type="button"
                     onClick={() => {
@@ -413,7 +437,10 @@ export default function AssessmentPage() {
         </motion.div>
 
         {/* Progress bar */}
-        <div className="mb-8 flex items-center gap-2" aria-label="Assessment progress">
+        <div
+          className="mb-8 flex items-center gap-2"
+          aria-label="Assessment progress"
+        >
           {QUESTIONS.map((_, i) => {
             const answered = answers[i] !== null;
             return (
@@ -423,10 +450,10 @@ export default function AssessmentPage() {
                   i < currentQ
                     ? "bg-roar-maroon"
                     : i === currentQ
-                    ? "bg-roar-amber"
-                    : answered
-                    ? "bg-roar-maroon"
-                    : "bg-paper-line"
+                      ? "bg-roar-amber"
+                      : answered
+                        ? "bg-roar-maroon"
+                        : "bg-paper-line"
                 }`}
               />
             );

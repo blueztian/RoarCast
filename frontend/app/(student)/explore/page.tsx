@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Compass, MapPin, Clock, Activity, BarChart2,
-  TrendingUp, ChevronRight, Users,
+  TrendingUp, ChevronRight, Users, Building2, Route, Factory,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import SignalBackground from "@/components/SignalBackground";
@@ -12,6 +12,9 @@ import {
   industryPulseStats,
   skillsDemandData,
   roleIntelligenceCards,
+  hiringCompanies,
+  careerPaths,
+  pezaZonesData,
 } from "@/data/industryPulse";
 
 const stagger = {
@@ -270,6 +273,110 @@ export default function ExplorePage() {
                     <TrendingUp size={14} strokeWidth={3} /> {role.metadata.demand}
                   </span>
                 </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Hiring Companies */}
+        <motion.div variants={fadeUpItem} className="mt-1 flex flex-col">
+          <div className="mb-3 flex items-center justify-between px-1">
+            <h3 className="font-display text-[18px] font-bold text-[#201d1d]">
+              Hiring Companies
+            </h3>
+            <button className="flex items-center gap-0.5 text-[13px] font-semibold text-[#6b0000] hover:underline">
+              View all companies <ChevronRight size={16} />
+            </button>
+          </div>
+
+          <div className="flex flex-col gap-2.5">
+            {hiringCompanies.map((company) => (
+              <div
+                key={company.name}
+                className="flex items-center gap-3 rounded-[16px] border border-black/[0.05] bg-white p-3.5 shadow-sm"
+              >
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#6b0000]/8">
+                  <Building2 size={18} className="text-[#6b0000]" strokeWidth={1.75} />
+                </div>
+                <div className="flex flex-1 flex-col">
+                  <span className="text-[13.5px] font-bold leading-tight text-[#201d1d]">
+                    {company.name}
+                  </span>
+                  <span className="mt-0.5 text-[11.5px] text-[#7a7373]">
+                    {company.industry} · {company.zone}
+                  </span>
+                </div>
+                <span className="shrink-0 rounded-full bg-[#fff8ee] px-2.5 py-1 text-[11px] font-bold text-[#d97706]">
+                  {company.openings} openings
+                </span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Career Paths / Roles */}
+        <motion.div variants={fadeUpItem} className="mt-1 flex flex-col">
+          <div className="mb-3 flex items-center justify-between px-1">
+            <h3 className="font-display text-[18px] font-bold text-[#201d1d]">
+              Career Paths for You
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            {careerPaths.map((path) => (
+              <div
+                key={path.role}
+                className="flex flex-col rounded-[16px] border border-black/[0.05] bg-white p-3.5 shadow-sm"
+              >
+                <div className="flex items-center gap-1.5">
+                  <Route size={14} className="text-[#f59e0b]" strokeWidth={2} />
+                  <span className="text-[10.5px] font-bold uppercase tracking-wide text-[#7a7373]">
+                    {path.match}% match
+                  </span>
+                </div>
+                <span className="mt-1.5 text-[13px] font-bold leading-tight text-[#201d1d]">
+                  {path.role}
+                </span>
+                <span className="mt-1 text-[11px] text-[#7a7373]">
+                  {path.industry}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <button className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-full border border-black/[0.08] bg-white py-2.5 text-[12.5px] font-bold text-[#201d1d] shadow-sm hover:bg-[#faf9f8]">
+            Explore more roles <ChevronRight size={14} />
+          </button>
+        </motion.div>
+
+        {/* PEZA Zones */}
+        <motion.div variants={fadeUpItem} className="mt-1 flex flex-col">
+          <div className="mb-3 flex items-center justify-between px-1">
+            <h3 className="font-display text-[18px] font-bold text-[#201d1d]">
+              PEZA Zones in Santa Rosa
+            </h3>
+          </div>
+
+          <div className="flex flex-col gap-2.5">
+            {pezaZonesData.map((zone) => (
+              <div
+                key={zone.name}
+                className="flex items-center gap-3 rounded-[16px] border border-black/[0.05] bg-white p-3.5 shadow-sm"
+              >
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#f59e0b]/10">
+                  <Factory size={18} className="text-[#f59e0b]" strokeWidth={1.75} />
+                </div>
+                <div className="flex flex-1 flex-col">
+                  <span className="text-[13.5px] font-bold leading-tight text-[#201d1d]">
+                    {zone.name}
+                  </span>
+                  <span className="mt-0.5 text-[11.5px] text-[#7a7373]">
+                    {zone.industries}
+                  </span>
+                </div>
+                <span className="shrink-0 text-[11px] font-bold text-[#7a7373]">
+                  {zone.employers} employers
+                </span>
               </div>
             ))}
           </div>

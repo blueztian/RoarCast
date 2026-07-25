@@ -54,3 +54,24 @@ export const roleIntelligenceCards = [
     metadata: { demand: "Medium demand", location: "Greenfield Automotive Park", employers: 15 },
   },
 ];
+
+export const hiringCompanies = [
+  { name: "P&G",              industry: "FMCG",             zone: "Laguna Technopark",         openings: 12 },
+  { name: "Colgate-Palmolive", industry: "FMCG",             zone: "Greenfield Automotive Park", openings: 8  },
+  { name: "Toyota Motor PH",   industry: "Automotive",       zone: "Toyota Santa Rosa SEZ",      openings: 15 },
+  { name: "Unilever",          industry: "FMCG",              zone: "Laguna Technopark",          openings: 9  },
+];
+
+export const careerPaths = [
+  { role: "Junior Accounting Operations Associate", match: 82, industry: "Finance & Accounting" },
+  { role: "Data Analyst",                            match: 76, industry: "Data & Analytics" },
+  { role: "ERP Support Associate",                    match: 72, industry: "IT & Systems" },
+  { role: "Finance Assistant",                        match: 68, industry: "Finance & Accounting" },
+];
+
+export const pezaZonesData = [
+  { name: "Laguna Technopark",        industries: "IT, Electronics, FMCG", employers: 41 },
+  { name: "Technopark Annex",         industries: "Logistics, IT",          employers: 22 },
+  { name: "Greenfield Automotive Park", industries: "Automotive, Manufacturing", employers: 27 },
+  { name: "Toyota Santa Rosa SEZ",    industries: "Automotive, Supplier",   employers: 18 },
+];
