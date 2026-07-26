@@ -128,11 +128,13 @@ export default function CourseDetailPage({ params }: { params: { courseId: strin
               const isUpcoming = module.status === "Upcoming";
               
               return (
-                <div
+                <Link
+                  href={`/learn/courses/${course.id}/modules/${module.id}`}
                   key={module.id}
                   className={cn(
                     "flex items-center justify-between rounded-[20px] p-4 shadow-sm border transition-colors",
-                    isCurrent ? "border-[#f59e0b]/40 bg-[#fff8ee]" : "border-black/[0.04] bg-white"
+                    isCurrent ? "border-[#f59e0b]/40 bg-[#fff8ee]" : "border-black/[0.04] bg-white",
+                    isLocked ? "pointer-events-none opacity-70" : "hover:bg-[#faf9f8]"
                   )}
                 >
                   <div className="flex items-center gap-3">
@@ -161,11 +163,11 @@ export default function CourseDetailPage({ params }: { params: { courseId: strin
                   </div>
 
                   {isCurrent && (
-                    <button className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#f59e0b] text-white shadow-sm transition-transform active:scale-95">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#f59e0b] text-white shadow-sm">
                       <PlayCircle size={20} />
-                    </button>
+                    </span>
                   )}
-                </div>
+                </Link>
               );
             })}
           </div>

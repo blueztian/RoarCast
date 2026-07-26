@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { User, CheckCircle2, ArrowRight } from "lucide-react";
+import { User, CheckCircle2, ArrowRight, History, Settings } from "lucide-react";
+import { mockStudent } from "@/data/mockStudent";
 import SignalBackground from "@/components/SignalBackground";
 
 const stagger = {
@@ -14,6 +15,14 @@ const fadeUpItem = {
   hidden: { opacity: 0, y: 16 },
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
+
+function getInitials(name: string) {
+  return name
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
+}
 
 export default function ProfileReadinessPage() {
   const [mounted, setMounted] = useState(false);
@@ -44,6 +53,47 @@ export default function ProfileReadinessPage() {
         animate="show"
         className="relative z-10 mx-4 -mt-8 flex flex-col gap-4 pb-12"
       >
+        {/* ── 1.5 Goals / Profile Identity Card ────────────────────────────── */}
+        <motion.section
+          variants={fadeUpItem}
+          className="flex flex-col rounded-[24px] bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
+        >
+          <div className="flex items-center gap-3">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#f59e0b] to-[#d97706] text-[15px] font-bold text-white">
+              {getInitials(mockStudent.name)}
+            </div>
+            <div className="flex flex-col">
+              <span className="font-display text-[16.5px] font-bold text-[#201d1d]">
+                {mockStudent.name}
+              </span>
+              <span className="text-[11.5px] text-[#7a7373]">
+                Graduate Student, {mockStudent.location}
+              </span>
+            </div>
+          </div>
+
+          <div className="my-4 h-px w-full bg-black/[0.05]" />
+
+          <span className="text-[11px] font-bold uppercase tracking-widest text-[#7a7373]">
+            My Goal
+          </span>
+          <p className="mt-1.5 text-[13.5px] font-medium leading-snug text-[#201d1d]">
+            Land a {mockStudent.careerInterest} role within 6 months.
+          </p>
+
+          <div className="mt-3 flex items-center justify-between text-[11px] font-bold text-[#7a7373]">
+            <span>Progress</span>
+            <span className="text-[#6b0000]">68%</span>
+          </div>
+          <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-[#f0ede9]">
+            <div className="h-full rounded-full bg-[#f59e0b]" style={{ width: "68%" }} />
+          </div>
+
+          <button className="mt-4 flex w-full items-center justify-center gap-2 rounded-full border border-black/[0.08] bg-white py-2.5 text-[12.5px] font-bold text-[#201d1d] shadow-sm transition-colors hover:bg-[#faf9f8]">
+            Update goal
+          </button>
+        </motion.section>
+
         {/* ── 2. Main Readiness Card ────────────────────────────────────────── */}
         <motion.section variants={fadeUpItem} className="flex flex-col rounded-[24px] bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.05)] text-center items-center">
           <span className="text-[11px] font-bold uppercase tracking-widest text-[#7a7373]">
@@ -168,6 +218,41 @@ export default function ProfileReadinessPage() {
             className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-[#f59e0b] py-3.5 text-[14px] font-bold text-white shadow-sm transition-colors hover:bg-[#d97706]"
           >
             Close this skill gap <ArrowRight size={18} />
+          </Link>
+        </motion.section>
+
+        {/* ── 5. Manage ────────────────────────────────────────────────────── */}
+        <motion.section variants={fadeUpItem} className="flex flex-col gap-2.5">
+          <Link
+            href="/profile/audit-history"
+            className="flex items-center justify-between rounded-[20px] bg-white px-4 py-3.5 shadow-sm border border-black/[0.05] transition-colors hover:bg-[#faf9f8]"
+          >
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#6b0000]/8">
+                <History size={18} className="text-[#6b0000]" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[13.5px] font-bold text-[#201d1d]">Audit History</span>
+                <span className="text-[11px] text-[#7a7373]">See your readiness score over time</span>
+              </div>
+            </div>
+            <ArrowRight size={16} className="text-[#9c9595]" />
+          </Link>
+
+          <Link
+            href="/profile/settings"
+            className="flex items-center justify-between rounded-[20px] bg-white px-4 py-3.5 shadow-sm border border-black/[0.05] transition-colors hover:bg-[#faf9f8]"
+          >
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#6b0000]/8">
+                <Settings size={18} className="text-[#6b0000]" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[13.5px] font-bold text-[#201d1d]">Settings</span>
+                <span className="text-[11px] text-[#7a7373]">Account, notifications, privacy</span>
+              </div>
+            </div>
+            <ArrowRight size={16} className="text-[#9c9595]" />
           </Link>
         </motion.section>
       </motion.div>

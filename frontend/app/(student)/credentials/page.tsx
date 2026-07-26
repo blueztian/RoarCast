@@ -55,9 +55,17 @@ const credentialsData = [
   }
 ];
 
+const badgesData = [
+  { id: "sap-erp-badge", title: "SAP ERP Fundamentals", earned: true, earnedDate: "July 24, 2026" },
+  { id: "excel-badge", title: "Advanced Excel Pro", earned: true, earnedDate: "June 18, 2026" },
+  { id: "reconciliation-badge", title: "Financial Reconciliation", earned: true, earnedDate: "May 30, 2026" },
+  { id: "erp-systems-badge", title: "ERP Systems Essentials", earned: false, earnedDate: null },
+];
+
 export default function CredentialsPage() {
   const [mounted, setMounted] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<"credentials" | "badges">("credentials");
 
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
@@ -108,15 +116,67 @@ export default function CredentialsPage() {
           </Link>
         </motion.div>
 
-        {/* The first credential card overlaps the red header, fixing the text overlap issue. */}
-        {credentialsData.map((cred) => (
-          <CredentialCard 
-            key={cred.id} 
-            cred={cred} 
-            isExpanded={expandedId === cred.id}
-            onToggle={() => setExpandedId(expandedId === cred.id ? null : cred.id)}
-          />
-        ))}
+        {/* ── Credentials / Badges tab toggle ──────────────────────────────── */}
+        <motion.div
+          variants={fadeUpItem}
+          className="flex rounded-full bg-white p-1 shadow-sm border border-black/[0.05]"
+        >
+          {(["credentials", "badges"] as const).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={cn(
+                "flex-1 rounded-full py-2 text-[12.5px] font-bold capitalize transition-colors",
+                activeTab === tab ? "bg-[#6b0000] text-white" : "text-[#7a7373] hover:bg-[#faf9f8]"
+              )}
+            >
+              {tab}
+            </button>
+          ))}
+        </motion.div>
+
+        {activeTab === "credentials" ? (
+          <>
+            {/* The first credential card overlaps the red header, fixing the text overlap issue. */}
+            {credentialsData.map((cred) => (
+              <CredentialCard
+                key={cred.id}
+                cred={cred}
+                isExpanded={expandedId === cred.id}
+                onToggle={() => setExpandedId(expandedId === cred.id ? null : cred.id)}
+              />
+            ))}
+          </>
+        ) : (
+          <motion.div variants={fadeUpItem} className="grid grid-cols-2 gap-3">
+            {badgesData.map((badge) => (
+              <div
+                key={badge.id}
+                className={cn(
+                  "flex flex-col items-center rounded-[20px] border p-4 text-center shadow-sm",
+                  badge.earned
+                    ? "border-[#f59e0b]/25 bg-white"
+                    : "border-black/[0.05] bg-[#faf9f8] opacity-60"
+                )}
+              >
+                <div
+                  className={cn(
+                    "flex h-14 w-14 items-center justify-center rounded-full",
+                    badge.earned ? "bg-gradient-to-br from-[#f59e0b] to-[#d97706]" : "bg-black/[0.06]"
+                  )}
+                >
+                  <Award size={24} className={badge.earned ? "text-white" : "text-[#9c9595]"} />
+                </div>
+                <span className="mt-2.5 text-[12.5px] font-bold leading-tight text-[#201d1d]">
+                  {badge.title}
+                </span>
+                <span className="mt-1 text-[10.5px] text-[#7a7373]">
+                  {badge.earned ? `Earned ${badge.earnedDate}` : "Not yet earned"}
+                </span>
+              </div>
+            ))}
+          </motion.div>
+        )}
 
         {/* ── Optional In Progress Area ──────────────────────────────────── */}
         <motion.div variants={fadeUpItem} className="mt-2 flex flex-col gap-2 px-1">
