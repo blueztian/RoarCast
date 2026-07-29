@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { ChevronLeft, Briefcase, PlayCircle, Target, MessageCircle, MoreHorizontal, Award } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { squadsData, activeCourse } from "@/data/mockLearn";
+import SignalBackground from "@/components/SignalBackground";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 12 },
@@ -28,21 +29,22 @@ export default function SquadDetailPage({ params }: { params: { squadId: string 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
       {/* ── Header ──────────────────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-20 flex flex-col bg-white shadow-sm">
-        <div className="flex items-start gap-3 px-4 pt-12 pb-4">
-          <Link href="/learn/squads" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#f0ede9] text-[#201d1d] hover:bg-[#e8e4df]">
+      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] rounded-b-[2.5rem]">
+        <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
+        <div className="relative z-10 flex items-start gap-3 px-5 pt-12 pb-8">
+          <Link href="/learn/squads" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20">
             <ChevronLeft size={20} />
           </Link>
           <div className="flex flex-col">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#6b0000]">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#f59e0b]">
               {squad.skillName}
             </span>
-            <h1 className="font-display text-[20px] font-bold text-[#201d1d] leading-tight">
+            <h1 className="font-display text-[20px] font-bold text-white leading-tight">
               {squad.name}
             </h1>
-            <div className="mt-1 flex items-center gap-2 text-[11.5px] text-[#7a7373]">
+            <div className="mt-1 flex items-center gap-2 text-[11.5px] text-white/70">
               <span className="flex items-center gap-1">
-                <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
                 {squad.members.activeThisWeek} active this week
               </span>
               <span>·</span>
@@ -50,32 +52,32 @@ export default function SquadDetailPage({ params }: { params: { squadId: string 
               {isJoined(squad.status) && (
                 <>
                   <span>·</span>
-                  <span className="font-bold text-[#201d1d]">Joined ✓</span>
+                  <span className="font-bold text-white">Joined ✓</span>
                 </>
               )}
             </div>
           </div>
         </div>
-
-        {/* ── Tabs ────────────────────────────────────────────────────────────── */}
-        <div className="flex w-full overflow-x-auto border-b border-black/[0.06] px-4 no-scrollbar">
-          {["Activity", "Discussion", "Roadmap", "Members"].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={cn(
-                "relative shrink-0 px-4 py-3 text-[13px] font-bold transition-colors",
-                activeTab === tab ? "text-[#6b0000]" : "text-[#7a7373] hover:text-[#201d1d]"
-              )}
-            >
-              {tab}
-              {activeTab === tab && (
-                <span className="absolute bottom-0 left-0 right-0 h-[2.5px] rounded-t-full bg-[#6b0000]" />
-              )}
-            </button>
-          ))}
-        </div>
       </header>
+
+      {/* ── Tabs ────────────────────────────────────────────────────────────── */}
+      <div className="sticky top-0 z-20 -mt-3 mx-4 flex w-auto overflow-x-auto rounded-[20px] bg-white px-4 no-scrollbar shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
+        {["Activity", "Discussion", "Roadmap", "Members"].map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={cn(
+              "relative shrink-0 px-4 py-3 text-[13px] font-bold transition-colors",
+              activeTab === tab ? "text-[#6b0000]" : "text-[#7a7373] hover:text-[#201d1d]"
+            )}
+          >
+            {tab}
+            {activeTab === tab && (
+              <span className="absolute bottom-0 left-0 right-0 h-[2.5px] rounded-t-full bg-[#6b0000]" />
+            )}
+          </button>
+        ))}
+      </div>
 
       <motion.div
         initial="hidden"

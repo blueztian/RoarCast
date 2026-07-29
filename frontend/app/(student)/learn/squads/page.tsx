@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ChevronLeft, Search, Briefcase, Award, Users, BookOpen } from "lucide-react";
+import { ChevronLeft, Search, Briefcase, Award, Users, BookOpen, Target, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { squadsData } from "@/data/mockLearn";
+import SignalBackground from "@/components/SignalBackground";
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -32,17 +33,20 @@ export default function SquadsListPage() {
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
       {/* ── Header ──────────────────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-20 flex flex-col gap-4 bg-white px-4 pt-12 pb-4 shadow-sm">
-        <div className="flex items-center gap-3">
-          <Link href="/learn" className="flex h-9 w-9 items-center justify-center rounded-full bg-[#f0ede9] text-[#201d1d] hover:bg-[#e8e4df]">
+      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-8 rounded-b-[2.5rem]">
+        <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
+        <div className="relative z-10 flex items-center gap-3">
+          <Link href="/learn" className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20">
             <ChevronLeft size={20} />
           </Link>
           <div className="flex flex-col">
-            <h1 className="font-display text-[20px] font-bold text-[#201d1d]">Skill Squads</h1>
-            <p className="text-[12px] text-[#7a7373]">Learn with peers working toward the same industry skill.</p>
+            <h1 className="font-display text-[20px] font-bold text-white">Skill Squads</h1>
+            <p className="text-[12px] text-white/70">Learn with peers working toward the same industry skill.</p>
           </div>
         </div>
+      </header>
 
+      <div className="sticky top-0 z-20 -mt-4 mx-4 flex flex-col gap-3 rounded-[24px] bg-white p-3 shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
         <div className="relative">
           <Search size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9c9595]" />
           <input
@@ -68,7 +72,7 @@ export default function SquadsListPage() {
             </button>
           ))}
         </div>
-      </header>
+      </div>
 
       <motion.div
         variants={stagger}
@@ -76,6 +80,9 @@ export default function SquadsListPage() {
         animate="show"
         className="flex flex-col gap-8 px-4 pt-6"
       >
+        {/* ── Squad Spotlight ───────────────────────────────────────────────── */}
+        <SquadSpotlight squad={squadsData[0]} />
+
         {/* ── Recommended For You ────────────────────────────────────────────── */}
         <div className="flex flex-col gap-4">
           <h2 className="font-display text-[17px] font-bold text-[#201d1d]">
@@ -101,6 +108,91 @@ export default function SquadsListPage() {
         </div>
       </motion.div>
     </div>
+  );
+}
+
+function SquadSpotlight({ squad }: { squad: any }) {
+  return (
+    <motion.div
+      variants={fadeUp}
+      className="flex flex-col overflow-hidden rounded-[28px] border border-black/[0.05] bg-white shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
+    >
+      <div className="p-5">
+        <span className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#6b0000]">
+          <Briefcase size={12} strokeWidth={2} />
+          {squad.skillName}
+        </span>
+        <h2 className="mt-0.5 font-display text-[20px] font-bold text-[#201d1d]">
+          {squad.name}
+        </h2>
+
+        {/* ── Members, front and center ──────────────────────────────────────── */}
+        <div className="mt-3 flex items-center gap-2.5">
+          <div className="flex -space-x-2">
+            {Array.from({ length: squad.members.total }).map((_, n) => (
+              <div
+                key={n}
+                className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-[#e0dcd5] text-[11px] font-bold text-[#5e5a5a]"
+              >
+                {String.fromCharCode(65 + n)}
+              </div>
+            ))}
+          </div>
+          <span className="flex items-center gap-1 text-[12px] font-bold text-emerald-600">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            {squad.members.activeThisWeek} members online
+          </span>
+        </div>
+
+        {/* ── Shared Goal ───────────────────────────────────────────────────── */}
+        <div className="mt-4 flex flex-col gap-1 rounded-[18px] bg-[#fff8ee] p-3.5 border border-[#f59e0b]/15">
+          <span className="flex items-center gap-1.5 text-[10.5px] font-bold uppercase tracking-wider text-[#d97706]">
+            <Target size={12} strokeWidth={2.5} /> Shared Goal
+          </span>
+          <p className="text-[12.5px] font-medium leading-snug text-[#201d1d]">
+            {squad.reason}
+          </p>
+        </div>
+
+        {/* ── Squad Progress ────────────────────────────────────────────────── */}
+        <div className="mt-4 flex flex-col gap-1.5">
+          <div className="flex items-center justify-between text-[11.5px]">
+            <span className="font-bold text-[#201d1d]">Squad Progress</span>
+            <span className="font-bold text-[#d97706]">{squad.progress}%</span>
+          </div>
+          <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#f0ede9]">
+            <div className="h-full bg-[#f59e0b]" style={{ width: `${squad.progress}%` }} />
+          </div>
+        </div>
+
+        {/* ── Recent Activity ───────────────────────────────────────────────── */}
+        <div className="mt-4 flex flex-col gap-3 border-t border-black/[0.05] pt-4">
+          <span className="text-[10.5px] font-bold uppercase tracking-wider text-[#7a7373]">
+            Recent Activity
+          </span>
+          {squad.activityFeed?.slice(0, 3).map((activity: any, i: number) => (
+            <div key={i} className="flex items-center gap-2.5">
+              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f0ede9] text-[10px] font-bold text-[#5e5a5a]">
+                {activity.user[0]}
+              </div>
+              <p className="flex-1 text-[12px] leading-snug text-[#5e5a5a]">
+                <span className="font-bold text-[#201d1d]">{activity.user}</span>{" "}
+                {activity.action} <span className="font-medium text-[#201d1d]">{activity.target}</span>
+              </p>
+              <span className="shrink-0 text-[10.5px] text-[#9c9595]">{activity.time}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Go to squad ───────────────────────────────────────────────────── */}
+      <Link
+        href={`/learn/squads/${squad.id}`}
+        className="flex w-full items-center justify-center gap-2 bg-[#6b0000] py-3.5 text-[13.5px] font-bold text-white transition-colors hover:bg-[#4a0000]"
+      >
+        Go to squad <ArrowRight size={16} />
+      </Link>
+    </motion.div>
   );
 }
 

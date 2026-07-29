@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { ChevronLeft, Award, PlayCircle, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { coursesData } from "@/data/mockLearn";
+import SignalBackground from "@/components/SignalBackground";
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -28,35 +29,36 @@ export default function CoursesListPage() {
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
       {/* ── Header ──────────────────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-20 flex flex-col bg-white px-4 pt-12 pb-2 shadow-sm">
-        <div className="flex items-center gap-3 mb-4">
-          <Link href="/learn" className="flex h-9 w-9 items-center justify-center rounded-full bg-[#f0ede9] text-[#201d1d] hover:bg-[#e8e4df]">
+      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-6 rounded-b-[2.5rem]">
+        <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
+        <div className="relative z-10 flex items-center gap-3">
+          <Link href="/learn" className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20">
             <ChevronLeft size={20} />
           </Link>
           <div className="flex flex-col">
-            <h1 className="font-display text-[20px] font-bold text-[#201d1d]">Courses</h1>
-            <p className="text-[12px] text-[#7a7373]">Learning paths matched to the skills employers need.</p>
+            <h1 className="font-display text-[20px] font-bold text-white">Courses</h1>
+            <p className="text-[12px] text-white/70">Learning paths matched to the skills employers need.</p>
           </div>
         </div>
-
-        <div className="flex gap-4 overflow-x-auto no-scrollbar">
-          {TABS.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={cn(
-                "relative shrink-0 pb-3 text-[13px] font-bold transition-colors",
-                activeTab === tab ? "text-[#6b0000]" : "text-[#7a7373] hover:text-[#201d1d]"
-              )}
-            >
-              {tab}
-              {activeTab === tab && (
-                <span className="absolute bottom-0 left-0 right-0 h-[2.5px] rounded-t-full bg-[#6b0000]" />
-              )}
-            </button>
-          ))}
-        </div>
       </header>
+
+      <div className="sticky top-0 z-20 -mt-3 mx-4 flex gap-4 overflow-x-auto no-scrollbar rounded-[20px] bg-white px-4 py-3 shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
+        {TABS.map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={cn(
+              "relative shrink-0 pb-1 text-[13px] font-bold transition-colors",
+              activeTab === tab ? "text-[#6b0000]" : "text-[#7a7373] hover:text-[#201d1d]"
+            )}
+          >
+            {tab}
+            {activeTab === tab && (
+              <span className="absolute bottom-0 left-0 right-0 h-[2.5px] rounded-t-full bg-[#6b0000]" />
+            )}
+          </button>
+        ))}
+      </div>
 
       <motion.div
         variants={stagger}

@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { ChevronLeft, CheckCircle2, Circle, Lock, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { coursesData } from "@/data/mockLearn";
+import SignalBackground from "@/components/SignalBackground";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 12 },
@@ -50,19 +51,20 @@ export default function ModuleDetailPage({
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
-      <header className="sticky top-0 z-20 flex flex-col bg-white shadow-sm">
-        <div className="flex items-start gap-3 px-4 pt-12 pb-4">
+      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] rounded-b-[2.5rem]">
+        <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
+        <div className="relative z-10 flex items-start gap-3 px-5 pt-12 pb-8">
           <Link
             href={`/learn/courses/${course.id}`}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#f0ede9] text-[#201d1d] hover:bg-[#e8e4df]"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20"
           >
             <ChevronLeft size={20} />
           </Link>
           <div className="flex flex-col">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#6b0000]">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#f59e0b]">
               {course.title} · Module {moduleIndex + 1} of {course.curriculum.length}
             </span>
-            <h1 className="font-display text-[20px] font-bold text-[#201d1d] leading-tight">
+            <h1 className="font-display text-[20px] font-bold text-white leading-tight">
               {currentModule.title}
             </h1>
           </div>
