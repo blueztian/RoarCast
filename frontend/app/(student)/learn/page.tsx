@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
-  BookOpen, ArrowRight, PlayCircle, Database, Layers, Users,
+  BookOpen, ArrowRight, PlayCircle, Database, Layers, Users, Bell,
 } from "lucide-react";
 import { janaProfile, activeCourse } from "@/data/mockLearn";
 import SignalBackground from "@/components/SignalBackground";
@@ -54,11 +54,20 @@ export default function LearnHubPage() {
       <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14 rounded-b-[2.5rem]">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex flex-col gap-1">
-          <div className="flex items-center gap-2.5">
-            <BookOpen size={26} className="text-[#f59e0b]" strokeWidth={2} />
-            <h1 className="font-display text-[24px] font-bold leading-tight tracking-tight text-white">
-              Learn
-            </h1>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <BookOpen size={26} className="text-[#f59e0b]" strokeWidth={2} />
+              <h1 className="font-display text-[24px] font-bold leading-tight tracking-tight text-white">
+                Learn
+              </h1>
+            </div>
+            <button className="relative p-1.5" aria-label="Notifications">
+              <Bell size={24} className="text-white" strokeWidth={1.5} />
+              <span
+                aria-hidden="true"
+                className="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border-2 border-[#4a0000] bg-[#f59e0b]"
+              />
+            </button>
           </div>
           <p className="text-[13.5px] text-white/80 ml-[36px]">
             Build the skills your target role needs.
