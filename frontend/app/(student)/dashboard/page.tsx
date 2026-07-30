@@ -27,31 +27,31 @@ const readiness = {
 };
 
 const skillGaps = [
-  { id: "sap-erp",    name: "SAP ERP",            priority: "High",   icon: Database  },
+  { id: "sap-erp", name: "SAP ERP", priority: "High", icon: Database },
   { id: "data-recon", name: "Data Reconciliation", priority: "Medium", icon: RefreshCw },
-  { id: "erp-sys",    name: "ERP Systems",         priority: "Medium", icon: Layers    },
+  { id: "erp-sys", name: "ERP Systems", priority: "Medium", icon: Layers },
 ];
 
 const recommendation = {
-  role:  "Junior Accounting Operations Associate",
+  role: "Junior Accounting Operations Associate",
   match: 72,
-  href:  "/explore",
+  href: "/explore",
 };
 
 const quickAction = {
   title: "Continue your readiness plan",
-  meta:  "3 tasks due this week",
-  href:  "/learn/erp-foundations",
+  meta: "3 tasks due this week",
+  href: "/learn/erp-foundations",
 };
 
 // ─── Animations ────────────────────────────────────────────────────────────────
 const stagger = {
   hidden: { opacity: 0 },
-  show:   { opacity: 1, transition: { staggerChildren: 0.09 } },
+  show: { opacity: 1, transition: { staggerChildren: 0.09 } },
 };
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
-  show:   { opacity: 1, y: 0, transition: { duration: 0.42, ease: "easeOut" } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.42, ease: "easeOut" } },
 };
 
 // ─── Priority Badge ────────────────────────────────────────────────────────────
@@ -91,23 +91,19 @@ export default function DashboardPage() {
               href="/dashboard"
               className="flex items-center gap-2.5 font-display text-[20px] font-bold tracking-tight text-white"
             >
-              <span className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-white shadow-sm ring-1 ring-white/10">
-                <img src="/assets/roarcast_logo.png" alt="RoarCast Logo" className="h-full w-full object-cover" />
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-sm">
+                <Radio size={18} strokeWidth={2.5} className="text-[#f59e0b]" aria-hidden="true" />
               </span>
               RoarCast
             </Link>
 
-<<<<<<< Updated upstream
-            <button className="relative p-1.5">
-=======
-            <button type="button" className="relative p-1.5 hover:opacity-80 transition-opacity">
->>>>>>> Stashed changes
+            <Link href="#" className="relative p-1.5">
               <Bell size={24} className="text-white" strokeWidth={1.5} />
               <span
                 aria-hidden="true"
                 className="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border-2 border-[#4a0000] bg-[#f59e0b]"
               />
-            </button>
+            </Link>
           </div>
 
           {/* Greeting */}
