@@ -91,13 +91,17 @@ export default function DashboardPage() {
               href="/dashboard"
               className="flex items-center gap-2.5 font-display text-[20px] font-bold tracking-tight text-white"
             >
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-sm">
-                <Radio size={18} strokeWidth={2.5} className="text-[#f59e0b]" aria-hidden="true" />
+              <span className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-white shadow-sm ring-1 ring-white/10">
+                <img src="/assets/roarcast_logo.png" alt="RoarCast Logo" className="h-full w-full object-cover" />
               </span>
               RoarCast
             </Link>
 
+<<<<<<< Updated upstream
             <button className="relative p-1.5">
+=======
+            <button type="button" className="relative p-1.5 hover:opacity-80 transition-opacity">
+>>>>>>> Stashed changes
               <Bell size={24} className="text-white" strokeWidth={1.5} />
               <span
                 aria-hidden="true"
