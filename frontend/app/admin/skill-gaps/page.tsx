@@ -1,87 +1,121 @@
 "use client";
 
-import { Search, Filter, ArrowDownToLine, MoreHorizontal } from "lucide-react";
-
-const gaps = [
-  { skill: "SAP ERP", category: "Technical", demand: "82%", readiness: "31%", gap: 51, priority: "High" },
-  { skill: "PLC Programming", category: "Engineering", demand: "74%", readiness: "29%", gap: 45, priority: "High" },
-  { skill: "Quality Assurance Systems", category: "Operations", demand: "69%", readiness: "36%", gap: 33, priority: "Medium" },
-  { skill: "Advanced Excel", category: "Technical", demand: "72%", readiness: "51%", gap: 21, priority: "Medium" },
-  { skill: "Power BI", category: "Technical", demand: "58%", readiness: "42%", gap: 16, priority: "Low" },
-];
+import { useEffect, useState } from "react";
+import { Focus, ShieldCheck, AlertCircle, TrendingUp } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function SkillGapsPage() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+
   return (
     <div className="flex w-full flex-col p-8 pb-16">
-      <header className="relative mb-6 overflow-hidden rounded-2xl bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] p-8 shadow-sm">
+      
+      {/* Header */}
+      <header className="relative mb-8 overflow-hidden rounded-[24px] bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] p-8 shadow-sm">
         <div className="absolute inset-0 opacity-40 mix-blend-screen pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 60%)' }} />
         <div className="relative z-10 flex items-end justify-between">
           <div className="flex flex-col gap-1.5">
-            <h1 className="font-display text-[28px] font-bold leading-tight text-white">Detailed Skill Gaps</h1>
-            <p className="text-[14.5px] text-white/80">Comprehensive view of skill deficiencies across all tracked programs.</p>
+            <h1 className="font-display text-[32px] font-bold leading-tight text-white">
+              Skill Gaps Analysis
+            </h1>
+            <p className="text-[15px] text-white/80">
+              Identify where the local talent pool falls short of industry demands.
+            </p>
           </div>
-          <div className="flex gap-3">
-             <button className="flex items-center gap-2 px-4 py-2 border border-white/20 bg-black/20 text-white rounded-lg text-[13px] font-bold shadow-sm hover:bg-black/40 backdrop-blur-sm transition-colors">
-              <Filter size={16} /> Filters
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2 bg-white text-[#6b0000] rounded-lg text-[13px] font-bold shadow-sm hover:bg-white/90 transition-colors">
-              <ArrowDownToLine size={16} /> Export CSV
-            </button>
+          <div className="flex items-center gap-2 rounded-full border border-white/20 bg-black/20 px-3 py-1.5 text-white backdrop-blur-sm">
+            <ShieldCheck size={16} className="text-[#f59e0b]" />
+            <span className="text-[11px] font-bold uppercase tracking-widest text-white">
+              Verified Data
+            </span>
           </div>
         </div>
       </header>
 
-      <div className="bg-white border border-black/[0.06] rounded-xl shadow-sm overflow-hidden">
-        <div className="p-4 border-b border-black/[0.06] flex items-center bg-[#faf9f8]">
-          <div className="relative flex-1 max-w-md">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9c9595]" />
-            <input 
-              type="text" 
-              placeholder="Search skills or categories..." 
-              className="w-full pl-9 pr-4 py-2 text-[13px] bg-white border border-black/[0.08] rounded-md focus:outline-none focus:border-[#6b0000]"
-            />
+      {/* Main Content */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        {/* Left Column: Top Critical Gaps */}
+        <div className="lg:col-span-2 flex flex-col gap-6">
+          <div className="rounded-[24px] bg-white p-6 shadow-sm border border-black/[0.04]">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="font-display text-lg font-bold text-[#201d1d]">Critical Shortages</h2>
+              <button className="text-[13px] font-bold text-[#6b0000] hover:underline">View All Report</button>
+            </div>
+            
+            <div className="flex flex-col gap-6">
+              <GapCard skill="Industrial Automation" gap={65} demand={92} supply={27} trend="+12%" />
+              <GapCard skill="Cloud Architecture" gap={58} demand={85} supply={27} trend="+8%" />
+              <GapCard skill="Data Science (Entry)" gap={42} demand={78} supply={36} trend="+15%" />
+            </div>
           </div>
         </div>
-        
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="border-b border-black/[0.06] text-[11px] uppercase tracking-wider text-[#7a7373] bg-[#faf9f8]">
-              <th className="px-6 py-4 font-bold">Skill Name</th>
-              <th className="px-6 py-4 font-bold">Category</th>
-              <th className="px-6 py-4 font-bold">Industry Demand</th>
-              <th className="px-6 py-4 font-bold">Student Readiness</th>
-              <th className="px-6 py-4 font-bold">Gap Score</th>
-              <th className="px-6 py-4 font-bold">Priority</th>
-              <th className="px-6 py-4 font-bold text-right">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-black/[0.04]">
-            {gaps.map((item) => (
-              <tr key={item.skill} className="hover:bg-black/[0.01] transition-colors">
-                <td className="px-6 py-4 text-[14px] font-bold text-[#201d1d]">{item.skill}</td>
-                <td className="px-6 py-4 text-[13px] text-[#5e5a5a]">{item.category}</td>
-                <td className="px-6 py-4 text-[13px] font-semibold text-[#201d1d]">{item.demand}</td>
-                <td className="px-6 py-4 text-[13px] font-semibold text-[#201d1d]">{item.readiness}</td>
-                <td className="px-6 py-4 text-[13px] font-bold text-[#6b0000]">{item.gap} pts</td>
-                <td className="px-6 py-4">
-                  <span className={`px-2 py-1 rounded text-[11px] font-bold uppercase ${
-                    item.priority === 'High' ? 'bg-[#fff5f5] text-[#6b0000]' :
-                    item.priority === 'Medium' ? 'bg-[#fff8ee] text-[#d97706]' :
-                    'bg-[#f0fdf4] text-[#166534]'
-                  }`}>
-                    {item.priority}
-                  </span>
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <button className="p-1.5 text-[#9c9595] hover:text-[#201d1d] rounded-md hover:bg-black/[0.05]">
-                    <MoreHorizontal size={16} />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+
+        {/* Right Column: Recommendations */}
+        <div className="flex flex-col gap-6">
+          <div className="rounded-[24px] bg-white p-6 shadow-sm border border-black/[0.04]">
+            <div className="flex items-center gap-2 mb-4 text-[#f59e0b]">
+              <AlertCircle size={20} />
+              <h2 className="font-display text-lg font-bold text-[#201d1d]">Action Required</h2>
+            </div>
+            <p className="text-[14px] text-[#5e5a5a] mb-6">
+              Based on the current trajectory, Santa Rosa will face a severe shortage of Automation Engineers within 18 months.
+            </p>
+            <div className="space-y-3">
+              <Recommendation title="Update Curriculum" desc="Align syllabus with advanced PLC programming." />
+              <Recommendation title="Partner Programs" desc="Initiate bootcamps with PEZA zone factories." />
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
+  );
+}
+
+function GapCard({ skill, gap, demand, supply, trend }: { skill: string, gap: number, demand: number, supply: number, trend: string }) {
+  return (
+    <div className="flex flex-col gap-3 rounded-2xl border border-black/5 p-4 bg-[#f8f9fa] relative overflow-hidden group">
+      <div className="flex justify-between items-start">
+        <div>
+          <h3 className="font-bold text-[#201d1d]">{skill}</h3>
+          <p className="text-[13px] text-[#5e5a5a]">Demand outpaces supply by {gap}%</p>
+        </div>
+        <div className="flex items-center gap-1 rounded-full bg-red-100 px-2 py-0.5 text-[12px] font-bold text-red-700">
+          <TrendingUp size={14} />
+          {trend}
+        </div>
+      </div>
+      
+      <div className="grid grid-cols-2 gap-4 mt-2">
+        <div className="flex flex-col gap-1">
+          <div className="flex justify-between text-[12px] font-bold">
+            <span className="text-[#5e5a5a]">Industry Demand</span>
+            <span className="text-[#201d1d]">{demand}%</span>
+          </div>
+          <div className="h-1.5 w-full rounded-full bg-black/5 overflow-hidden">
+            <div className="h-full rounded-full bg-[#f59e0b]" style={{ width: `${demand}%` }} />
+          </div>
+        </div>
+        <div className="flex flex-col gap-1">
+          <div className="flex justify-between text-[12px] font-bold">
+            <span className="text-[#5e5a5a]">Local Supply</span>
+            <span className="text-[#201d1d]">{supply}%</span>
+          </div>
+          <div className="h-1.5 w-full rounded-full bg-black/5 overflow-hidden">
+            <div className="h-full rounded-full bg-[#6b0000]" style={{ width: `${supply}%` }} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Recommendation({ title, desc }: { title: string, desc: string }) {
+  return (
+    <div className="rounded-xl border border-black/5 p-3 hover:bg-[#fff5f5] hover:border-[#6b0000]/20 transition-colors cursor-pointer">
+      <h4 className="font-bold text-[13px] text-[#6b0000]">{title}</h4>
+      <p className="text-[12px] text-[#5e5a5a] mt-0.5">{desc}</p>
     </div>
   );
 }

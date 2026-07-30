@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Users, Building2, Activity, ArrowUpRight, TrendingUp, ShieldCheck } from "lucide-react";
+import { Users, Building2, Activity, ArrowUpRight, TrendingUp, ShieldCheck, Briefcase } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function OverviewPage() {
@@ -13,96 +13,121 @@ export default function OverviewPage() {
     <div className="flex w-full flex-col p-8 pb-16">
       
       {/* Header */}
-      <header className="relative mb-6 overflow-hidden rounded-2xl bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] p-8 shadow-sm">
+      <header className="relative mb-8 overflow-hidden rounded-[24px] bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] p-8 shadow-sm">
         <div className="absolute inset-0 opacity-40 mix-blend-screen pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 60%)' }} />
         <div className="relative z-10 flex items-end justify-between">
           <div className="flex flex-col gap-1.5">
-            <h1 className="font-display text-[28px] font-bold leading-tight text-white">
+            <h1 className="font-display text-[32px] font-bold leading-tight text-white">
               System Overview
             </h1>
-            <p className="text-[14.5px] text-white/80">
+            <p className="text-[15px] text-white/80">
               High-level metrics for the RoarCast ecosystem in Santa Rosa.
             </p>
           </div>
           <div className="flex items-center gap-2 rounded-full border border-white/20 bg-black/20 px-3 py-1.5 text-white backdrop-blur-sm">
-            <Activity size={16} className="text-emerald-400" />
+            <ShieldCheck size={16} className="text-[#f59e0b]" />
             <span className="text-[11px] font-bold uppercase tracking-widest text-white">
-              System Operational
+              Live Data
             </span>
           </div>
         </div>
       </header>
 
-      {/* Top Summary Metrics */}
-      <div className="mt-2 flex gap-4">
-        <MetricCard value="12,450" label="Total Active Students" sub="+14% this month" icon={<Users size={24} className="text-[#6b0000]" />} />
-        <MetricCard value="48" label="Partner Institutions" sub="3 new this quarter" icon={<Building2 size={24} className="text-[#6b0000]" />} />
-        <MetricCard value="1.2M" label="Data Points Processed" sub="Industry demand signals" icon={<TrendingUp size={24} className="text-[#6b0000]" />} />
+      {/* Main Metric Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <MetricCard 
+          title="Total Active Students" 
+          value="12,450" 
+          trend="+14%" 
+          icon={<Users size={24} className="text-[#6b0000]" />}
+          subtitle="Across all partner institutions"
+        />
+        <MetricCard 
+          title="Industry Partners" 
+          value="84" 
+          trend="+5%" 
+          icon={<Briefcase size={24} className="text-[#6b0000]" />}
+          subtitle="Hiring directly from RoarCast"
+        />
+        <MetricCard 
+          title="Average Readiness Score" 
+          value="68%" 
+          trend="+2%" 
+          icon={<Activity size={24} className="text-[#6b0000]" />}
+          subtitle="Based on recent assessments"
+        />
       </div>
-
-      {/* Main Analysis Section */}
-      <div className="mt-8 flex gap-6">
-        {/* Left: Recent Activity */}
-        <div className="flex flex-1 flex-col rounded-xl border border-black/[0.06] bg-white p-6 shadow-sm">
-          <div className="flex flex-col gap-1 border-b border-black/[0.05] pb-4">
-            <h2 className="font-display text-[20px] font-bold text-[#201d1d]">
-              Recent Activity Highlights
-            </h2>
-          </div>
-          <div className="mt-6 flex flex-col gap-4">
-            <ActivityItem title="New Institution Onboarded" time="2 hours ago" desc="Santa Rosa Science and Technology University has joined the network." />
-            <ActivityItem title="Data Sync Completed" time="5 hours ago" desc="Successfully synced latest job posting data from local PEZA zones." />
-            <ActivityItem title="Skill Gap Alert" time="1 day ago" desc="Significant drop in student readiness for 'Data Analysis' identified." />
+      
+      {/* Secondary Data Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="rounded-[24px] bg-white p-6 shadow-sm border border-black/[0.04]">
+          <h2 className="font-display text-lg font-bold text-[#201d1d] mb-4">Top Growing Skills</h2>
+          <div className="space-y-4">
+            <SkillRow skill="Data Analysis" demand={92} />
+            <SkillRow skill="React Development" demand={88} />
+            <SkillRow skill="Digital Marketing" demand={76} />
+            <SkillRow skill="Cybersecurity" demand={65} />
           </div>
         </div>
-
-        {/* Right: Quick Actions */}
-        <div className="flex w-[320px] shrink-0 flex-col rounded-xl border border-black/[0.06] bg-white shadow-sm p-6">
-           <h2 className="font-display text-[20px] font-bold text-[#201d1d] mb-4">
-              Quick Actions
-            </h2>
-            <div className="flex flex-col gap-3">
-              <button className="flex items-center justify-between rounded-lg border border-black/[0.08] p-3 text-[13px] font-bold text-[#201d1d] hover:bg-black/[0.02]">
-                Generate Monthly Report <ArrowUpRight size={16} className="text-[#6b0000]" />
-              </button>
-              <button className="flex items-center justify-between rounded-lg border border-black/[0.08] p-3 text-[13px] font-bold text-[#201d1d] hover:bg-black/[0.02]">
-                Invite New Admin <ArrowUpRight size={16} className="text-[#6b0000]" />
-              </button>
-              <button className="flex items-center justify-between rounded-lg border border-black/[0.08] p-3 text-[13px] font-bold text-[#201d1d] hover:bg-black/[0.02]">
-                Review Pending Approvals <ArrowUpRight size={16} className="text-[#6b0000]" />
-              </button>
-            </div>
+        
+        <div className="rounded-[24px] bg-white p-6 shadow-sm border border-black/[0.04]">
+          <h2 className="font-display text-lg font-bold text-[#201d1d] mb-4">Recent Institutional Activity</h2>
+          <div className="space-y-4">
+            <ActivityRow institution="Polytechnic University of the Philippines" action="Uploaded 500 new student profiles" time="2h ago" />
+            <ActivityRow institution="STI College Santa Rosa" action="Updated curriculum mapping for IT" time="5h ago" />
+            <ActivityRow institution="Dominican College" action="Launched new RoarCast pilot program" time="1d ago" />
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-function MetricCard({ value, label, sub, icon }: { value: string; label: string; sub: string; icon: React.ReactNode }) {
+function MetricCard({ title, value, trend, icon, subtitle }: { title: string, value: string, trend: string, icon: React.ReactNode, subtitle: string }) {
+  const isPositive = trend.startsWith('+');
   return (
-    <div className="flex flex-1 flex-col rounded-xl border border-black/[0.06] bg-white p-5 shadow-sm relative overflow-hidden">
-      <div className="absolute top-5 right-5 opacity-20">
-        {icon}
+    <div className="rounded-[24px] bg-white p-6 shadow-sm border border-black/[0.04] flex flex-col relative overflow-hidden group hover:shadow-md transition-shadow">
+      <div className="flex items-start justify-between mb-4">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#fff5f5]">
+          {icon}
+        </div>
+        <div className={cn("flex items-center gap-1 rounded-full px-2.5 py-1 text-[12px] font-bold", isPositive ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700")}>
+          {isPositive ? <ArrowUpRight size={14} /> : <TrendingUp size={14} className="rotate-180" />}
+          {trend}
+        </div>
       </div>
-      <span className="font-display text-[32px] font-bold leading-none tracking-tight text-[#201d1d]">
-        {value}
-      </span>
-      <span className="mt-2 text-[13px] font-bold text-[#201d1d]">{label}</span>
-      <span className="mt-1 text-[12px] text-[#7a7373]">{sub}</span>
+      <h3 className="text-[14px] font-medium text-[#5e5a5a]">{title}</h3>
+      <div className="font-display text-[32px] font-bold tracking-tight text-[#201d1d] mt-1">{value}</div>
+      <p className="text-[13px] text-[#5e5a5a]/70 mt-2">{subtitle}</p>
     </div>
   );
 }
 
-function ActivityItem({ title, time, desc }: { title: string, time: string, desc: string }) {
+function SkillRow({ skill, demand }: { skill: string, demand: number }) {
   return (
-    <div className="flex items-start gap-3 border-l-2 border-[#6b0000]/20 pl-4 pb-2">
+    <div className="flex items-center justify-between">
+      <span className="text-[14px] font-medium text-[#201d1d]">{skill}</span>
+      <div className="flex items-center gap-3 w-1/2">
+        <div className="h-2 flex-1 rounded-full bg-black/5 overflow-hidden">
+          <div className="h-full rounded-full bg-gradient-to-r from-[#f59e0b] to-[#ea580c]" style={{ width: `${demand}%` }} />
+        </div>
+        <span className="text-[13px] font-bold text-[#5e5a5a] w-8 text-right">{demand}%</span>
+      </div>
+    </div>
+  );
+}
+
+function ActivityRow({ institution, action, time }: { institution: string, action: string, time: string }) {
+  return (
+    <div className="flex gap-4">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f8f9fa] border border-black/5">
+        <Building2 size={16} className="text-[#5e5a5a]" />
+      </div>
       <div className="flex flex-col">
-        <div className="flex items-center justify-between w-full">
-           <span className="text-[14px] font-bold text-[#201d1d]">{title}</span>
-           <span className="text-[12px] text-[#7a7373]">{time}</span>
-        </div>
-        <span className="text-[13px] text-[#5e5a5a] mt-1">{desc}</span>
+        <span className="text-[14px] font-bold text-[#201d1d]">{institution}</span>
+        <span className="text-[13px] text-[#5e5a5a]">{action}</span>
+        <span className="text-[12px] text-black/40 mt-0.5">{time}</span>
       </div>
     </div>
-  )
+  );
 }
