@@ -200,3 +200,42 @@ export const exploreSkills = [
   "Quality Assurance",
   "PLC Programming"
 ];
+
+export const credentialsData = [
+  {
+    id: "sap-erp",
+    title: "SAP ERP Foundations",
+    issuedTo: "Jana Dela Cruz",
+    issued: "July 24, 2026",
+    credentialId: "RC-SAP-2026-00184",
+    competencies: [
+      "ERP Fundamentals",
+      "SAP Navigation",
+      "Financial Accounting Workflow"
+    ],
+  },
+  {
+    id: "advanced-excel",
+    title: "Advanced Excel for Operations",
+    issuedTo: "Jana Dela Cruz",
+    issued: "June 18, 2026",
+    credentialId: "RC-EXL-2026-00912",
+    competencies: [
+      "Advanced Formulas",
+      "PivotTables",
+      "Data Cleaning"
+    ],
+  },
+  {
+    id: "financial-reconciliation",
+    title: "Financial Data Reconciliation",
+    issuedTo: "Jana Dela Cruz",
+    issued: "May 30, 2026",
+    credentialId: "RC-FDR-2026-00441",
+    competencies: [
+      "Transaction Matching",
+      "Error Detection",
+      "Reconciliation Workflow"
+    ],
+  }
+];
