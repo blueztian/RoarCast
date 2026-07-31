@@ -4,11 +4,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
-  Compass, BarChart2, TrendingUp, Building2, Route, Bell, ChevronRight,
+  Compass, BarChart2, TrendingUp, Building2, Route, Bell,
 } from "lucide-react";
 import SignalBackground from "@/components/SignalBackground";
-import { cn } from "@/lib/utils";
-import { useScrolled } from "@/lib/useScrolled";
 import { industryPulseStats, skillsDemandData, hiringCompanies, careerPaths } from "@/data/industryPulse";
 
 const stagger = {
@@ -20,12 +18,6 @@ const fadeUpItem = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
 
-// Header height (px), and how far the rounded content sheet overlaps its
-// bottom edge while at rest (before scrolling). Kept in one place so the
-// header, the scroll-triggered spacer, and the overlap all stay in sync.
-const HEADER_H = 96;
-const OVERLAP = 28;
-
 const hubTiles = [
   {
     href: "/explore/industry-pulse",
@@ -33,7 +25,8 @@ const hubTiles = [
     title: "Industry Pulse",
     description: "Live labor market insights",
     stat: `${industryPulseStats.opportunities} tracked`,
-    accent: "bg-[#6b0000]/8 text-[#6b0000]",
+    accent: "bg-[#6b0000]/10 text-[#6b0000]",
+    statColor: "text-[#6b0000]",
   },
   {
     href: "/explore/trending-skills",
@@ -42,6 +35,7 @@ const hubTiles = [
     description: "What's in demand now",
     stat: `Top ${skillsDemandData.length} skills`,
     accent: "bg-emerald-600/10 text-emerald-700",
+    statColor: "text-emerald-700",
   },
   {
     href: "/explore/companies",
@@ -49,7 +43,8 @@ const hubTiles = [
     title: "Hiring Companies",
     description: "Who's hiring now",
     stat: `${hiringCompanies.length} companies`,
-    accent: "bg-[#f59e0b]/10 text-[#f59e0b]",
+    accent: "bg-[#f59e0b]/10 text-[#d97706]",
+    statColor: "text-[#d97706]",
   },
   {
     href: "/explore/career-paths",
@@ -58,32 +53,34 @@ const hubTiles = [
     description: "Plan your future",
     stat: `${careerPaths.length} paths matched`,
     accent: "bg-sky-600/10 text-sky-700",
+    statColor: "text-sky-700",
   },
 ];
 
 export default function ExploreHubPage() {
   const [mounted, setMounted] = useState(false);
-  const scrolled = useScrolled();
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
 
   return (
-    <div className="flex flex-1 flex-col h-full bg-[#f5f3f0] font-sans overflow-hidden relative">
+    <div className="flex flex-1 flex-col h-full bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] font-sans overflow-hidden">
       {/* -- Header ------------------------------------------------------------ */}
-      <header className="shrink-0 relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14">
+      <header className="shrink-0 relative overflow-hidden px-5 pt-12 pb-5">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Compass size={19} className="text-[#f59e0b]" strokeWidth={2} />
-            <h1 className="font-display text-[17px] font-bold leading-tight tracking-tight text-white">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
+              <Compass size={20} className="text-[#f59e0b]" strokeWidth={2} />
+            </div>
+            <h1 className="font-display text-[22px] font-bold leading-tight tracking-tight text-white">
               Explore
             </h1>
           </div>
           <button className="relative p-1.5" aria-label="Notifications">
-            <Bell size={19} className="text-white" strokeWidth={1.5} />
+            <Bell size={22} className="text-white" strokeWidth={1.5} />
             <span
               aria-hidden="true"
-              className="absolute right-1 top-1 h-2 w-2 rounded-full border-2 border-[#4a0000] bg-[#f59e0b]"
+              className="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border-2 border-[#4a0000] bg-[#f59e0b]"
             />
           </button>
         </div>
@@ -94,31 +91,27 @@ export default function ExploreHubPage() {
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="flex-1 overflow-y-auto bg-white rounded-t-[2.5rem] relative z-10 -mt-6 px-4 pt-6 pb-24 flex flex-col shadow-[0_-4px_24px_rgba(0,0,0,0.05)]"
+        className="flex-1 overflow-hidden bg-white rounded-t-[2.5rem] relative z-10 px-4 pt-6 pb-6 flex flex-col shadow-[0_-4px_24px_rgba(0,0,0,0.1)]"
       >
-        <motion.h2
-          variants={fadeUpItem}
-          className="mb-4 px-1 font-display text-[19px] font-bold leading-snug tracking-tight text-[#201d1d] text-center"
-        >
-          Discover opportunities
-        </motion.h2>
-
         {/* -- Grid layout --------------------------------------------------- */}
         <div className="grid grid-cols-2 gap-3 flex-1">
           {hubTiles.map((tile) => (
             <motion.div key={tile.href} variants={fadeUpItem} className="flex flex-col h-full">
               <Link
                 href={tile.href}
-                className="group flex flex-col flex-1 items-center justify-center text-center gap-2.5 rounded-[20px] border border-black/[0.05] bg-white p-4 shadow-sm transition-all active:scale-[0.98] hover:bg-[#faf9f8]"
+                className="group flex flex-col flex-1 items-center justify-center text-center gap-3 rounded-[24px] border border-black/[0.06] bg-[#faf9f8] p-5 shadow-sm transition-all active:scale-[0.97] hover:bg-[#f5f3f0] hover:shadow-md"
               >
-                <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${tile.accent}`}>
-                  <tile.icon size={22} strokeWidth={1.75} />
+                <div className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-full ${tile.accent} shadow-sm`}>
+                  <tile.icon size={30} strokeWidth={1.75} />
                 </div>
-                <div className="flex flex-col">
-                  <span className="text-[13.5px] font-bold leading-tight text-[#201d1d]">
+                <div className="flex flex-col gap-1">
+                  <span className="text-[16px] font-bold leading-tight text-[#201d1d]">
                     {tile.title}
                   </span>
-                  <span className="mt-1 text-[11px] leading-snug text-[#7a7373]">
+                  <span className="text-[12px] leading-snug text-[#7a7373]">
+                    {tile.description}
+                  </span>
+                  <span className={`mt-0.5 text-[11.5px] font-bold ${tile.statColor}`}>
                     {tile.stat}
                   </span>
                 </div>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Award, CheckCircle2, ArrowRight, UserSquare2, ChevronRight, Bell } from "lucide-react";
+import { ShieldCheck, Award, CheckCircle2, ArrowRight, ChevronRight, Bell } from "lucide-react";
 import Link from "next/link";
 import SignalBackground from "@/components/SignalBackground";
 import { cn } from "@/lib/utils";
@@ -32,29 +32,26 @@ export default function CredentialsPage() {
   if (!mounted) return null;
 
   return (
-    <div className="flex flex-1 flex-col h-full bg-[#f5f3f0] font-sans overflow-hidden relative">
+    <div className="flex flex-1 flex-col h-full bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] font-sans overflow-hidden">
       {/* ── Hero Section ─────────────────────────────────────────────────── */}
-      <header className="shrink-0 relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14">
+      <header className="shrink-0 relative overflow-hidden px-5 pt-12 pb-5">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
-        <div className="relative z-10 flex flex-col gap-1">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <Award size={26} className="text-[#f59e0b]" strokeWidth={2} />
-              <h1 className="font-display text-[24px] font-bold leading-tight tracking-tight text-white">
-                Credentials
-              </h1>
+        <div className="relative z-10 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
+              <ShieldCheck size={20} className="text-[#f59e0b]" strokeWidth={2} />
             </div>
-            <button className="relative p-1.5" aria-label="Notifications">
-              <Bell size={24} className="text-white" strokeWidth={1.5} />
-              <span
-                aria-hidden="true"
-                className="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border-2 border-[#4a0000] bg-[#f59e0b]"
-              />
-            </button>
+            <h1 className="font-display text-[22px] font-bold leading-tight tracking-tight text-white">
+              Credentials
+            </h1>
           </div>
-          <p className="mt-1 text-[13.5px] text-white/80 ml-[36px] line-clamp-1">
-            Skills you’ve completed and can carry beyond RoarCast.
-          </p>
+          <button className="relative p-1.5" aria-label="Notifications">
+            <Bell size={22} className="text-white" strokeWidth={1.5} />
+            <span
+              aria-hidden="true"
+              className="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border-2 border-[#4a0000] bg-[#f59e0b]"
+            />
+          </button>
         </div>
       </header>
 
@@ -62,27 +59,8 @@ export default function CredentialsPage() {
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="flex-1 overflow-y-auto bg-white rounded-t-[2.5rem] relative z-10 -mt-6 px-4 pt-6 pb-24 flex flex-col gap-3 shadow-[0_-4px_24px_rgba(0,0,0,0.05)]"
+        className="flex-1 overflow-y-auto bg-white rounded-t-[2.5rem] relative z-10 px-4 pt-6 pb-24 flex flex-col gap-3 shadow-[0_-4px_24px_rgba(0,0,0,0.1)]"
       >
-        {/* ── Portfolio entry point ─────────────────────────────────────── */}
-        <motion.div variants={fadeUpItem}>
-          <Link
-            href="/credentials/portfolio"
-            className="flex items-center justify-between rounded-[20px] bg-white px-4 py-3.5 shadow-[0_2px_10px_rgba(0,0,0,0.04)] border border-black/[0.05] transition-colors hover:bg-[#faf9f8]"
-          >
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#6b0000]/8">
-                <UserSquare2 size={18} className="text-[#6b0000]" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-[13.5px] font-bold text-[#201d1d]">My Portfolio</span>
-                <span className="text-[11px] text-[#7a7373]">Share your credentials with employers</span>
-              </div>
-            </div>
-            <ArrowRight size={16} className="text-[#9c9595]" />
-          </Link>
-        </motion.div>
-
         {/* ── Credentials / Badges tab toggle ──────────────────────────────── */}
         <motion.div
           variants={fadeUpItem}

@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
-  Bell, Radio, ChevronRight,
+  Bell, ChevronRight,
   TrendingUp, Database, RefreshCw, Layers,
   Briefcase, Pencil,
 } from "lucide-react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import SignalBackground from "@/components/SignalBackground";
 import ReadinessRing from "@/components/ReadinessRing";
@@ -78,21 +79,27 @@ export default function DashboardPage() {
   if (!mounted) return null;
 
   return (
-    <div className="flex flex-1 flex-col h-full bg-[#f5f3f0] font-sans overflow-hidden relative">
+    <div className="flex flex-1 flex-col h-full bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] font-sans overflow-hidden">
 
-      {/* ── Hero Header (compressed) ─────────────────────────────────────────── */}
-      <header className="shrink-0 relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14">
+      {/* ── Hero Header ─────────────────────────────────────────────────── */}
+      <header className="shrink-0 relative overflow-hidden px-5 pt-10 pb-5">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
 
         <div className="relative z-10">
           {/* Logo + Bell */}
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-4">
             <Link
               href="/dashboard"
               className="flex items-center gap-2.5 font-display text-[20px] font-bold tracking-tight text-white"
             >
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-sm">
-                <Radio size={18} strokeWidth={2.5} className="text-[#f59e0b]" aria-hidden="true" />
+              <span className="flex h-10 w-10 items-center justify-center rounded-full overflow-hidden bg-white shadow-sm border-2 border-white/30">
+                <Image
+                  src="/assets/roarcast_logo.png"
+                  alt="RoarCast"
+                  width={40}
+                  height={40}
+                  className="object-cover w-full h-full"
+                />
               </span>
               RoarCast
             </Link>
@@ -108,22 +115,22 @@ export default function DashboardPage() {
 
           {/* Greeting */}
           <div className="space-y-0.5">
-            <h1 className="font-display text-[26px] font-bold leading-tight tracking-tight text-white">
+            <h1 className="font-display text-[24px] font-bold leading-tight tracking-tight text-white">
               {studentProfile.greeting}, {studentProfile.name}
             </h1>
-            <p className="text-[13.5px] text-white/75">
+            <p className="text-[13px] text-white/75">
               See where Santa Rosa&apos;s job market is moving.
             </p>
           </div>
         </div>
       </header>
 
-      {/* ── Content ──────────────────────────────────────────────────────────── */}
+      {/* ── Content ────────────────────────────────────────────────────── */}
       <motion.div
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="flex-1 overflow-y-auto bg-[#f5f3f0] rounded-t-[2.5rem] relative z-10 -mt-6 px-4 pt-6 pb-24 flex flex-col gap-4"
+        className="flex-1 overflow-y-auto bg-[#f5f3f0] rounded-t-[2.5rem] relative z-10 px-4 pt-6 pb-24 flex flex-col gap-4 shadow-[0_-4px_24px_rgba(0,0,0,0.1)]"
       >
 
         {/* ── 1 · Your Readiness Score ──────────────────────────────────────── */}

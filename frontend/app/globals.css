@@ -16,7 +16,11 @@
 }
 
 * {
-  scrollbar-color: #d8d2c0 #FBFAF7;
+  scrollbar-width: none; /* Firefox */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
 }
 
 html {
