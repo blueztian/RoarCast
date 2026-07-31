@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
@@ -33,7 +33,7 @@ export default function CredentialsPage() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-0">
-      <div className="sticky top-0 z-30">
+      <div className="relative z-30">
         <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-6 pb-7 rounded-b-[2.5rem]">
           <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
           <div className="relative z-10 flex flex-col gap-1">
