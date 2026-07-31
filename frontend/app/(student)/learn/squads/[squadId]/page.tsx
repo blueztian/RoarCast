@@ -29,9 +29,9 @@ export default function SquadDetailPage({ params }: { params: { squadId: string 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
       {/* ── Header ──────────────────────────────────────────────────────────── */}
-      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] rounded-b-[2.5rem]">
+      <header className="fixed inset-x-0 top-0 z-30 flex flex-col justify-end overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-5 rounded-b-[2.5rem] shadow-sm transition-all" style={{ height: 120 }}>
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
-        <div className="relative z-10 flex items-start gap-3 px-5 pt-12 pb-8">
+        <div className="relative z-10 flex items-start gap-3">
           <Link href="/learn/squads" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20">
             <ChevronLeft size={20} />
           </Link>
@@ -39,29 +39,26 @@ export default function SquadDetailPage({ params }: { params: { squadId: string 
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#f59e0b]">
               {squad.skillName}
             </span>
-            <h1 className="font-display text-[20px] font-bold text-white leading-tight">
+            <h1 className="font-display text-[20px] font-bold text-white leading-tight line-clamp-1">
               {squad.name}
             </h1>
             <div className="mt-1 flex items-center gap-2 text-[11.5px] text-white/70">
               <span className="flex items-center gap-1">
                 <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                {squad.members.activeThisWeek} active this week
+                {squad.members.activeThisWeek} active
               </span>
               <span>·</span>
               <span>{squad.members.total} members</span>
-              {isJoined(squad.status) && (
-                <>
-                  <span>·</span>
-                  <span className="font-bold text-white">Joined ✓</span>
-                </>
-              )}
             </div>
           </div>
         </div>
       </header>
 
+      {/* Spacer for fixed header */}
+      <div className="h-[120px] shrink-0" aria-hidden="true" />
+
       {/* ── Tabs ────────────────────────────────────────────────────────────── */}
-      <div className="sticky top-0 z-20 -mt-3 mx-4 flex w-auto overflow-x-auto rounded-[20px] bg-white px-4 no-scrollbar shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
+      <div className="sticky top-[120px] z-20 mx-4 mt-2 flex w-auto overflow-x-auto rounded-[20px] bg-white px-4 no-scrollbar shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
         {["Activity", "Discussion", "Roadmap", "Members"].map((tab) => (
           <button
             key={tab}
@@ -119,7 +116,7 @@ export default function SquadDetailPage({ params }: { params: { squadId: string 
               <span className="text-[12.5px] font-bold text-[#201d1d]">
                 Current Path: {squad.outcome}
               </span>
-              
+
               {isJoined(squad.status) && (
                 <div className="mt-2.5 flex items-center gap-2">
                   <span className="text-[11px] font-medium text-[#7a7373]">Your Progress:</span>
@@ -149,12 +146,12 @@ export default function SquadDetailPage({ params }: { params: { squadId: string 
             <h3 className="mt-1 font-display text-[16px] font-bold text-[#201d1d]">
               Complete: Vendor Master Basics
             </h3>
-            
+
             <div className="mt-3 flex items-center justify-between text-[11px] font-medium text-[#7a7373]">
               <span>3 of 5 members completed</span>
               <span className="font-bold text-[#d97706]">Ends: Friday</span>
             </div>
-            
+
             <Link
               href={`/learn/courses/${activeCourse.id}`}
               className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-[#f59e0b] py-3 text-[13px] font-bold text-white shadow-sm transition-colors hover:bg-[#d97706]"
@@ -228,7 +225,7 @@ function DiscussionTab({ discussions }: { discussions: any[] }) {
           </div>
         ))}
       </div>
-      
+
       <div className="fixed bottom-0 left-0 right-0 border-t border-black/[0.08] bg-[#f5f3f0] p-4 pb-8">
         <div className="flex items-center gap-2 rounded-full border border-black/[0.08] bg-white px-4 py-2 shadow-sm">
           <MessageCircle size={18} className="text-[#9c9595]" />
@@ -246,14 +243,14 @@ function RoadmapTab({ roadmap, outcome }: { roadmap: any[], outcome: string }) {
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-0 relative">
         <div className="absolute left-[19px] top-6 bottom-6 w-0.5 bg-[#f0ede9]" />
-        
+
         {roadmap.map((step, i) => (
           <div key={i} className="flex items-start gap-4 relative py-3">
             <div className={cn(
               "flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-[3px] bg-white text-[12px] font-bold z-10",
               step.status === "completed" ? "border-emerald-500 text-emerald-600" :
-              step.status === "current" ? "border-[#f59e0b] text-[#d97706]" :
-              "border-[#e0dcd5] text-[#9c9595]"
+                step.status === "current" ? "border-[#f59e0b] text-[#d97706]" :
+                  "border-[#e0dcd5] text-[#9c9595]"
             )}>
               {step.status === "completed" ? "✓" : step.week}
             </div>

@@ -29,7 +29,7 @@ export default function CoursesListPage() {
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
       {/* ── Header ──────────────────────────────────────────────────────────── */}
-      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-6 rounded-b-[2.5rem]">
+      <header className="fixed inset-x-0 top-0 z-30 flex flex-col justify-end overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-5 rounded-b-[2.5rem] shadow-sm transition-all" style={{ height: 120 }}>
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex items-center gap-3">
           <Link href="/learn" className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20">
@@ -42,7 +42,10 @@ export default function CoursesListPage() {
         </div>
       </header>
 
-      <div className="sticky top-0 z-20 -mt-3 mx-4 flex gap-4 overflow-x-auto no-scrollbar rounded-[20px] bg-white px-4 py-3 shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
+      {/* Spacer for fixed header */}
+      <div className="h-[120px] shrink-0" aria-hidden="true" />
+
+      <div className="sticky top-[120px] z-20 mx-4 mt-2 flex gap-4 overflow-x-auto no-scrollbar rounded-[20px] bg-white px-4 py-3 shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
         {TABS.map((tab) => (
           <button
             key={tab}
@@ -76,7 +79,7 @@ export default function CoursesListPage() {
 
 function CourseCard({ course }: { course: any }) {
   const isInProgress = course.progress > 0 && course.progress < 100;
-  
+
   return (
     <motion.div variants={fadeUp} className="flex flex-col overflow-hidden rounded-[24px] border border-black/[0.05] bg-white shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
       <div className="flex flex-col p-5">

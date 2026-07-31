@@ -4,46 +4,40 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
-  BookOpen, ArrowRight, ChevronRight, PlayCircle, Database, Layers, Users, Bell,
+  BookOpen, Map, Users, Bell, ChevronRight,
 } from "lucide-react";
-import { janaProfile, activeCourse } from "@/data/mockLearn";
 import SignalBackground from "@/components/SignalBackground";
 
 const stagger = {
   hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  show: { opacity: 1, transition: { staggerChildren: 0.08 } },
 };
 const fadeUpItem = {
   hidden: { opacity: 0, y: 16 },
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
 
-// Where "Continue Learning" and the "Modules" nav row both point —
-// straight into the exact module the student left off on.
-const currentModuleHref = `/learn/courses/${activeCourse.id}/modules/mod${activeCourse.currentModule}`;
-
-const nextUpItems = [
-  { label: "SAP ERP Fundamentals · Module 4: Vendor Master", href: currentModuleHref },
-  { label: "ERP Systems Essentials · Module 1: Getting Started", href: "/learn/courses/erp-systems-essentials" },
-  { label: "Advanced Excel for Professionals · Module 1: PivotTables Basics", href: "/learn/courses/advanced-excel-pro" },
-];
-
-const hubNavRows = [
-  {
-    href: "/learn/squads",
-    icon: Users,
-    title: "Skill Squad",
-    description: "Build in-demand skills with peers",
-    iconColor: "text-blue-500",
-    iconBgColor: "bg-blue-50",
-  },
+const learnMenuItems = [
   {
     href: "/learn/courses",
     icon: BookOpen,
     title: "Courses",
-    description: "Browse all courses and progress",
-    iconColor: "text-emerald-500",
-    iconBgColor: "bg-emerald-50",
+    description: "Browse all courses and track your progress",
+    accent: "bg-[#6b0000]/10 text-[#6b0000]",
+  },
+  {
+    href: "/learn/squads",
+    icon: Users,
+    title: "Skill Squad",
+    description: "Build in-demand skills with your peers",
+    accent: "bg-emerald-600/10 text-emerald-700",
+  },
+  {
+    href: "/learn/erp-foundations",
+    icon: Map,
+    title: "Upskilling Roadmap",
+    description: "Your personalized path to readiness",
+    accent: "bg-[#f59e0b]/10 text-[#d97706]",
   },
 ];
 
@@ -53,186 +47,64 @@ export default function LearnHubPage() {
   if (!mounted) return null;
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
-      {/* ── Red Header (Matches Explore) ──────────────────────────────────────── */}
-      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14 rounded-b-[2.5rem]">
+    <div className="flex flex-1 flex-col h-full bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] font-sans overflow-hidden">
+      {/* ── Red Header ──────────────────────────────────────────────────────── */}
+      <header className="shrink-0 relative overflow-hidden px-5 pt-12 pb-5">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
-        <div className="relative z-10 flex flex-col gap-1">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <BookOpen size={26} className="text-[#f59e0b]" strokeWidth={2} />
-              <h1 className="font-display text-[24px] font-bold leading-tight tracking-tight text-white">
-                Learn
-              </h1>
+        <div className="relative z-10 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
+              <BookOpen size={20} className="text-[#f59e0b]" strokeWidth={2} />
             </div>
-            <button className="relative p-1.5" aria-label="Notifications">
-              <Bell size={24} className="text-white" strokeWidth={1.5} />
-              <span
-                aria-hidden="true"
-                className="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border-2 border-[#4a0000] bg-[#f59e0b]"
-              />
-            </button>
+            <h1 className="font-display text-[22px] font-bold leading-tight tracking-tight text-white">
+              Learn
+            </h1>
           </div>
-          <p className="text-[13.5px] text-white/80 ml-[36px]">
-            Build the skills your target role needs.
-          </p>
+          <button className="relative p-1.5" aria-label="Notifications">
+            <Bell size={22} className="text-white" strokeWidth={1.5} />
+            <span
+              aria-hidden="true"
+              className="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border-2 border-[#4a0000] bg-[#f59e0b]"
+            />
+          </button>
         </div>
       </header>
 
+      {/* ── White Content Sheet ─────────────────────────────────────────────── */}
       <motion.div
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="relative z-10 mx-4 -mt-8 flex flex-col gap-4 pb-32"
+        className="flex-1 overflow-y-auto bg-white rounded-t-[2.5rem] relative z-10 px-4 pt-8 pb-24 flex flex-col gap-4 shadow-[0_-4px_24px_rgba(0,0,0,0.1)]"
       >
-        {/* ── 1. Your Upskilling Roadmap ──────────────────────────────────────── */}
-        <motion.section variants={fadeUpItem} className="flex flex-col rounded-[24px] bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
-          <div className="flex flex-col border-b border-black/[0.06] pb-4">
-            <h2 className="text-[11px] font-bold uppercase tracking-widest text-[#7a7373]">
-              Your Upskilling Roadmap
-            </h2>
-            <p className="mt-1.5 font-display text-[15px] font-bold text-[#201d1d]">
-              {janaProfile.targetRole}
-            </p>
+        <motion.p
+          variants={fadeUpItem}
+          className="text-[13px] font-medium text-[#7a7373] text-center mb-2"
+        >
+          What would you like to do today?
+        </motion.p>
 
-            <div className="mt-3 flex items-center gap-4">
-              <div className="relative flex h-14 w-14 shrink-0 items-center justify-center">
-                <svg className="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 36 36">
-                  <path
-                    className="stroke-[#f0ede9]"
-                    strokeWidth="4"
-                    fill="none"
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  />
-                  <path
-                    className="stroke-[#f59e0b]"
-                    strokeWidth="4"
-                    strokeDasharray={`${janaProfile.targetReadiness}, 100`}
-                    strokeLinecap="round"
-                    fill="none"
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  />
-                </svg>
-                <span className="font-display text-[14px] font-bold text-[#201d1d]">
-                  {janaProfile.targetReadiness}%
+        {learnMenuItems.map((item) => (
+          <motion.div key={item.href} variants={fadeUpItem}>
+            <Link
+              href={item.href}
+              className="group flex items-center gap-4 rounded-[20px] border border-black/[0.06] bg-[#faf9f8] px-5 py-5 shadow-sm transition-all active:scale-[0.98] hover:bg-[#f5f3f0] hover:shadow-md"
+            >
+              <div className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl ${item.accent} shadow-sm`}>
+                <item.icon size={30} strokeWidth={1.75} />
+              </div>
+              <div className="flex flex-1 flex-col gap-0.5">
+                <span className="text-[18px] font-bold leading-tight text-[#201d1d]">
+                  {item.title}
+                </span>
+                <span className="text-[13px] leading-snug text-[#7a7373]">
+                  {item.description}
                 </span>
               </div>
-              <p className="text-[12.5px] leading-snug text-[#5e5a5a]">
-                Strengthen 2 priority skills to move closer to your target role.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-2.5 pt-3">
-            <span className="text-[11px] font-bold uppercase tracking-widest text-[#7a7373]">
-              Next Up
-            </span>
-            {nextUpItems.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="flex items-center justify-between rounded-xl bg-[#faf9f8] px-3 py-2.5 transition-colors hover:bg-[#f0ede9]"
-              >
-                <span className="text-[12.5px] font-medium text-[#201d1d]">{item.label}</span>
-                <ArrowRight size={14} className="shrink-0 text-[#9c9595]" />
-              </Link>
-            ))}
-          </div>
-
-          <div className="flex flex-col gap-3 pt-4">
-            {janaProfile.priorityGaps.map((gap, i) => (
-              <div key={gap.id} className="flex items-center gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#fcead9] text-[#f59e0b]">
-                  {i === 0 ? <Database size={16} strokeWidth={2} /> : <Layers size={16} strokeWidth={2} />}
-                </div>
-                <div className="flex flex-1 flex-col">
-                  <span className="text-[13px] font-bold text-[#201d1d]">{gap.name}</span>
-                  <span className="text-[11px] font-medium text-[#7a7373]">{gap.status}</span>
-                </div>
-                <span className="rounded-full bg-[#6b0000] px-2.5 py-1 text-[10px] font-bold tracking-wide text-white">
-                  {gap.priority}
-                </span>
-              </div>
-            ))}
-          </div>
-
-          <button className="mt-3 w-full rounded-xl bg-[#faf9f8] py-2.5 text-[12.5px] font-bold text-[#201d1d] transition-colors hover:bg-[#f0ede9]">
-            View full roadmap
-          </button>
-        </motion.section>
-
-        {/* ── 2. Continue Learning — resumes exactly where you left off ───────── */}
-        <motion.section variants={fadeUpItem}>
-          <div className="flex flex-col rounded-[24px] border border-[#f59e0b]/20 bg-[#fff8ee] p-4 shadow-sm">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#d97706]">
-              Continue Learning
-            </span>
-            <div className="mt-2 flex items-start gap-4">
-              <div className="flex flex-1 flex-col">
-                <h3 className="font-display text-[16px] font-bold text-[#201d1d]">
-                  {activeCourse.title}
-                </h3>
-                <p className="mt-0.5 text-[11.5px] font-medium text-[#7a7373]">
-                  Skill: {activeCourse.skill}
-                </p>
-                <p className="mt-2.5 text-[12.5px] font-bold text-[#201d1d]">
-                  {activeCourse.currentLesson}
-                </p>
-                <div className="mt-1.5 flex items-center gap-2">
-                  <div className="h-1.5 w-full flex-1 overflow-hidden rounded-full bg-[#f59e0b]/20">
-                    <div className="h-full bg-[#f59e0b]" style={{ width: `${activeCourse.progress}%` }} />
-                  </div>
-                  <span className="text-[11px] font-bold text-[#d97706]">{activeCourse.progress}%</span>
-                </div>
-                <p className="mt-1 text-[11px] text-[#7a7373]">
-                  Module {activeCourse.currentModule} of {activeCourse.totalModules} · {activeCourse.timeRemaining}
-                </p>
-              </div>
-              <Link
-                href={currentModuleHref}
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#f59e0b] text-white shadow-sm transition-transform active:scale-95"
-                aria-label="Continue current module"
-              >
-                <PlayCircle size={22} strokeWidth={2} />
-              </Link>
-            </div>
-            <Link
-              href={currentModuleHref}
-              className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-[#6b0000] py-2.5 text-[12.5px] font-bold text-white shadow-sm transition-colors hover:bg-[#4a0000]"
-            >
-              Continue Learning <ArrowRight size={15} />
+              <ChevronRight size={20} className="shrink-0 text-[#c0bbbb] group-hover:text-[#6b0000] transition-colors" />
             </Link>
-          </div>
-        </motion.section>
-
-        {/* ── 3. Jump into — consistent nav rows, same pattern as Explore Hub ─── */}
-        <motion.section variants={fadeUpItem} className="flex flex-col gap-2.5">
-          <h2 className="font-display text-[16px] font-bold text-[#201d1d] px-1">
-            Jump Into
-          </h2>
-          {hubNavRows.map((row) => (
-            <Link
-              key={row.title}
-              href={row.href}
-              className="flex items-center justify-between rounded-[20px] bg-white border border-[#f0ebe1] px-4 py-4 shadow-[0_2px_10px_rgba(0,0,0,0.02)] transition-colors hover:bg-[#faf9f8]"
-            >
-              <div className="flex items-center gap-4">
-                <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${row.iconBgColor}`}>
-                  <row.icon size={22} className={row.iconColor} strokeWidth={2} />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[18px] font-bold leading-tight text-[#201d1d]">
-                    {row.title}
-                  </span>
-                  <span className="mt-0.5 text-[14px] text-[#7a7373]">
-                    {row.description}
-                  </span>
-                </div>
-              </div>
-              <ChevronRight size={18} className="shrink-0 text-[#9c9595]" />
-            </Link>
-          ))}
-        </motion.section>
+          </motion.div>
+        ))}
       </motion.div>
     </div>
   );

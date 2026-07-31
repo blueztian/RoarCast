@@ -46,15 +46,15 @@ export default function PortfolioPage() {
   if (!mounted) return null;
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
+    <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-0">
       {/* ── Hero Section ─────────────────────────────────────────────────── */}
       <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14 rounded-b-[2.5rem]">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex items-center justify-between">
           <Link
-            href="/credentials"
+            href="/profile"
             className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
-            aria-label="Back to Credentials"
+            aria-label="Back to Profile"
           >
             <ArrowLeft size={18} />
           </Link>
@@ -74,7 +74,7 @@ export default function PortfolioPage() {
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="relative z-10 mx-4 -mt-8 flex flex-col gap-4 pb-12"
+        className="relative z-10 mx-4 -mt-8 flex flex-col gap-4 pb-4"
       >
         {/* ── Profile Card ──────────────────────────────────────────────── */}
         <motion.section
