@@ -444,7 +444,7 @@ export default function LearnPage() {
   const allComplete = areAllModulesComplete();
 
   return (
-    <div className="flex flex-1 flex-col h-full bg-[#f5f3f0] font-sans overflow-hidden relative">
+    <div className="flex flex-1 flex-col h-full bg-[#f5f3f0] font-sans overflow-y-auto relative">
       {/* ── Header ── */}
       <header className="shrink-0 relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-6 pb-12">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
@@ -472,7 +472,7 @@ export default function LearnPage() {
         variants={staggerContainer}
         initial="hidden"
         animate="visible"
-        className="flex-1 overflow-y-auto bg-white rounded-t-[2.5rem] relative z-10 -mt-6 px-4 pt-6 pb-24 flex flex-col gap-5 shadow-[0_-4px_24px_rgba(0,0,0,0.05)]"
+        className="flex-1 min-h-screen bg-white rounded-t-[2.5rem] relative z-10 -mt-6 px-4 pt-6 pb-24 flex flex-col gap-5 shadow-[0_-4px_24px_rgba(0,0,0,0.05)]"
       >
         {/* Overall progress */}
         <div className="flex flex-col rounded-[20px] border border-black/[0.05] bg-[#faf9f8] p-4 shadow-sm">

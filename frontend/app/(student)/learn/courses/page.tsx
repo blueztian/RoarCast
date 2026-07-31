@@ -29,7 +29,7 @@ export default function CoursesListPage() {
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
       {/* â”€â”€ Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <header className="fixed inset-x-0 top-0 z-30 flex flex-col justify-end overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-5 rounded-b-[2.5rem] shadow-sm transition-all" style={{ height: 90 }}>
+      <header className="relative flex-col justify-end overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-5 rounded-b-[2.5rem] shadow-sm transition-all" style={{ height: 90 }}>
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex items-center gap-3">
           <Link href="/learn" className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20">
@@ -42,10 +42,7 @@ export default function CoursesListPage() {
         </div>
       </header>
 
-      {/* Spacer for fixed header */}
-      <div className="h-[90px] shrink-0" aria-hidden="true" />
-
-      <div className="sticky top-[90px] z-20 mx-4 mt-3 mb-2 flex rounded-full bg-white p-1 shadow-sm border border-black/[0.05]">
+      <div className="sticky top-0 z-20 mx-4 mt-3 mb-2 flex rounded-full bg-white p-1 shadow-sm border border-black/[0.05]">
         {TABS.map((tab) => (
           <button
             key={tab}

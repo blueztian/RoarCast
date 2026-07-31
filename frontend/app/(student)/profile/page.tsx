@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -12,7 +12,13 @@ import {
   Bell,
   Sparkles,
   Award,
-  Share2
+  Share2,
+  Edit3,
+  Target,
+  Shield,
+  LogOut,
+  ChevronRight,
+  AlertCircle
 } from "lucide-react";
 import { mockStudent } from "@/data/mockStudent";
 import SignalBackground from "@/components/SignalBackground";
@@ -26,20 +32,10 @@ const fadeUpItem = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
 
-const portfolioData = {
-  readinessScore: 72,
-  skillsCount: 12,
-  certificatesCount: 4,
-  aboutMe:
-    "Aspiring Data & Finance professional with hands-on experience in ERP systems and a passion for process improvement.",
-  topSkills: [
-    "SAP ERP",
-    "Advanced Excel",
-    "Data Reconciliation",
-    "ERP Systems",
-    "PLC Programming",
-  ],
-};
+const credentialsData = [
+  { id: "sap-erp-badge", title: "SAP ERP", verified: true },
+  { id: "excel-badge", title: "Adv. Excel", verified: true },
+];
 
 function getInitials(name: string) {
   return name
@@ -51,14 +47,13 @@ function getInitials(name: string) {
 
 export default function ProfileReadinessPage() {
   const [mounted, setMounted] = useState(false);
-  const [activeTab, setActiveTab] = useState<"readiness" | "portfolio">("readiness");
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
 
   return (
-    <div className="flex flex-1 flex-col h-full bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] font-sans overflow-hidden">
-      {/* â”€â”€ 1. Hero Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <header className="shrink-0 relative overflow-hidden px-5 pt-6 pb-5">
+    <div className="flex flex-1 flex-col h-full bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] font-sans overflow-y-auto">
+      {/* ── 1. Header (Consistent with Explore/Learn) ── */}
+      <header className="shrink-0 relative overflow-hidden px-5 pt-6 pb-12">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
@@ -79,377 +74,174 @@ export default function ProfileReadinessPage() {
         </div>
       </header>
 
-      <motion.div
-        variants={stagger}
-        initial="hidden"
-        animate="show"
-        className="flex-1 overflow-y-auto bg-white rounded-t-[2.5rem] relative z-10 px-4 pt-6 pb-24 flex flex-col gap-4 shadow-[0_-4px_24px_rgba(0,0,0,0.1)]"
-      >
+      {/* ── Scrollable Area ── */}
+      <div className="flex-1 relative z-10 -mt-16 pt-10 pb-24">
+        {/* ── Content Sheet ── */}
         <motion.div
-          variants={fadeUpItem}
-          className="flex rounded-full bg-[#f5f3f0] p-1 shadow-inner border border-black/[0.05] shrink-0"
+          variants={stagger}
+          initial="hidden"
+          animate="show"
+          className="min-h-full bg-[#f5f3f0] rounded-t-[2.5rem] relative px-4 pt-12 pb-12 flex flex-col gap-4 shadow-[0_-4px_24px_rgba(0,0,0,0.1)]"
         >
-          {(["readiness", "portfolio"] as const).map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`flex-1 rounded-full py-2 text-[12.5px] font-bold capitalize transition-colors ${
-                activeTab === tab ? "bg-[#6b0000] text-white" : "text-[#7a7373] hover:bg-white"
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
-        </motion.div>
+        {/* Overlapping Avatar */}
+        <div className="absolute -top-10 left-1/2 -translate-x-1/2">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#f59e0b] to-[#d97706] text-[24px] font-bold text-white shadow-md border-[3.5px] border-[#f5f3f0]"
+          >
+            {getInitials(mockStudent.name)}
+          </motion.div>
+        </div>
 
-        {activeTab === "readiness" ? (
-          <>
-            {/* â”€â”€ 1.5 Goals / Profile Identity Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-            <motion.section
-              variants={fadeUpItem}
-              className="flex flex-col rounded-[24px] bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-black/[0.05]"
-            >
-              <div className="flex items-center gap-3">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#f59e0b] to-[#d97706] text-[15px] font-bold text-white">
-                  {getInitials(mockStudent.name)}
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-display text-[16.5px] font-bold text-[#201d1d]">
-                    {mockStudent.name}
-                  </span>
-                  <span className="text-[11.5px] text-[#7a7373]">
-                    Graduate Student, {mockStudent.location}
-                  </span>
-                </div>
-              </div>
-
-              <div className="my-4 h-px w-full bg-black/[0.05]" />
-
-              <span className="text-[11px] font-bold uppercase tracking-widest text-[#7a7373]">
-                My Goal
-              </span>
-              <p className="mt-1.5 text-[13.5px] font-medium leading-snug text-[#201d1d]">
-                Land a {mockStudent.careerInterest} role within 6 months.
-              </p>
-
-              <div className="mt-3 flex items-center justify-between text-[11px] font-bold text-[#7a7373]">
-                <span>Progress</span>
-                <span className="text-[#6b0000]">68%</span>
-              </div>
-              <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-[#f0ede9]">
-                <div
-                  className="h-full rounded-full bg-[#f59e0b]"
-                  style={{ width: "68%" }}
-                />
-              </div>
-
-              <button className="mt-4 flex w-full items-center justify-center gap-2 rounded-full border border-black/[0.08] bg-white py-2.5 text-[12.5px] font-bold text-[#201d1d] shadow-sm transition-colors hover:bg-[#faf9f8]">
-                Update goal
-              </button>
-            </motion.section>
-
-            {/* â”€â”€ 2. Main Readiness Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-            <motion.section
-              variants={fadeUpItem}
-              className="flex flex-col rounded-[24px] bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-black/[0.05] text-center items-center"
-            >
-              <span className="text-[11px] font-bold uppercase tracking-widest text-[#7a7373]">
-                Target Role
-              </span>
-              <h2 className="mt-1.5 font-display text-[16px] font-bold text-[#201d1d]">
-                Junior Accounting Operations Associate
-              </h2>
-              <p className="mt-1 text-[11.5px] text-[#7a7373]">
-                Compared against current Santa Rosa industry demand
-              </p>
-
-              <div className="relative mt-6 mb-2 flex h-32 w-32 shrink-0 items-center justify-center">
-                <svg
-                  className="absolute inset-0 h-full w-full -rotate-90 drop-shadow-sm"
-                  viewBox="0 0 36 36"
-                >
-                  <defs>
-                    <linearGradient
-                      id="readinessGrad"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="100%"
-                    >
-                      <stop offset="0%" stopColor="#fde047" /> {/* Yellow-400 */}
-                      <stop offset="100%" stopColor="#f59e0b" /> {/* Amber-500 */}
-                    </linearGradient>
-                  </defs>
-                  <path
-                    className="stroke-[#f0ede9]"
-                    strokeWidth="3.5"
-                    fill="none"
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  />
-                  <path
-                    stroke="url(#readinessGrad)"
-                    strokeWidth="3.5"
-                    strokeDasharray="72, 100"
-                    strokeLinecap="round"
-                    fill="none"
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  />
-                </svg>
-                <div className="flex flex-col items-center">
-                  <span className="font-display text-[32px] font-bold leading-none text-[#201d1d] tracking-tight">
-                    72%
-                  </span>
-                  <span className="mt-1 text-[12px] font-bold tracking-widest text-[#d97706] uppercase">
-                    Ready
-                  </span>
-                </div>
-              </div>
-
-              <p className="mt-4 text-[13px] font-medium leading-snug text-[#5e5a5a]">
-                You already match most foundational requirements.
-              </p>
-            </motion.section>
-
-            {/* â”€â”€ 3. Skill Summary â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-            <motion.section variants={fadeUpItem} className="flex flex-col gap-4">
-              {/* You Already Have */}
-              <div className="flex flex-col rounded-[24px] border border-black/[0.05] bg-white p-5 shadow-sm">
-                <h3 className="text-[11px] font-bold uppercase tracking-widest text-[#7a7373] mb-4">
-                  You Already Have
-                </h3>
-                <div className="flex flex-col gap-3">
-                  {[
-                    "Microsoft Excel",
-                    "Basic Bookkeeping",
-                    "Data Reconciliation",
-                    "Financial Reporting",
-                  ].map((skill) => (
-                    <div key={skill} className="flex items-center gap-3">
-                      <CheckCircle2 size={16} className="text-[#9c9595]" />
-                      <span className="text-[13.5px] font-medium text-[#201d1d]">
-                        {skill}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Your Priority Gaps */}
-              <div className="flex flex-col rounded-[24px] border border-[#f59e0b]/20 bg-[#fff8ee] p-5 shadow-sm">
-                <h3 className="text-[11px] font-bold uppercase tracking-widest text-[#d97706] mb-4">
-                  Your Priority Gaps
-                </h3>
-
-                {/* Primary Gap */}
-                <div className="flex flex-col rounded-xl bg-white p-4 shadow-sm border border-[#f59e0b]/30">
-                  <div className="flex items-start justify-between">
-                    <span className="font-display text-[16px] font-bold text-[#201d1d]">
-                      SAP ERP
-                    </span>
-                    <span className="rounded-full bg-[#6b0000] px-2.5 py-1 text-[10px] font-bold tracking-wider text-white uppercase">
-                      High Priority
-                    </span>
-                  </div>
-                  <p className="mt-1.5 text-[11.5px] text-[#7a7373] leading-snug">
-                    Appears frequently in relevant role requirements
-                  </p>
-                </div>
-
-                {/* Secondary Gaps */}
-                <div className="mt-4 flex flex-col gap-3 px-1">
-                  {["Advanced Excel Automation", "ERP Reconciliation"].map(
-                    (skill) => (
-                      <div
-                        key={skill}
-                        className="flex items-center justify-between border-b border-black/[0.05] pb-2 last:border-0 last:pb-0"
-                      >
-                        <span className="text-[13.5px] font-medium text-[#201d1d]">
-                          {skill}
-                        </span>
-                        <span className="text-[10px] font-bold text-[#7a7373] uppercase tracking-wider">
-                          Gap
-                        </span>
-                      </div>
-                    ),
-                  )}
-                </div>
-              </div>
-            </motion.section>
-
-            {/* â”€â”€ 4. Next Step â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-            <motion.section
-              variants={fadeUpItem}
-              className="mt-2 flex flex-col items-center text-center"
-            >
-              <span className="text-[11px] font-bold uppercase tracking-widest text-[#7a7373]">
-                Recommended Next Step
-              </span>
-              <h3 className="mt-1 font-display text-[20px] font-bold text-[#201d1d]">
-                Strengthen SAP ERP
-              </h3>
-              <p className="mt-2 px-4 text-[13px] leading-snug text-[#5e5a5a]">
-                Start with the skill that currently creates your biggest readiness
-                gap.
-              </p>
-
-              <Link
-                href="/learn"
-                className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-[#f59e0b] py-3.5 text-[14px] font-bold text-white shadow-sm transition-colors hover:bg-[#d97706]"
-              >
-                Close this skill gap <ArrowRight size={18} />
-              </Link>
-            </motion.section>
-
-            {/* â”€â”€ 5. Manage â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-            <motion.section variants={fadeUpItem} className="flex flex-col gap-2.5 pt-4">
-              <Link
-                href="/profile/audit-history"
-                className="flex items-center justify-between rounded-[20px] bg-white px-4 py-3.5 shadow-sm border border-black/[0.05] transition-colors hover:bg-[#faf9f8]"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#6b0000]/8">
-                    <History size={18} className="text-[#6b0000]" />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[13.5px] font-bold text-[#201d1d]">
-                      Audit History
-                    </span>
-                    <span className="text-[11px] text-[#7a7373]">
-                      See your readiness score over time
-                    </span>
-                  </div>
-                </div>
-                <ArrowRight size={16} className="text-[#9c9595]" />
-              </Link>
-
-              <Link
-                href="/profile/settings"
-                className="flex items-center justify-between rounded-[20px] bg-white px-4 py-3.5 shadow-sm border border-black/[0.05] transition-colors hover:bg-[#faf9f8]"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#6b0000]/8">
-                    <Settings size={18} className="text-[#6b0000]" />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[13.5px] font-bold text-[#201d1d]">
-                      Settings
-                    </span>
-                    <span className="text-[11px] text-[#7a7373]">
-                      Account, notifications, privacy
-                    </span>
-                  </div>
-                </div>
-                <ArrowRight size={16} className="text-[#9c9595]" />
-              </Link>
-            </motion.section>
-          </>
-        ) : (
-          <>
-            {/* â”€â”€ Portfolio View â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-            <motion.section
-              variants={fadeUpItem}
-              className="flex flex-col items-center rounded-[24px] bg-white border border-black/[0.05] p-6 text-center shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
-            >
-              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-[#f59e0b] to-[#d97706] text-[22px] font-bold text-white shadow-sm">
-                {getInitials(mockStudent.name)}
-              </div>
-              <h2 className="mt-3 font-display text-[19px] font-bold text-[#201d1d]">
+        {/* ── 2. Unified Identity & Readiness Dashboard ── */}
+        <motion.div variants={fadeUpItem} className="flex flex-col bg-white rounded-[24px] p-5 shadow-sm border border-black/[0.05]">
+          <div className="flex justify-between items-start">
+            <div className="flex flex-col pr-2">
+              <h2 className="font-display text-[20px] font-bold text-[#201d1d] leading-tight tracking-tight">
                 {mockStudent.name}
               </h2>
-              <p className="mt-0.5 text-[12.5px] text-[#7a7373]">
-                {mockStudent.program} Â· {mockStudent.location}
-              </p>
-            </motion.section>
-
-            {/* â”€â”€ Stats Row â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-            <motion.section
-              variants={fadeUpItem}
-              className="grid grid-cols-3 gap-3"
+              <p className="text-[12px] text-[#6b0000] font-bold mt-0.5 leading-snug">Accounting Information Systems</p>
+              <p className="text-[11.5px] text-[#7a7373] mt-0.5">{mockStudent.location}</p>
+            </div>
+            <Link
+              href="/credentials/portfolio"
+              className="flex shrink-0 items-center gap-1.5 rounded-full bg-[#201d1d] px-3 py-1.5 text-[11px] font-bold text-white shadow-sm transition-transform active:scale-95"
             >
-              {[
-                { label: "Readiness", value: `${portfolioData.readinessScore}%` },
-                { label: "Skills", value: portfolioData.skillsCount },
-                { label: "Certificates", value: portfolioData.certificatesCount },
-              ].map((stat) => (
-                <div
-                  key={stat.label}
-                  className="flex flex-col items-center rounded-[18px] border border-black/[0.05] bg-white py-4 shadow-sm"
-                >
-                  <span className="font-display text-[22px] font-bold text-[#6b0000]">
-                    {stat.value}
-                  </span>
-                  <span className="mt-0.5 text-[10.5px] font-bold uppercase tracking-wide text-[#7a7373]">
-                    {stat.label}
-                  </span>
+              Portfolio <Share2 size={12} strokeWidth={2.5} />
+            </Link>
+          </div>
+
+          <div className="my-4 h-px w-full bg-black/[0.05]" />
+
+          <div className="flex items-center gap-4">
+            {/* Left: Goal & Progress */}
+            <div className="flex-1 flex flex-col">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-[#7a7373]">Career Goal</span>
+                <button className="text-[#6b0000] hover:text-[#4a0000]"><Edit3 size={12} strokeWidth={2.5} /></button>
+              </div>
+              <p className="text-[13.5px] font-bold leading-snug text-[#201d1d] mt-1">
+                Accounting Operations Role
+              </p>
+              <div className="mt-2.5 h-1.5 w-full overflow-hidden rounded-full bg-[#f0ede9]">
+                <div className="h-full rounded-full bg-[#f59e0b]" style={{ width: "68%" }} />
+              </div>
+            </div>
+
+            {/* Right: Compact Readiness Gauge */}
+            <div className="flex flex-col items-center justify-center pl-4 border-l border-black/[0.05]">
+              <div className="relative flex h-16 w-16 shrink-0 items-center justify-center">
+                <svg className="absolute inset-0 h-full w-full -rotate-90 drop-shadow-sm" viewBox="0 0 36 36">
+                  <defs>
+                    <linearGradient id="readinessGradCompact" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#fde047" />
+                      <stop offset="100%" stopColor="#f59e0b" />
+                    </linearGradient>
+                  </defs>
+                  <path className="stroke-[#f0ede9]" strokeWidth="4" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path stroke="url(#readinessGradCompact)" strokeWidth="4" strokeDasharray="72, 100" strokeLinecap="round" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                </svg>
+                <span className="font-display text-[18px] font-bold text-[#201d1d]">72%</span>
+              </div>
+              <span className="mt-1 text-[9px] font-bold tracking-widest text-[#d97706] uppercase">Ready</span>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ── 3. Skills & Gaps (Side by Side Grid) ── */}
+        <motion.div variants={fadeUpItem} className="grid grid-cols-2 gap-3">
+          {/* Skills Have */}
+          <div className="flex flex-col rounded-[20px] bg-white p-4 shadow-sm border border-black/[0.05]">
+            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#7a7373] mb-3">Skills You Have</h4>
+            <div className="flex flex-col gap-2.5">
+              {["Excel", "Communication", "Accounting"].map((skill) => (
+                <div key={skill} className="flex items-center gap-2">
+                  <CheckCircle2 size={14} className="text-emerald-600 shrink-0" strokeWidth={3} />
+                  <span className="text-[12.5px] font-bold text-[#201d1d] truncate">{skill}</span>
                 </div>
               ))}
-            </motion.section>
+            </div>
+          </div>
 
-            {/* â”€â”€ About Me â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-            <motion.section
-              variants={fadeUpItem}
-              className="flex flex-col rounded-[24px] border border-black/[0.05] bg-white p-5 shadow-sm"
-            >
-              <h3 className="text-[11px] font-bold uppercase tracking-widest text-[#7a7373] mb-2.5">
-                About Me
-              </h3>
-              <p className="text-[13.5px] leading-snug text-[#5e5a5a]">
-                {portfolioData.aboutMe}
-              </p>
-            </motion.section>
-
-            {/* â”€â”€ Top Skills â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-            <motion.section
-              variants={fadeUpItem}
-              className="flex flex-col rounded-[24px] border border-black/[0.05] bg-white p-5 shadow-sm"
-            >
-              <div className="mb-3 flex items-center gap-2">
-                <Sparkles size={15} className="text-[#f59e0b]" />
-                <h3 className="text-[11px] font-bold uppercase tracking-widest text-[#7a7373]">
-                  Top Skills
-                </h3>
+          {/* Priority Gaps */}
+          <div className="flex flex-col rounded-[20px] bg-[#fff8ee] p-4 shadow-sm border border-[#f59e0b]/20 justify-between">
+            <div>
+              <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#d97706] mb-3">Priority Gaps</h4>
+              <div className="flex flex-col gap-2.5">
+                <div className="flex items-center gap-2">
+                  <AlertCircle size={14} className="text-[#d97706] shrink-0" strokeWidth={2.5} />
+                  <span className="text-[12.5px] font-bold text-[#201d1d] truncate">SAP ERP</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <AlertCircle size={14} className="text-[#d97706] shrink-0" strokeWidth={2.5} />
+                  <span className="text-[12.5px] font-bold text-[#201d1d] truncate">Adv. Reporting</span>
+                </div>
               </div>
-              <div className="flex flex-wrap gap-1.5">
-                {portfolioData.topSkills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="rounded-md bg-[#faf9f8] border border-black/[0.04] px-2.5 py-1 text-[11px] font-medium text-[#201d1d]"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </motion.section>
-
-            {/* â”€â”€ Verified Credentials Summary â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-            <motion.section
-              variants={fadeUpItem}
-              className="flex items-center justify-between rounded-[24px] border border-[#f59e0b]/20 bg-[#fff8ee] p-4 shadow-sm"
+            </div>
+            <Link
+              href="/learn"
+              className="mt-4 flex w-full items-center justify-center gap-1.5 rounded-full bg-[#f59e0b] py-2 text-[11px] font-bold text-white shadow-sm transition-colors hover:bg-[#d97706]"
             >
-              <div className="flex items-center gap-2.5">
-                <Award size={18} className="text-[#d97706]" />
-                <span className="text-[12.5px] font-bold text-[#201d1d]">
-                  {portfolioData.certificatesCount} verified credentials
+              Upskill <ArrowRight size={12} strokeWidth={2.5} />
+            </Link>
+          </div>
+        </motion.div>
+
+        {/* ── 4. Compact Credentials ── */}
+        <motion.section variants={fadeUpItem} className="flex flex-col rounded-[24px] bg-white shadow-sm border border-black/[0.05] p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-[14px] font-bold text-[#201d1d]">Verified Credentials</h3>
+            <Link href="/credentials" className="text-[11px] font-bold text-[#6b0000] hover:underline">View All</Link>
+          </div>
+          <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+            {credentialsData.map((cred) => (
+              <div key={cred.id} className="flex min-w-[140px] flex-col items-center justify-center rounded-[16px] border border-black/[0.05] bg-[#faf9f8] p-3 text-center">
+                <Award size={24} className="text-[#f59e0b] mb-1.5" />
+                <span className="text-[12px] font-bold text-[#201d1d] leading-tight">{cred.title}</span>
+                <span className="text-[9px] font-bold uppercase tracking-wider text-emerald-600 mt-1 flex items-center gap-1">
+                  <CheckCircle2 size={10} strokeWidth={3} /> Verified
                 </span>
               </div>
-              <Link
-                href="/credentials"
-                className="text-[11.5px] font-bold text-[#d97706] hover:underline"
-              >
-                View all
-              </Link>
-            </motion.section>
+            ))}
+          </div>
+        </motion.section>
 
-            {/* â”€â”€ Share CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-            <motion.button
-              variants={fadeUpItem}
-              className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#6b0000] py-3.5 text-[14px] font-bold text-white shadow-sm transition-colors hover:bg-[#4a0000]"
-            >
-              Share Portfolio <Share2 size={16} />
-            </motion.button>
-          </>
-        )}
-      </motion.div>
+        {/* ── 5. Profile Actions ── */}
+        <motion.section variants={fadeUpItem} className="flex flex-col mt-2">
+          <div className="flex flex-col gap-1 rounded-[24px] bg-white shadow-sm border border-black/[0.05] overflow-hidden">
+            <Link href="/profile/settings" className="flex items-center justify-between p-4 bg-white hover:bg-[#faf9f8] transition-colors border-b border-black/[0.04]">
+              <div className="flex items-center gap-3 text-[#201d1d]">
+                <Settings size={18} className="text-[#7a7373]" />
+                <span className="text-[14.5px] font-bold">Account Settings</span>
+              </div>
+              <ChevronRight size={18} className="text-[#c0bbbb]" />
+            </Link>
+            <Link href="/profile/audit-history" className="flex items-center justify-between p-4 bg-white hover:bg-[#faf9f8] transition-colors border-b border-black/[0.04]">
+              <div className="flex items-center gap-3 text-[#201d1d]">
+                <History size={18} className="text-[#7a7373]" />
+                <span className="text-[14.5px] font-bold">Activity History</span>
+              </div>
+              <ChevronRight size={18} className="text-[#c0bbbb]" />
+            </Link>
+            <button className="flex items-center justify-between p-4 bg-white hover:bg-[#faf9f8] transition-colors border-b border-black/[0.04] text-left">
+              <div className="flex items-center gap-3 text-[#201d1d]">
+                <Shield size={18} className="text-[#7a7373]" />
+                <span className="text-[14.5px] font-bold">Privacy Settings</span>
+              </div>
+              <ChevronRight size={18} className="text-[#c0bbbb]" />
+            </button>
+            <button className="flex items-center justify-between p-4 bg-white hover:bg-[#faf9f8] transition-colors text-left">
+              <div className="flex items-center gap-3 text-red-600">
+                <LogOut size={18} className="text-red-500" />
+                <span className="text-[14.5px] font-bold">Sign Out</span>
+              </div>
+            </button>
+          </div>
+        </motion.section>
+        </motion.div>
+      </div>
     </div>
   );
 }
