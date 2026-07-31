@@ -49,9 +49,9 @@ export default function LearnHubPage() {
   if (!mounted) return null;
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
+    <div className="flex flex-1 flex-col h-full bg-[#f5f3f0] font-sans overflow-hidden relative">
       {/* ── Red Header (Matches Explore) ──────────────────────────────────────── */}
-      <header className="fixed inset-x-0 top-0 z-30 flex flex-col justify-end overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-5 rounded-b-[2.5rem] shadow-sm transition-all" style={{ height: 120 }}>
+      <header className="shrink-0 relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex flex-col gap-1">
           <div className="flex items-center justify-between">
@@ -75,20 +75,41 @@ export default function LearnHubPage() {
         </div>
       </header>
 
-      {/* Spacer for fixed header */}
-      <div className="h-[120px] shrink-0" aria-hidden="true" />
-
       <motion.div
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="relative z-10 mx-4 mt-2 flex flex-col gap-4 pb-32"
+        className="flex-1 overflow-y-auto bg-white rounded-t-[2.5rem] relative z-10 -mt-6 px-4 pt-6 pb-24 flex flex-col gap-4 shadow-[0_-4px_24px_rgba(0,0,0,0.05)]"
       >
+        <motion.div
+          variants={fadeUpItem}
+          className="flex rounded-full bg-[#f5f3f0] p-1 shadow-inner border border-black/[0.05] shrink-0"
+        >
+          <Link
+            href="/learn"
+            className="flex-1 rounded-full py-2 text-[12.5px] font-bold transition-colors bg-[#6b0000] text-white text-center"
+          >
+            Upskilling Roadmap
+          </Link>
+          <Link
+            href="/learn/squads"
+            className="flex-1 rounded-full py-2 text-[12.5px] font-bold transition-colors text-[#7a7373] hover:bg-white text-center"
+          >
+            Skill Squad
+          </Link>
+          <Link
+            href="/learn/courses"
+            className="flex-1 rounded-full py-2 text-[12.5px] font-bold transition-colors text-[#7a7373] hover:bg-white text-center"
+          >
+            Courses
+          </Link>
+        </motion.div>
+
         {/* ── 1. Your Upskilling Roadmap ──────────────────────────────────────── */}
-        <motion.section variants={fadeUpItem} className="flex flex-col rounded-[24px] bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
+        <motion.section variants={fadeUpItem} className="flex flex-col rounded-[24px] border border-black/[0.05] bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.05)] mt-2">
           <div className="flex flex-col border-b border-black/[0.06] pb-4">
             <h2 className="text-[11px] font-bold uppercase tracking-widest text-[#7a7373]">
-              Your Upskilling Roadmap
+              Your Target Role
             </h2>
             <p className="mt-1.5 font-display text-[15px] font-bold text-[#201d1d]">
               {janaProfile.targetRole}
@@ -117,7 +138,7 @@ export default function LearnHubPage() {
                 </span>
               </div>
               <p className="text-[12.5px] leading-snug text-[#5e5a5a]">
-                Strengthen 2 priority skills to move closer to your target role.
+                Strengthen priority skills to move closer to your target role.
               </p>
             </div>
           </div>
@@ -132,7 +153,7 @@ export default function LearnHubPage() {
                 href={item.href}
                 className="flex items-center justify-between rounded-xl bg-[#faf9f8] px-3 py-2.5 transition-colors hover:bg-[#f0ede9]"
               >
-                <span className="text-[12.5px] font-medium text-[#201d1d]">{item.label}</span>
+                <span className="text-[12.5px] font-medium text-[#201d1d] truncate pr-2">{item.label}</span>
                 <ArrowRight size={14} className="shrink-0 text-[#9c9595]" />
               </Link>
             ))}
@@ -202,35 +223,6 @@ export default function LearnHubPage() {
               Continue Learning <ArrowRight size={15} />
             </Link>
           </div>
-        </motion.section>
-
-        {/* ── 3. Jump into — consistent nav rows, same pattern as Explore Hub ─── */}
-        <motion.section variants={fadeUpItem} className="flex flex-col gap-2.5">
-          <h2 className="font-display text-[16px] font-bold text-[#201d1d] px-1">
-            Jump Into
-          </h2>
-          {hubNavRows.map((row) => (
-            <Link
-              key={row.title}
-              href={row.href}
-              className="flex items-center justify-between rounded-[20px] bg-white px-4 py-3.5 shadow-[0_4px_20px_rgba(0,0,0,0.05)] transition-colors hover:bg-[#faf9f8]"
-            >
-              <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#6b0000]/8">
-                  <row.icon size={20} className="text-[#6b0000]" strokeWidth={1.75} />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[14px] font-bold leading-tight text-[#201d1d]">
-                    {row.title}
-                  </span>
-                  <span className="mt-0.5 text-[11.5px] text-[#7a7373]">
-                    {row.description}
-                  </span>
-                </div>
-              </div>
-              <ArrowRight size={16} className="shrink-0 text-[#9c9595]" />
-            </Link>
-          ))}
         </motion.section>
       </motion.div>
     </div>

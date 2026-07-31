@@ -56,12 +56,9 @@ export default function CompaniesPage() {
   if (!mounted) return null;
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
-      {/* -- Header ------------------------------------------------------------
-          The header is always pinned to the top (`fixed`); its own visual
-          style is untouched. The spacer below keeps its place in flow so
-          content isn't hidden underneath it. */}
-      <header className="fixed inset-x-0 top-0 z-30 flex flex-col justify-end overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-5 rounded-b-[2.5rem] shadow-sm transition-all" style={{ height: 120 }}>
+    <div className="flex flex-1 flex-col h-full bg-[#f5f3f0] font-sans overflow-hidden relative">
+      {/* -- Header ------------------------------------------------------------ */}
+      <header className="shrink-0 relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex items-center gap-3">
           <Link
@@ -77,15 +74,12 @@ export default function CompaniesPage() {
         </div>
       </header>
 
-      {/* Spacer keeps the header's place in flow now that it's always fixed. */}
-      <div className="h-[120px] shrink-0" aria-hidden="true" />
-
       {/* -- Content sheet ------------------------------------------------------ */}
       <motion.div
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="relative z-10 flex flex-1 flex-col gap-4 bg-white px-4 pb-12 pt-6 shadow-[0_-4px_24px_rgba(0,0,0,0.05)] mt-2 rounded-[24px]"
+        className="flex-1 overflow-y-auto bg-white rounded-t-[2.5rem] relative z-10 -mt-6 px-4 pt-6 pb-24 flex flex-col gap-4 shadow-[0_-4px_24px_rgba(0,0,0,0.05)]"
       >
         <motion.div
           variants={fadeUpItem}

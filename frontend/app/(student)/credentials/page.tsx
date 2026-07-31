@@ -32,9 +32,9 @@ export default function CredentialsPage() {
   if (!mounted) return null;
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
+    <div className="flex flex-1 flex-col h-full bg-[#f5f3f0] font-sans overflow-hidden relative">
       {/* ── Hero Section ─────────────────────────────────────────────────── */}
-      <header className="fixed inset-x-0 top-0 z-30 flex flex-col justify-end overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-5 rounded-b-[2.5rem] shadow-sm transition-all" style={{ height: 120 }}>
+      <header className="shrink-0 relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex flex-col gap-1">
           <div className="flex items-center justify-between">
@@ -58,14 +58,11 @@ export default function CredentialsPage() {
         </div>
       </header>
 
-      {/* Spacer for fixed header */}
-      <div className="h-[120px] shrink-0" aria-hidden="true" />
-
       <motion.div
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="relative z-10 mx-4 mt-2 flex flex-col gap-3 pb-12"
+        className="flex-1 overflow-y-auto bg-white rounded-t-[2.5rem] relative z-10 -mt-6 px-4 pt-6 pb-24 flex flex-col gap-3 shadow-[0_-4px_24px_rgba(0,0,0,0.05)]"
       >
         {/* ── Portfolio entry point ─────────────────────────────────────── */}
         <motion.div variants={fadeUpItem}>
@@ -181,13 +178,16 @@ function CredentialCard({ cred }: { cred: any }) {
         href={`/credentials/verify/${cred.id}`}
         className="flex flex-col rounded-[20px] bg-white border-l-4 border-l-[#6b0000] border-y border-r border-black/[0.05] px-4 py-3.5 shadow-[0_2px_10px_rgba(0,0,0,0.04)] transition-colors hover:bg-[#faf9f8]"
       >
-        <div className="flex items-start justify-between">
-          <div className="flex flex-col">
+        <div className="flex items-start gap-3">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border border-black/[0.06] bg-[#6b0000]/8">
+            <Award size={20} className="text-[#6b0000]" />
+          </div>
+          <div className="flex flex-1 flex-col justify-center">
             <h3 className="font-display text-[16.5px] font-bold leading-tight text-[#201d1d] pr-2">
               {cred.title}
             </h3>
             <p className="mt-0.5 text-[11px] text-[#7a7373]">
-              Issued: {cred.issued}
+              Issued: {cred.issued} · ACEH
             </p>
           </div>
           <div className="flex shrink-0 items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 text-emerald-700 border border-emerald-100">
@@ -198,7 +198,7 @@ function CredentialCard({ cred }: { cred: any }) {
           </div>
         </div>
 
-        <div className="mt-2.5 flex items-end justify-between gap-2">
+        <div className="mt-3 flex items-end justify-between gap-2">
           <div className="flex flex-1 flex-wrap gap-1.5">
             {cred.competencies.map((comp: string) => (
               <span key={comp} className="rounded-md bg-[#faf9f8] border border-black/[0.04] px-2 py-1 text-[10.5px] font-medium text-[#201d1d]">

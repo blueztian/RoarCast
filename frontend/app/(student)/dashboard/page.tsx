@@ -78,10 +78,10 @@ export default function DashboardPage() {
   if (!mounted) return null;
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans">
+    <div className="flex flex-1 flex-col h-full bg-[#f5f3f0] font-sans overflow-hidden relative">
 
       {/* ── Hero Header (compressed) ─────────────────────────────────────────── */}
-      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-20 rounded-b-[3rem]">
+      <header className="shrink-0 relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
 
         <div className="relative z-10">
@@ -123,7 +123,7 @@ export default function DashboardPage() {
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="relative z-10 mx-4 -mt-14 flex flex-col gap-4 pb-36"
+        className="flex-1 overflow-y-auto bg-[#f5f3f0] rounded-t-[2.5rem] relative z-10 -mt-6 px-4 pt-6 pb-24 flex flex-col gap-4"
       >
 
         {/* ── 1 · Your Readiness Score ──────────────────────────────────────── */}
