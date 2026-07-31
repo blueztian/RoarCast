@@ -16,6 +16,33 @@ const fadeUpItem = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
 
+// Kept in one place so the fixed header and its content spacer always agree.
+const HEADER_H = 76;
+
+function CompanyLogo({ domain, name }: { domain?: string; name: string }) {
+  const [failed, setFailed] = useState(false);
+
+  if (!domain || failed) {
+    return (
+      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#6b0000]/8">
+        <Building2 size={18} className="text-[#6b0000]" strokeWidth={1.75} />
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border border-black/[0.06] bg-white">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`https://unavatar.io/${domain}?fallback=false`}
+        alt={`${name} logo`}
+        className="h-full w-full object-contain p-1.5"
+        onError={() => setFailed(true)}
+      />
+    </div>
+  );
+}
+
 export default function CompaniesPage() {
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<"companies" | "peza">("companies");
@@ -24,26 +51,32 @@ export default function CompaniesPage() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
-      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14 rounded-b-[2.5rem]">
+      <header
+        className="fixed inset-x-0 top-0 z-40 flex items-center overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-3 pt-7 shadow-[0_2px_16px_rgba(0,0,0,0.15)]"
+        style={{ height: HEADER_H }}
+      >
         <div className="relative z-10 flex items-center gap-3">
           <Link
             href="/explore"
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
             aria-label="Back to Explore"
           >
-            <ArrowLeft size={18} />
+            <ArrowLeft size={16} />
           </Link>
-          <h1 className="font-display text-[20px] font-bold leading-tight tracking-tight text-white">
+          <h1 className="font-display text-[16.5px] font-bold leading-tight tracking-tight text-white">
             Hiring Companies
           </h1>
         </div>
       </header>
 
+      {/* Spacer that reserves the fixed header's height in normal flow */}
+      <div style={{ height: HEADER_H }} aria-hidden="true" />
+
       <motion.div
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="relative z-10 mx-4 -mt-8 flex flex-col gap-4 pb-12"
+        className="relative z-10 flex flex-col gap-4 px-3 pt-4 pb-12"
       >
         <motion.div
           variants={fadeUpItem}
@@ -77,9 +110,7 @@ export default function CompaniesPage() {
                   key={company.name}
                   className="flex items-center gap-3 rounded-[16px] border border-black/[0.05] bg-white p-3.5 shadow-sm"
                 >
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#6b0000]/8">
-                    <Building2 size={18} className="text-[#6b0000]" strokeWidth={1.75} />
-                  </div>
+                  <CompanyLogo domain={company.domain} name={company.name} />
                   <div className="flex flex-1 flex-col">
                     <span className="text-[13.5px] font-bold leading-tight text-[#201d1d]">
                       {company.name}

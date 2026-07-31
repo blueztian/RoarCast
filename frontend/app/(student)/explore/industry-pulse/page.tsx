@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, MapPin, Clock, Activity, BarChart2 } from "lucide-react";
+import { ArrowLeft, MapPin, Clock, Activity, BarChart2, TrendingUp, ChevronRight, Target } from "lucide-react";
 import SignalBackground from "@/components/SignalBackground";
-import { industryPulseStats } from "@/data/industryPulse";
+import { industryPulseStats, skillsDemandData, roleIntelligenceCards } from "@/data/industryPulse";
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -16,80 +16,94 @@ const fadeUpItem = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
 
+// Kept in one place so the fixed header and its content spacer always agree.
+const HEADER_H = 76;
+
 export default function IndustryPulsePage() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
 
+  const topSkills = skillsDemandData.slice(0, 3);
+  const topRoles = roleIntelligenceCards.slice(0, 2);
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
-      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14 rounded-b-[2.5rem]">
+      {/* -- Fixed compact header -------------------------------------------------- */}
+      <header
+        className="fixed inset-x-0 top-0 z-40 flex items-center overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-3 pt-7 shadow-[0_2px_16px_rgba(0,0,0,0.15)]"
+        style={{ height: HEADER_H }}
+      >
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex items-center gap-3">
           <Link
             href="/explore"
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
             aria-label="Back to Explore"
           >
-            <ArrowLeft size={18} />
+            <ArrowLeft size={16} />
           </Link>
-          <h1 className="font-display text-[20px] font-bold leading-tight tracking-tight text-white">
+          <h1 className="font-display text-[16.5px] font-bold leading-tight tracking-tight text-white">
             Industry Pulse
           </h1>
         </div>
       </header>
 
+      {/* Spacer that reserves the fixed header's height in normal flow */}
+      <div style={{ height: HEADER_H }} aria-hidden="true" />
+
       <motion.div
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="relative z-10 mx-4 -mt-8 flex flex-col gap-4 pb-12"
+        className="relative z-10 flex flex-col gap-3 px-3 pt-4 pb-12"
       >
+        {/* -- Headline stat card -------------------------------------------------- */}
         <motion.div
           variants={fadeUpItem}
-          className="flex flex-col rounded-[24px] bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
+          className="flex flex-col rounded-[22px] bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
         >
-          <div className="flex items-start justify-between mb-4">
-            <h2 className="w-[60%] font-display text-[20px] font-bold leading-tight text-[#201d1d]">
+          <div className="mb-3.5 flex items-start justify-between">
+            <h2 className="w-[58%] font-display text-[18px] font-bold leading-tight text-[#201d1d]">
               Santa Rosa Industry Pulse
             </h2>
             <div className="flex flex-col items-end gap-1.5">
               <div className="flex items-center gap-1.5 rounded-full bg-[#6b0000]/10 px-3 py-1">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#6b0000]" />
-                <span className="text-[12px] font-bold tracking-wide text-[#6b0000]">
+                <span className="text-[11.5px] font-bold tracking-wide text-[#6b0000]">
                   LIVE
                 </span>
               </div>
-              <div className="mr-1 flex items-center gap-1 text-[11px] text-[#7a7373]">
-                <Activity size={12} className="text-[#f59e0b]" /> System is live
+              <div className="mr-1 flex items-center gap-1 text-[10.5px] text-[#7a7373]">
+                <Activity size={11} className="text-[#f59e0b]" /> System is live
               </div>
             </div>
           </div>
 
-          <div className="flex items-center justify-between border-b border-black/[0.06] pb-4">
-            <div className="flex items-center gap-3">
-              <div className="flex h-[52px] w-[52px] items-center justify-center rounded-full bg-[#6b0000]/5">
-                <BarChart2 size={24} className="text-[#6b0000]" strokeWidth={1.5} />
+          <div className="flex items-center justify-between border-b border-black/[0.06] pb-3.5">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-[46px] w-[46px] shrink-0 items-center justify-center rounded-full bg-[#6b0000]/5">
+                <BarChart2 size={21} className="text-[#6b0000]" strokeWidth={1.5} />
               </div>
               <div className="flex flex-col">
-                <span className="font-display text-[28px] font-bold leading-none tracking-tight text-[#6b0000]">
+                <span className="font-display text-[24px] font-bold leading-none tracking-tight text-[#6b0000]">
                   {industryPulseStats.opportunities}
                 </span>
-                <span className="mt-0.5 text-[12px] text-[#7a7373]">
+                <span className="mt-0.5 text-[11px] text-[#7a7373]">
                   opportunities analyzed
                 </span>
               </div>
             </div>
 
-            <div className="h-12 w-[1px] bg-black/[0.06]" />
+            <div className="h-11 w-[1px] bg-black/[0.06]" />
 
-            <div className="flex items-center gap-3 pr-2">
-              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#f59e0b]/10">
-                <Clock size={20} className="text-[#f59e0b]" strokeWidth={1.5} />
+            <div className="flex items-center gap-2.5 pr-1">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f59e0b]/10">
+                <Clock size={18} className="text-[#f59e0b]" strokeWidth={1.5} />
               </div>
               <div className="flex flex-col">
-                <span className="text-[11px] text-[#7a7373]">Updated</span>
-                <span className="mt-0.5 text-[13px] font-bold text-[#6b0000]">
+                <span className="text-[10.5px] text-[#7a7373]">Updated</span>
+                <span className="mt-0.5 text-[12.5px] font-bold text-[#6b0000]">
                   {industryPulseStats.updated}
                 </span>
               </div>
@@ -97,15 +111,15 @@ export default function IndustryPulsePage() {
           </div>
 
           <div className="pt-3">
-            <p className="mb-2 flex items-center gap-2 text-[12.5px] text-[#7a7373]">
-              <MapPin size={16} className="text-[#7a7373]" strokeWidth={1.5} />
+            <p className="mb-2 flex items-center gap-1.5 text-[12px] text-[#7a7373]">
+              <MapPin size={14} className="text-[#7a7373]" strokeWidth={1.5} />
               Across Santa Rosa PEZA zones
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {industryPulseStats.zoneChips.map((zone) => (
                 <span
                   key={zone}
-                  className="rounded-full border border-black/[0.06] bg-[#faf9f8] px-3 py-1.5 text-[11.5px] font-medium text-[#201d1d] shadow-sm"
+                  className="shrink-0 whitespace-nowrap rounded-full border border-black/[0.06] bg-[#faf9f8] px-3 py-1.5 text-[11px] font-medium text-[#201d1d] shadow-sm"
                 >
                   {zone}
                 </span>
@@ -114,23 +128,93 @@ export default function IndustryPulsePage() {
           </div>
         </motion.div>
 
-        {/* Extra stat tiles using the previously-unused employers/zones data */}
+        {/* -- Employers / zones tiles ---------------------------------------------- */}
         <motion.div variants={fadeUpItem} className="grid grid-cols-2 gap-3">
-          <div className="flex flex-col rounded-[18px] border border-black/[0.05] bg-white p-4 shadow-sm">
-            <span className="font-display text-[22px] font-bold text-[#6b0000]">
+          <div className="flex flex-col rounded-[18px] border border-black/[0.05] bg-white p-3.5 shadow-sm">
+            <span className="font-display text-[20px] font-bold text-[#6b0000]">
               {industryPulseStats.employers}
             </span>
-            <span className="mt-0.5 text-[11px] font-bold uppercase tracking-wide text-[#7a7373]">
+            <span className="mt-0.5 text-[10.5px] font-bold uppercase tracking-wide text-[#7a7373]">
               Active Employers
             </span>
           </div>
-          <div className="flex flex-col rounded-[18px] border border-black/[0.05] bg-white p-4 shadow-sm">
-            <span className="font-display text-[22px] font-bold text-[#6b0000]">
+          <div className="flex flex-col rounded-[18px] border border-black/[0.05] bg-white p-3.5 shadow-sm">
+            <span className="font-display text-[20px] font-bold text-[#6b0000]">
               {industryPulseStats.zones}
             </span>
-            <span className="mt-0.5 text-[11px] font-bold uppercase tracking-wide text-[#7a7373]">
+            <span className="mt-0.5 text-[10.5px] font-bold uppercase tracking-wide text-[#7a7373]">
               PEZA Zones
             </span>
+          </div>
+        </motion.div>
+
+        {/* -- Top skills mini-widget (uses more of the screen productively) -------- */}
+        <motion.div
+          variants={fadeUpItem}
+          className="flex flex-col rounded-[20px] border border-black/[0.05] bg-white p-4 shadow-sm"
+        >
+          <div className="mb-2.5 flex items-center justify-between">
+            <h3 className="text-[13px] font-bold text-[#201d1d]">Top Skills Right Now</h3>
+            <Link
+              href="/explore/trending-skills"
+              className="flex items-center gap-0.5 text-[11.5px] font-semibold text-[#6b0000]"
+            >
+              See all <ChevronRight size={13} />
+            </Link>
+          </div>
+          <div className="flex flex-col divide-y divide-black/[0.04]">
+            {topSkills.map((skill) => (
+              <div key={skill.rank} className="flex items-center gap-3 py-2">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#fff8ee] text-[11px] font-bold text-[#f59e0b]">
+                  {skill.rank}
+                </span>
+                <span className="flex-1 text-[12.5px] font-semibold text-[#201d1d]">
+                  {skill.name}
+                </span>
+                <span className="flex items-center gap-1 text-[11.5px] font-bold text-emerald-600">
+                  <TrendingUp size={12} strokeWidth={2.5} /> {skill.growth}
+                </span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* -- Top matching roles mini-widget ---------------------------------------- */}
+        <motion.div
+          variants={fadeUpItem}
+          className="flex flex-col rounded-[20px] border border-black/[0.05] bg-white p-4 shadow-sm"
+        >
+          <div className="mb-2.5 flex items-center justify-between">
+            <h3 className="text-[13px] font-bold text-[#201d1d]">Roles Riding This Trend</h3>
+            <Link
+              href="/explore/career-paths?tab=roles"
+              className="flex items-center gap-0.5 text-[11.5px] font-semibold text-[#6b0000]"
+            >
+              See all <ChevronRight size={13} />
+            </Link>
+          </div>
+          <div className="flex flex-col gap-2">
+            {topRoles.map((role) => (
+              <div
+                key={role.role}
+                className="flex items-center gap-3 rounded-[14px] bg-[#faf9f8] p-3"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#6b0000]/8">
+                  <Target size={15} className="text-[#6b0000]" strokeWidth={1.75} />
+                </span>
+                <div className="flex flex-1 flex-col">
+                  <span className="text-[12.5px] font-bold leading-tight text-[#201d1d]">
+                    {role.role}
+                  </span>
+                  <span className="mt-0.5 text-[11px] text-[#7a7373]">
+                    {role.opportunities} openings · {role.metadata.location}
+                  </span>
+                </div>
+                <span className="shrink-0 text-[12px] font-bold text-[#6b0000]">
+                  {role.match}%
+                </span>
+              </div>
+            ))}
           </div>
         </motion.div>
       </motion.div>

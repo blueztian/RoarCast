@@ -17,6 +17,9 @@ const fadeUpItem = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
 
+// Kept in one place so the fixed header and its content spacer always agree.
+const HEADER_H = 76;
+
 export default function CareerPathsPage() {
   return (
     <Suspense fallback={null}>
@@ -39,26 +42,32 @@ function CareerPathsContent() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
-      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14 rounded-b-[2.5rem]">
+      <header
+        className="fixed inset-x-0 top-0 z-40 flex items-center overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-3 pt-7 shadow-[0_2px_16px_rgba(0,0,0,0.15)]"
+        style={{ height: HEADER_H }}
+      >
         <div className="relative z-10 flex items-center gap-3">
           <Link
             href="/explore"
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
             aria-label="Back to Explore"
           >
-            <ArrowLeft size={18} />
+            <ArrowLeft size={16} />
           </Link>
-          <h1 className="font-display text-[20px] font-bold leading-tight tracking-tight text-white">
+          <h1 className="font-display text-[16.5px] font-bold leading-tight tracking-tight text-white">
             Career Paths
           </h1>
         </div>
       </header>
 
+      {/* Spacer that reserves the fixed header's height in normal flow */}
+      <div style={{ height: HEADER_H }} aria-hidden="true" />
+
       <motion.div
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="relative z-10 mx-4 -mt-8 flex flex-col gap-4 pb-12"
+        className="relative z-10 flex flex-col gap-4 px-3 pt-4 pb-12"
       >
         <motion.div
           variants={fadeUpItem}

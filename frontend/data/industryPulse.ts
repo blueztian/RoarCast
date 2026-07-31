@@ -56,10 +56,10 @@ export const roleIntelligenceCards = [
 ];
 
 export const hiringCompanies = [
-  { name: "P&G",              industry: "FMCG",             zone: "Laguna Technopark",         openings: 12 },
-  { name: "Colgate-Palmolive", industry: "FMCG",             zone: "Greenfield Automotive Park", openings: 8  },
-  { name: "Toyota Motor PH",   industry: "Automotive",       zone: "Toyota Santa Rosa SEZ",      openings: 15 },
-  { name: "Unilever",          industry: "FMCG",              zone: "Laguna Technopark",          openings: 9  },
+  { name: "P&G",              industry: "FMCG",             zone: "Laguna Technopark",         openings: 12, domain: "pg.com" },
+  { name: "Colgate-Palmolive", industry: "FMCG",             zone: "Greenfield Automotive Park", openings: 8,  domain: "colgatepalmolive.com" },
+  { name: "Toyota Motor PH",   industry: "Automotive",       zone: "Toyota Santa Rosa SEZ",      openings: 15, domain: "toyota.com.ph" },
+  { name: "Unilever",          industry: "FMCG",              zone: "Laguna Technopark",          openings: 9,  domain: "unilever.com" },
 ];
 
 export const careerPaths = [

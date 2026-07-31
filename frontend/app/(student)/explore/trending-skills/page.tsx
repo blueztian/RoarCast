@@ -15,6 +15,9 @@ const fadeUpItem = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
 
+// Kept in one place so the fixed header and its content spacer always agree.
+const HEADER_H = 76;
+
 export default function TrendingSkillsPage() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -22,30 +25,38 @@ export default function TrendingSkillsPage() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
-      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14 rounded-b-[2.5rem]">
+      {/* -- Fixed compact header -------------------------------------------------- */}
+      <header
+        className="fixed inset-x-0 top-0 z-40 flex items-center overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-3 pt-7 shadow-[0_2px_16px_rgba(0,0,0,0.15)]"
+        style={{ height: HEADER_H }}
+      >
         <div className="relative z-10 flex items-center gap-3">
           <Link
             href="/explore"
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
             aria-label="Back to Explore"
           >
-            <ArrowLeft size={18} />
+            <ArrowLeft size={16} />
           </Link>
-          <h1 className="font-display text-[20px] font-bold leading-tight tracking-tight text-white">
+          <h1 className="font-display text-[16.5px] font-bold leading-tight tracking-tight text-white">
             Trending Skills
           </h1>
         </div>
-        <p className="relative z-10 mt-1.5 pl-12 text-[12.5px] text-white/70">
-          Top in-demand skills this month
-        </p>
       </header>
+
+      {/* Spacer that reserves the fixed header's height in normal flow */}
+      <div style={{ height: HEADER_H }} aria-hidden="true" />
 
       <motion.div
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="relative z-10 mx-4 -mt-8 flex flex-col gap-2.5 pb-12"
+        className="relative z-10 flex flex-col gap-2.5 px-3 pt-4 pb-12"
       >
+        <motion.p variants={fadeUpItem} className="px-1 text-[12.5px] text-[#7a7373]">
+          Top in-demand skills this month
+        </motion.p>
+
         {skillsDemandData.map((skill) => (
           <motion.button
             key={skill.rank}
