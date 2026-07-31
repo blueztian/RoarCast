@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { User, CheckCircle2, ArrowRight, History, Settings } from "lucide-react";
+import { User, CheckCircle2, ArrowRight, ChevronRight, History, Settings } from "lucide-react";
 import { mockStudent } from "@/data/mockStudent";
 import SignalBackground from "@/components/SignalBackground";
 
@@ -222,37 +222,37 @@ export default function ProfileReadinessPage() {
         </motion.section>
 
         {/* ── 5. Manage ────────────────────────────────────────────────────── */}
-        <motion.section variants={fadeUpItem} className="flex flex-col gap-2.5">
+        <motion.section variants={fadeUpItem} className="flex flex-col gap-3.5">
           <Link
             href="/profile/audit-history"
-            className="flex items-center justify-between rounded-[20px] bg-white px-4 py-3.5 shadow-sm border border-black/[0.05] transition-colors hover:bg-[#faf9f8]"
+            className="flex items-center justify-between rounded-[20px] bg-white px-4 py-4 shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-[#f0ebe1] transition-colors hover:bg-[#faf9f8]"
           >
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#6b0000]/8">
-                <History size={18} className="text-[#6b0000]" />
+            <div className="flex items-center gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-purple-50">
+                <History size={22} className="text-purple-500" strokeWidth={2} />
               </div>
               <div className="flex flex-col">
-                <span className="text-[13.5px] font-bold text-[#201d1d]">Audit History</span>
-                <span className="text-[11px] text-[#7a7373]">See your readiness score over time</span>
+                <span className="text-[18px] font-bold text-[#201d1d]">Audit History</span>
+                <span className="mt-0.5 text-[14px] text-[#7a7373]">See your readiness score over time</span>
               </div>
             </div>
-            <ArrowRight size={16} className="text-[#9c9595]" />
+            <ChevronRight size={18} className="text-[#9c9595]" />
           </Link>
 
           <Link
             href="/profile/settings"
-            className="flex items-center justify-between rounded-[20px] bg-white px-4 py-3.5 shadow-sm border border-black/[0.05] transition-colors hover:bg-[#faf9f8]"
+            className="flex items-center justify-between rounded-[20px] bg-white px-4 py-4 shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-[#f0ebe1] transition-colors hover:bg-[#faf9f8]"
           >
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#6b0000]/8">
-                <Settings size={18} className="text-[#6b0000]" />
+            <div className="flex items-center gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-50">
+                <Settings size={22} className="text-slate-500" strokeWidth={2} />
               </div>
               <div className="flex flex-col">
-                <span className="text-[13.5px] font-bold text-[#201d1d]">Settings</span>
-                <span className="text-[11px] text-[#7a7373]">Account, notifications, privacy</span>
+                <span className="text-[18px] font-bold text-[#201d1d]">Settings</span>
+                <span className="mt-0.5 text-[14px] text-[#7a7373]">Account, notifications, privacy</span>
               </div>
             </div>
-            <ArrowRight size={16} className="text-[#9c9595]" />
+            <ChevronRight size={18} className="text-[#9c9595]" />
           </Link>
         </motion.section>
       </motion.div>

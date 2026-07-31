@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Award, CheckCircle2, QrCode, ArrowRight, ShieldCheck, ChevronDown, UserSquare2 } from "lucide-react";
+import { Award, CheckCircle2, QrCode, ArrowRight, ChevronRight, ChevronDown, ShieldCheck, UserSquare2 } from "lucide-react";
 import Link from "next/link";
 import SignalBackground from "@/components/SignalBackground";
 import { cn } from "@/lib/utils";
@@ -82,9 +82,7 @@ export default function CredentialsPage() {
               Credentials
             </h1>
           </div>
-          <span className="absolute -top-6 left-[36px] text-[11px] font-bold uppercase tracking-widest text-[#f59e0b]">
-            Your Achievements
-          </span>
+
           <p className="mt-1 text-[13.5px] text-white/80 ml-[36px]">
             Skills you’ve completed and can carry beyond RoarCast.
           </p>
@@ -101,18 +99,18 @@ export default function CredentialsPage() {
         <motion.div variants={fadeUpItem}>
           <Link
             href="/credentials/portfolio"
-            className="flex items-center justify-between rounded-[20px] bg-white px-4 py-3.5 shadow-[0_2px_10px_rgba(0,0,0,0.04)] border border-black/[0.05] transition-colors hover:bg-[#faf9f8]"
+            className="flex items-center justify-between rounded-[20px] bg-white px-4 py-4 shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-[#f0ebe1] transition-colors hover:bg-[#faf9f8]"
           >
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#6b0000]/8">
-                <UserSquare2 size={18} className="text-[#6b0000]" />
+            <div className="flex items-center gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-teal-50">
+                <UserSquare2 size={22} className="text-teal-500" strokeWidth={2} />
               </div>
               <div className="flex flex-col">
-                <span className="text-[13.5px] font-bold text-[#201d1d]">My Portfolio</span>
-                <span className="text-[11px] text-[#7a7373]">Share your credentials with employers</span>
+                <span className="text-[18px] font-bold text-[#201d1d]">My Portfolio</span>
+                <span className="mt-0.5 text-[14px] text-[#7a7373]">Share your credentials with employers</span>
               </div>
             </div>
-            <ArrowRight size={16} className="text-[#9c9595]" />
+            <ChevronRight size={18} className="text-[#9c9595]" />
           </Link>
         </motion.div>
 

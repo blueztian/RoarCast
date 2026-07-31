@@ -23,30 +23,40 @@ const hubTiles = [
     icon: BarChart2,
     title: "Industry Pulse",
     description: "Live labor market insights",
+    iconColor: "text-pink-500",
+    iconBgColor: "bg-pink-50",
   },
   {
     href: "/explore/trending-skills",
     icon: TrendingUp,
     title: "Trending Skills",
     description: "What's in demand now",
+    iconColor: "text-blue-500",
+    iconBgColor: "bg-blue-50",
   },
   {
     href: "/explore/companies",
     icon: Building2,
     title: "Hiring Companies",
     description: "Who's hiring now",
+    iconColor: "text-purple-500",
+    iconBgColor: "bg-purple-50",
   },
   {
     href: "/explore/career-paths",
     icon: Route,
     title: "Career Paths",
     description: "Plan your future",
+    iconColor: "text-orange-500",
+    iconBgColor: "bg-orange-50",
   },
   {
     href: "/explore/career-paths?tab=roles",
     icon: Briefcase,
     title: "Roles",
     description: "Explore jobs",
+    iconColor: "text-amber-500",
+    iconBgColor: "bg-amber-50",
   },
 ];
 
@@ -57,7 +67,7 @@ export default function ExploreHubPage() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
-      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14 rounded-b-[2.5rem]">
+      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
@@ -74,37 +84,39 @@ export default function ExploreHubPage() {
             />
           </button>
         </div>
-        <p className="relative z-10 mt-1.5 text-[13px] text-white/70">
-          Discover opportunities around Santa Rosa
-        </p>
       </header>
 
       <motion.div
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="relative z-10 mx-4 -mt-8 flex flex-col gap-2.5 pb-12"
+        className="relative z-10 flex flex-1 flex-col gap-3.5 bg-white px-5 pt-8 pb-12 -mt-8 rounded-t-[2.5rem] shadow-sm"
       >
+        <h2 className="text-[22px] font-bold text-[#201d1d] leading-[1.2] mb-3">
+          Discover opportunities <br />
+          around Santa Rosa
+        </h2>
+
         {hubTiles.map((tile) => (
           <motion.div key={tile.href} variants={fadeUpItem}>
             <Link
               href={tile.href}
-              className="flex items-center justify-between rounded-[20px] bg-white px-4 py-3.5 shadow-[0_4px_20px_rgba(0,0,0,0.05)] transition-colors hover:bg-[#faf9f8]"
+              className="flex items-center justify-between rounded-[20px] bg-white border border-[#f0ebe1] px-4 py-4 shadow-[0_2px_10px_rgba(0,0,0,0.02)] transition-colors hover:bg-[#faf9f8]"
             >
-              <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#6b0000]/8">
-                  <tile.icon size={20} className="text-[#6b0000]" strokeWidth={1.75} />
+              <div className="flex items-center gap-4">
+                <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${tile.iconBgColor}`}>
+                  <tile.icon size={22} className={tile.iconColor} strokeWidth={2} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[14px] font-bold leading-tight text-[#201d1d]">
+                  <span className="text-[18px] font-bold leading-tight text-[#201d1d]">
                     {tile.title}
                   </span>
-                  <span className="mt-0.5 text-[11.5px] text-[#7a7373]">
+                  <span className="mt-0.5 text-[14px] text-[#7a7373]">
                     {tile.description}
                   </span>
                 </div>
               </div>
-              <ChevronRight size={16} className="shrink-0 text-[#9c9595]" />
+              <ChevronRight size={18} className="shrink-0 text-[#9c9595]" />
             </Link>
           </motion.div>
         ))}
@@ -112,3 +124,4 @@ export default function ExploreHubPage() {
     </div>
   );
 }
+

@@ -14,6 +14,7 @@ import {
   Check,
   Radio,
 } from "lucide-react";
+import Image from "next/image";
 import SignalBackground from "@/components/SignalBackground";
 import {
   getAssessmentResult,
@@ -160,9 +161,13 @@ export default function CredentialPage() {
                 {/* Issuer */}
                 <div className="mb-7 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-roar-maroon text-roar-yellow">
-                      <Radio size={15} strokeWidth={2.25} />
-                    </span>
+                    <Image
+                      src="/roarcast-icon.png"
+                      alt="RoarCast Logo"
+                      width={28}
+                      height={28}
+                      className="rounded-full shadow-sm"
+                    />
                     <span className="font-display text-sm font-semibold text-ink">RoarCast</span>
                   </div>
                   <div className="flex items-center gap-1.5 rounded-full border border-roar-maroon/20 bg-white/80 px-3 py-1.5 backdrop-blur">

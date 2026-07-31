@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Radio, Menu, X, LayoutDashboard } from "lucide-react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { isAuditComplete, isCredentialEarned } from "@/lib/studentState";
 
@@ -48,9 +49,13 @@ export default function FloatingNavbar() {
           href="/"
           className="flex items-center gap-2 rounded-full px-2 py-1 font-display text-[15px] font-semibold tracking-tight text-ink"
         >
-          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-roar-maroon text-roar-yellow">
-            <Radio size={15} strokeWidth={2.25} aria-hidden="true" />
-          </span>
+          <Image
+            src="/roarcast-icon.png"
+            alt="RoarCast Logo"
+            width={28}
+            height={28}
+            className="rounded-full shadow-sm"
+          />
           RoarCast
         </Link>
 

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
-  BookOpen, ArrowRight, PlayCircle, Database, Layers, Users,
+  BookOpen, ArrowRight, ChevronRight, PlayCircle, Database, Layers, Users,
 } from "lucide-react";
 import { janaProfile, activeCourse } from "@/data/mockLearn";
 import SignalBackground from "@/components/SignalBackground";
@@ -34,12 +34,16 @@ const hubNavRows = [
     icon: Users,
     title: "Skill Squad",
     description: "Build in-demand skills with peers",
+    iconColor: "text-blue-500",
+    iconBgColor: "bg-blue-50",
   },
   {
     href: "/learn/courses",
     icon: BookOpen,
     title: "Courses",
     description: "Browse all courses and progress",
+    iconColor: "text-emerald-500",
+    iconBgColor: "bg-emerald-50",
   },
 ];
 
@@ -201,22 +205,22 @@ export default function LearnHubPage() {
             <Link
               key={row.title}
               href={row.href}
-              className="flex items-center justify-between rounded-[20px] bg-white px-4 py-3.5 shadow-[0_4px_20px_rgba(0,0,0,0.05)] transition-colors hover:bg-[#faf9f8]"
+              className="flex items-center justify-between rounded-[20px] bg-white border border-[#f0ebe1] px-4 py-4 shadow-[0_2px_10px_rgba(0,0,0,0.02)] transition-colors hover:bg-[#faf9f8]"
             >
-              <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#6b0000]/8">
-                  <row.icon size={20} className="text-[#6b0000]" strokeWidth={1.75} />
+              <div className="flex items-center gap-4">
+                <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${row.iconBgColor}`}>
+                  <row.icon size={22} className={row.iconColor} strokeWidth={2} />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[14px] font-bold leading-tight text-[#201d1d]">
+                  <span className="text-[18px] font-bold leading-tight text-[#201d1d]">
                     {row.title}
                   </span>
-                  <span className="mt-0.5 text-[11.5px] text-[#7a7373]">
+                  <span className="mt-0.5 text-[14px] text-[#7a7373]">
                     {row.description}
                   </span>
                 </div>
               </div>
-              <ArrowRight size={16} className="shrink-0 text-[#9c9595]" />
+              <ChevronRight size={18} className="shrink-0 text-[#9c9595]" />
             </Link>
           ))}
         </motion.section>
