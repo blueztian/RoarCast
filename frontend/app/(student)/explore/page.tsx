@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
-  Compass, BarChart2, TrendingUp, Building2, Route, Bell, ChevronRight, Activity,
+  Compass, BarChart2, TrendingUp, Building2, Route, Bell, ChevronRight,
 } from "lucide-react";
 import SignalBackground from "@/components/SignalBackground";
+import { cn } from "@/lib/utils";
+import { useScrolled } from "@/lib/useScrolled";
 import { industryPulseStats, skillsDemandData, hiringCompanies, careerPaths } from "@/data/industryPulse";
 
 const stagger = {
@@ -18,9 +20,11 @@ const fadeUpItem = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
 
-// Header height (px). Kept in one place so the fixed header and the
-// content spacer that clears it always agree.
-const HEADER_H = 92;
+// Header height (px), and how far the rounded content sheet overlaps its
+// bottom edge while at rest (before scrolling). Kept in one place so the
+// header, the scroll-triggered spacer, and the overlap all stay in sync.
+const HEADER_H = 96;
+const OVERLAP = 28;
 
 const hubTiles = [
   {
@@ -59,14 +63,22 @@ const hubTiles = [
 
 export default function ExploreHubPage() {
   const [mounted, setMounted] = useState(false);
+  const scrolled = useScrolled();
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
-      {/* -- Fixed compact header -------------------------------------------------- */}
+      {/* -- Header ------------------------------------------------------------
+          The header is always pinned to the top (`fixed`), regardless of
+          scroll position. Its own visual style is untouched — the shadow
+          still eases in on scroll exactly as before. The spacer below keeps
+          the header's place in flow so content isn't hidden underneath it. */}
       <header
-        className="fixed inset-x-0 top-0 z-40 overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-7 pb-3 shadow-[0_2px_16px_rgba(0,0,0,0.15)]"
+        className={cn(
+          "fixed inset-x-0 top-0 z-0 overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-7 transition-shadow duration-200",
+          scrolled ? "shadow-[0_2px_16px_rgba(0,0,0,0.15)]" : "shadow-none"
+        )}
         style={{ height: HEADER_H }}
       >
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
@@ -85,65 +97,53 @@ export default function ExploreHubPage() {
             />
           </button>
         </div>
-        <p className="relative z-10 mt-1 pl-[27px] text-[11.5px] text-white/70">
-          Discover opportunities around Santa Rosa
-        </p>
       </header>
 
-      {/* Spacer that reserves the fixed header's height in normal flow */}
+      {/* Spacer keeps the header's place in flow now that it's always fixed. */}
       <div style={{ height: HEADER_H }} aria-hidden="true" />
 
+      {/* -- Content sheet ------------------------------------------------------ */}
       <motion.div
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="relative z-10 flex flex-col gap-3 px-3 pt-4 pb-12"
+        className="relative z-10 flex flex-1 flex-col bg-white px-4 pb-12 pt-6 shadow-[0_-4px_24px_rgba(0,0,0,0.05)] transition-[margin-top,border-radius] duration-200"
+        style={{
+          marginTop: scrolled ? 0 : -OVERLAP,
+          borderTopLeftRadius: scrolled ? 0 : 32,
+          borderTopRightRadius: scrolled ? 0 : 32,
+        }}
       >
-        {/* -- Live snapshot strip ----------------------------------------------- */}
-        <motion.div
+        <motion.h2
           variants={fadeUpItem}
-          className="flex items-center justify-between rounded-[16px] border border-black/[0.05] bg-white px-4 py-2.5 shadow-sm"
+          className="mb-4 px-1 font-display text-[19px] font-bold leading-snug tracking-tight text-[#201d1d]"
         >
-          <div className="flex items-center gap-1.5 text-[11.5px] font-semibold text-[#201d1d]">
-            <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
-            {industryPulseStats.opportunities} opportunities
-            <span className="text-[#c9c3c3]">·</span>
-            {industryPulseStats.employers} employers
-          </div>
-          <div className="flex items-center gap-1 text-[10.5px] text-[#9c9595]">
-            <Activity size={11} className="text-[#f59e0b]" />
-            {industryPulseStats.updated}
-          </div>
-        </motion.div>
+          Discover opportunities around Santa Rosa
+        </motion.h2>
 
-        {/* -- 2x2 tile grid, maximized for mobile thumbs ------------------------ */}
-        <div className="grid grid-cols-2 gap-3">
+        {/* -- List layout (Roles intentionally omitted) --------------------- */}
+        <div className="flex flex-col gap-3">
           {hubTiles.map((tile) => (
             <motion.div key={tile.href} variants={fadeUpItem}>
               <Link
                 href={tile.href}
-                className="group relative flex h-full min-h-[148px] flex-col justify-between overflow-hidden rounded-[20px] bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.05)] transition-all active:scale-[0.97] active:shadow-sm hover:bg-[#faf9f8]"
+                className="group flex items-center gap-3.5 rounded-[18px] border border-black/[0.05] bg-white p-4 shadow-sm transition-all active:scale-[0.98] hover:bg-[#faf9f8]"
               >
-                <div className="flex items-start justify-between">
-                  <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${tile.accent}`}>
-                    <tile.icon size={20} strokeWidth={1.75} />
-                  </div>
-                  <ChevronRight
-                    size={16}
-                    className="mt-1 shrink-0 text-[#d4cfcf] transition-transform group-active:translate-x-0.5"
-                  />
+                <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${tile.accent}`}>
+                  <tile.icon size={20} strokeWidth={1.75} />
                 </div>
-                <div className="flex flex-col items-start text-left">
+                <div className="flex flex-1 flex-col">
                   <span className="text-[14px] font-bold leading-tight text-[#201d1d]">
                     {tile.title}
                   </span>
-                  <span className="mt-0.5 text-[11px] text-[#7a7373]">
+                  <span className="mt-0.5 text-[11.5px] text-[#7a7373]">
                     {tile.description}
                   </span>
-                  <span className="mt-2 rounded-full bg-[#f5f3f0] px-2 py-0.5 text-[10.5px] font-bold text-[#5e5a5a]">
-                    {tile.stat}
-                  </span>
                 </div>
+                <ChevronRight
+                  size={17}
+                  className="shrink-0 text-[#c9c3c3] transition-transform group-active:translate-x-0.5"
+                />
               </Link>
             </motion.div>
           ))}

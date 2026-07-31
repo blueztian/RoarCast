@@ -5,6 +5,8 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, MapPin, Clock, Activity, BarChart2, TrendingUp, ChevronRight, Target } from "lucide-react";
 import SignalBackground from "@/components/SignalBackground";
+import { cn } from "@/lib/utils";
+import { useScrolled } from "@/lib/useScrolled";
 import { industryPulseStats, skillsDemandData, roleIntelligenceCards } from "@/data/industryPulse";
 
 const stagger = {
@@ -16,11 +18,15 @@ const fadeUpItem = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
 
-// Kept in one place so the fixed header and its content spacer always agree.
-const HEADER_H = 76;
+// Header height (px), and how far the rounded content sheet overlaps its
+// bottom edge while at rest (before scrolling). Kept in one place so the
+// header, the scroll-triggered spacer, and the overlap all stay in sync.
+const HEADER_H = 84;
+const OVERLAP = 24;
 
 export default function IndustryPulsePage() {
   const [mounted, setMounted] = useState(false);
+  const scrolled = useScrolled();
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
 
@@ -29,9 +35,15 @@ export default function IndustryPulsePage() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
-      {/* -- Fixed compact header -------------------------------------------------- */}
+      {/* -- Header ------------------------------------------------------------
+          The header is always pinned to the top (`fixed`); its own visual
+          style is untouched. The spacer below keeps its place in flow so
+          content isn't hidden underneath it. */}
       <header
-        className="fixed inset-x-0 top-0 z-40 flex items-center overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-3 pt-7 shadow-[0_2px_16px_rgba(0,0,0,0.15)]"
+        className={cn(
+          "fixed inset-x-0 top-0 z-0 flex items-center overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-7 transition-shadow duration-200",
+          scrolled ? "shadow-[0_2px_16px_rgba(0,0,0,0.15)]" : "shadow-none"
+        )}
         style={{ height: HEADER_H }}
       >
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
@@ -49,14 +61,20 @@ export default function IndustryPulsePage() {
         </div>
       </header>
 
-      {/* Spacer that reserves the fixed header's height in normal flow */}
+      {/* Spacer keeps the header's place in flow now that it's always fixed. */}
       <div style={{ height: HEADER_H }} aria-hidden="true" />
 
+      {/* -- Content sheet ------------------------------------------------------ */}
       <motion.div
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="relative z-10 flex flex-col gap-3 px-3 pt-4 pb-12"
+        className="relative z-10 flex flex-1 flex-col gap-3 bg-white px-4 pb-12 pt-6 shadow-[0_-4px_24px_rgba(0,0,0,0.05)] transition-[margin-top,border-radius] duration-200"
+        style={{
+          marginTop: scrolled ? 0 : -OVERLAP,
+          borderTopLeftRadius: scrolled ? 0 : 32,
+          borderTopRightRadius: scrolled ? 0 : 32,
+        }}
       >
         {/* -- Headline stat card -------------------------------------------------- */}
         <motion.div

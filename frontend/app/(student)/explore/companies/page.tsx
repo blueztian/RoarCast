@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, Building2, Factory, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useScrolled } from "@/lib/useScrolled";
 import { hiringCompanies, pezaZonesData } from "@/data/industryPulse";
 
 const stagger = {
@@ -16,8 +17,11 @@ const fadeUpItem = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
 
-// Kept in one place so the fixed header and its content spacer always agree.
-const HEADER_H = 76;
+// Header height (px), and how far the rounded content sheet overlaps its
+// bottom edge while at rest (before scrolling). Kept in one place so the
+// header, the scroll-triggered spacer, and the overlap all stay in sync.
+const HEADER_H = 84;
+const OVERLAP = 24;
 
 function CompanyLogo({ domain, name }: { domain?: string; name: string }) {
   const [failed, setFailed] = useState(false);
@@ -46,13 +50,21 @@ function CompanyLogo({ domain, name }: { domain?: string; name: string }) {
 export default function CompaniesPage() {
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<"companies" | "peza">("companies");
+  const scrolled = useScrolled();
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
+      {/* -- Header ------------------------------------------------------------
+          The header is always pinned to the top (`fixed`); its own visual
+          style is untouched. The spacer below keeps its place in flow so
+          content isn't hidden underneath it. */}
       <header
-        className="fixed inset-x-0 top-0 z-40 flex items-center overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-3 pt-7 shadow-[0_2px_16px_rgba(0,0,0,0.15)]"
+        className={cn(
+          "fixed inset-x-0 top-0 z-0 flex items-center overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-7 transition-shadow duration-200",
+          scrolled ? "shadow-[0_2px_16px_rgba(0,0,0,0.15)]" : "shadow-none"
+        )}
         style={{ height: HEADER_H }}
       >
         <div className="relative z-10 flex items-center gap-3">
@@ -69,24 +81,30 @@ export default function CompaniesPage() {
         </div>
       </header>
 
-      {/* Spacer that reserves the fixed header's height in normal flow */}
+      {/* Spacer keeps the header's place in flow now that it's always fixed. */}
       <div style={{ height: HEADER_H }} aria-hidden="true" />
 
+      {/* -- Content sheet ------------------------------------------------------ */}
       <motion.div
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="relative z-10 flex flex-col gap-4 px-3 pt-4 pb-12"
+        className="relative z-10 flex flex-1 flex-col gap-4 bg-white px-4 pb-12 pt-6 shadow-[0_-4px_24px_rgba(0,0,0,0.05)] transition-[margin-top,border-radius] duration-200"
+        style={{
+          marginTop: scrolled ? 0 : -OVERLAP,
+          borderTopLeftRadius: scrolled ? 0 : 32,
+          borderTopRightRadius: scrolled ? 0 : 32,
+        }}
       >
         <motion.div
           variants={fadeUpItem}
-          className="flex rounded-full bg-white p-1 shadow-sm border border-black/[0.05]"
+          className="flex rounded-full bg-[#f5f3f0] p-1 shadow-inner border border-black/[0.05]"
         >
           <button
             onClick={() => setActiveTab("companies")}
             className={cn(
               "flex-1 rounded-full py-2 text-[12.5px] font-bold transition-colors",
-              activeTab === "companies" ? "bg-[#6b0000] text-white" : "text-[#7a7373] hover:bg-[#faf9f8]"
+              activeTab === "companies" ? "bg-[#6b0000] text-white" : "text-[#7a7373] hover:bg-white"
             )}
           >
             Companies
@@ -95,7 +113,7 @@ export default function CompaniesPage() {
             onClick={() => setActiveTab("peza")}
             className={cn(
               "flex-1 rounded-full py-2 text-[12.5px] font-bold transition-colors",
-              activeTab === "peza" ? "bg-[#6b0000] text-white" : "text-[#7a7373] hover:bg-[#faf9f8]"
+              activeTab === "peza" ? "bg-[#6b0000] text-white" : "text-[#7a7373] hover:bg-white"
             )}
           >
             PEZA Zones
