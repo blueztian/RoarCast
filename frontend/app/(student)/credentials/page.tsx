@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Award, CheckCircle2, QrCode, ArrowRight, ChevronRight, ChevronDown, ShieldCheck, UserSquare2 } from "lucide-react";
+import { Award, CheckCircle2, QrCode, ArrowRight, ChevronRight, ChevronDown, ShieldCheck, UserSquare2, Bell } from "lucide-react";
 import Link from "next/link";
 import SignalBackground from "@/components/SignalBackground";
 import { cn } from "@/lib/utils";
+import { credentialsData } from "@/data/mockLearn";
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -16,45 +17,6 @@ const fadeUpItem = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
 
-const credentialsData = [
-  {
-    id: "sap-erp",
-    title: "SAP ERP Foundations",
-    issuedTo: "Jana Dela Cruz",
-    issued: "July 24, 2026",
-    credentialId: "RC-SAP-2026-00184",
-    competencies: [
-      "ERP Fundamentals",
-      "SAP Navigation",
-      "Financial Accounting Workflow"
-    ],
-  },
-  {
-    id: "advanced-excel",
-    title: "Advanced Excel for Operations",
-    issuedTo: "Jana Dela Cruz",
-    issued: "June 18, 2026",
-    credentialId: "RC-EXL-2026-00912",
-    competencies: [
-      "Advanced Formulas",
-      "PivotTables",
-      "Data Cleaning"
-    ],
-  },
-  {
-    id: "financial-reconciliation",
-    title: "Financial Data Reconciliation",
-    issuedTo: "Jana Dela Cruz",
-    issued: "May 30, 2026",
-    credentialId: "RC-FDR-2026-00441",
-    competencies: [
-      "Transaction Matching",
-      "Error Detection",
-      "Reconciliation Workflow"
-    ],
-  }
-];
-
 const badgesData = [
   { id: "sap-erp-badge", title: "SAP ERP Fundamentals", earned: true, earnedDate: "July 24, 2026" },
   { id: "excel-badge", title: "Advanced Excel Pro", earned: true, earnedDate: "June 18, 2026" },
@@ -64,7 +26,6 @@ const badgesData = [
 
 export default function CredentialsPage() {
   const [mounted, setMounted] = useState(false);
-  const [expandedId, setExpandedId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"credentials" | "badges">("credentials");
 
   useEffect(() => setMounted(true), []);
@@ -76,11 +37,20 @@ export default function CredentialsPage() {
       <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14 rounded-b-[2.5rem]">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex flex-col gap-1">
-          <div className="flex items-center gap-2.5">
-            <Award size={26} className="text-[#f59e0b]" strokeWidth={2} />
-            <h1 className="font-display text-[24px] font-bold leading-tight tracking-tight text-white">
-              Credentials
-            </h1>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <Award size={26} className="text-[#f59e0b]" strokeWidth={2} />
+              <h1 className="font-display text-[24px] font-bold leading-tight tracking-tight text-white">
+                Credentials
+              </h1>
+            </div>
+            <button className="relative p-1.5" aria-label="Notifications">
+              <Bell size={24} className="text-white" strokeWidth={1.5} />
+              <span
+                aria-hidden="true"
+                className="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border-2 border-[#4a0000] bg-[#f59e0b]"
+              />
+            </button>
           </div>
 
           <p className="mt-1 text-[13.5px] text-white/80 ml-[36px]">
@@ -137,13 +107,14 @@ export default function CredentialsPage() {
           <>
             {/* The first credential card overlaps the red header, fixing the text overlap issue. */}
             {credentialsData.map((cred) => (
-              <CredentialCard
-                key={cred.id}
-                cred={cred}
-                isExpanded={expandedId === cred.id}
-                onToggle={() => setExpandedId(expandedId === cred.id ? null : cred.id)}
-              />
+              <CredentialCard key={cred.id} cred={cred} />
             ))}
+            <motion.button
+              variants={fadeUpItem}
+              className="flex w-full items-center justify-center gap-1.5 rounded-full border border-black/[0.08] bg-white py-2.5 text-[12.5px] font-bold text-[#201d1d] shadow-sm hover:bg-[#faf9f8]"
+            >
+              View all credentials <ArrowRight size={14} />
+            </motion.button>
           </>
         ) : (
           <motion.div variants={fadeUpItem} className="grid grid-cols-2 gap-3">
@@ -201,13 +172,13 @@ export default function CredentialsPage() {
   );
 }
 
-function CredentialCard({ cred, isExpanded, onToggle }: { cred: any, isExpanded: boolean, onToggle: () => void }) {
+function CredentialCard({ cred }: { cred: any }) {
   return (
-    <motion.div 
-      variants={fadeUpItem}
-      className="flex flex-col overflow-hidden rounded-[20px] bg-white border-l-4 border-l-[#6b0000] border-y border-r border-black/[0.05] shadow-[0_2px_10px_rgba(0,0,0,0.04)]"
-    >
-      <div className="flex flex-col px-4 py-3.5">
+    <motion.div variants={fadeUpItem}>
+      <Link
+        href={`/credentials/verify/${cred.id}`}
+        className="flex flex-col rounded-[20px] bg-white border-l-4 border-l-[#6b0000] border-y border-r border-black/[0.05] px-4 py-3.5 shadow-[0_2px_10px_rgba(0,0,0,0.04)] transition-colors hover:bg-[#faf9f8]"
+      >
         <div className="flex items-start justify-between">
           <div className="flex flex-col">
             <h3 className="font-display text-[16.5px] font-bold leading-tight text-[#201d1d] pr-2">
@@ -225,62 +196,17 @@ function CredentialCard({ cred, isExpanded, onToggle }: { cred: any, isExpanded:
           </div>
         </div>
 
-        <div className="mt-2.5 flex flex-wrap gap-1.5">
-          {cred.competencies.map((comp: string) => (
-            <span key={comp} className="rounded-md bg-[#faf9f8] border border-black/[0.04] px-2 py-1 text-[10.5px] font-medium text-[#201d1d]">
-              {comp}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {isExpanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden border-t border-black/[0.04] bg-[#faf9f8]"
-          >
-            <div className="flex flex-col items-center p-4 text-center">
-              <div className="flex h-24 w-24 items-center justify-center rounded-[12px] bg-white shadow-sm border border-black/[0.05]">
-                <QrCode size={60} className="text-[#201d1d]" strokeWidth={1} />
-              </div>
-              <span className="mt-2.5 text-[12.5px] font-bold text-[#201d1d]">
-                Scan to verify credential
+        <div className="mt-2.5 flex items-end justify-between gap-2">
+          <div className="flex flex-1 flex-wrap gap-1.5">
+            {cred.competencies.map((comp: string) => (
+              <span key={comp} className="rounded-md bg-[#faf9f8] border border-black/[0.04] px-2 py-1 text-[10.5px] font-medium text-[#201d1d]">
+                {comp}
               </span>
-              <span className="mt-0.5 text-[11px] text-[#7a7373]">
-                Issued to: <span className="font-bold">{cred.issuedTo}</span>
-              </span>
-              <div className="mt-2.5 flex items-center justify-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[10px] font-bold text-[#9c9595] shadow-sm border border-black/[0.04]">
-                <ShieldCheck size={14} /> ID: {cred.credentialId}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <button
-        onClick={onToggle}
-        className={cn(
-          "flex w-full items-center justify-between border-t border-black/[0.05] px-4 py-2.5 transition-colors hover:bg-[#faf9f8]",
-          isExpanded ? "bg-[#faf9f8]" : "bg-white"
-        )}
-      >
-        <div className="flex items-center gap-2 text-[#201d1d]">
-          <QrCode size={15} className={isExpanded ? "text-[#6b0000]" : "text-[#9c9595]"} />
-          <span className="text-[12px] font-bold">
-            {isExpanded ? "Hide verification code" : "QR verifiable"}
-          </span>
+            ))}
+          </div>
+          <ChevronRight size={18} className="shrink-0 text-[#9c9595]" />
         </div>
-        <ChevronDown 
-          size={16} 
-          className={cn(
-            "text-[#9c9595] transition-transform duration-300", 
-            isExpanded && "rotate-180"
-          )} 
-        />
-      </button>
+      </Link>
     </motion.div>
   );
 }
