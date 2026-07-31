@@ -611,7 +611,7 @@ export default function LearnPage() {
           </AnimatePresence>
 
           {allComplete && (
-            <motion.div variants={fadeUpItem} className="mt-8">
+            <motion.div variants={staggerItem} className="mt-8">
               <Link
                 href="/assessment/erp-workflow"
                 className="flex w-full items-center justify-center gap-2 rounded-full bg-[#6b0000] px-5 py-3.5 text-[15px] font-bold text-white shadow-sm transition-transform active:scale-[0.98]"
