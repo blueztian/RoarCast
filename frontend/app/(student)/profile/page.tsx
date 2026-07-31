@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -57,8 +57,8 @@ export default function ProfileReadinessPage() {
 
   return (
     <div className="flex flex-1 flex-col h-full bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] font-sans overflow-hidden">
-      {/* ── 1. Hero Section ─────────────────────────────────────────────────── */}
-      <header className="shrink-0 relative overflow-hidden px-5 pt-12 pb-5">
+      {/* â”€â”€ 1. Hero Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      <header className="shrink-0 relative overflow-hidden px-5 pt-6 pb-5">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
@@ -104,7 +104,7 @@ export default function ProfileReadinessPage() {
 
         {activeTab === "readiness" ? (
           <>
-            {/* ── 1.5 Goals / Profile Identity Card ────────────────────────────── */}
+            {/* â”€â”€ 1.5 Goals / Profile Identity Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
             <motion.section
               variants={fadeUpItem}
               className="flex flex-col rounded-[24px] bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-black/[0.05]"
@@ -148,7 +148,7 @@ export default function ProfileReadinessPage() {
               </button>
             </motion.section>
 
-            {/* ── 2. Main Readiness Card ────────────────────────────────────────── */}
+            {/* â”€â”€ 2. Main Readiness Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
             <motion.section
               variants={fadeUpItem}
               className="flex flex-col rounded-[24px] bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-black/[0.05] text-center items-center"
@@ -210,7 +210,7 @@ export default function ProfileReadinessPage() {
               </p>
             </motion.section>
 
-            {/* ── 3. Skill Summary ─────────────────────────────────────────────── */}
+            {/* â”€â”€ 3. Skill Summary â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
             <motion.section variants={fadeUpItem} className="flex flex-col gap-4">
               {/* You Already Have */}
               <div className="flex flex-col rounded-[24px] border border-black/[0.05] bg-white p-5 shadow-sm">
@@ -276,7 +276,7 @@ export default function ProfileReadinessPage() {
               </div>
             </motion.section>
 
-            {/* ── 4. Next Step ─────────────────────────────────────────────────── */}
+            {/* â”€â”€ 4. Next Step â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
             <motion.section
               variants={fadeUpItem}
               className="mt-2 flex flex-col items-center text-center"
@@ -300,7 +300,7 @@ export default function ProfileReadinessPage() {
               </Link>
             </motion.section>
 
-            {/* ── 5. Manage ────────────────────────────────────────────────────── */}
+            {/* â”€â”€ 5. Manage â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
             <motion.section variants={fadeUpItem} className="flex flex-col gap-2.5 pt-4">
               <Link
                 href="/profile/audit-history"
@@ -345,7 +345,7 @@ export default function ProfileReadinessPage() {
           </>
         ) : (
           <>
-            {/* ── Portfolio View ───────────────────────────────────────────── */}
+            {/* â”€â”€ Portfolio View â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
             <motion.section
               variants={fadeUpItem}
               className="flex flex-col items-center rounded-[24px] bg-white border border-black/[0.05] p-6 text-center shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
@@ -357,11 +357,11 @@ export default function ProfileReadinessPage() {
                 {mockStudent.name}
               </h2>
               <p className="mt-0.5 text-[12.5px] text-[#7a7373]">
-                {mockStudent.program} · {mockStudent.location}
+                {mockStudent.program} Â· {mockStudent.location}
               </p>
             </motion.section>
 
-            {/* ── Stats Row ─────────────────────────────────────────────────── */}
+            {/* â”€â”€ Stats Row â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
             <motion.section
               variants={fadeUpItem}
               className="grid grid-cols-3 gap-3"
@@ -385,7 +385,7 @@ export default function ProfileReadinessPage() {
               ))}
             </motion.section>
 
-            {/* ── About Me ──────────────────────────────────────────────────── */}
+            {/* â”€â”€ About Me â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
             <motion.section
               variants={fadeUpItem}
               className="flex flex-col rounded-[24px] border border-black/[0.05] bg-white p-5 shadow-sm"
@@ -398,7 +398,7 @@ export default function ProfileReadinessPage() {
               </p>
             </motion.section>
 
-            {/* ── Top Skills ────────────────────────────────────────────────── */}
+            {/* â”€â”€ Top Skills â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
             <motion.section
               variants={fadeUpItem}
               className="flex flex-col rounded-[24px] border border-black/[0.05] bg-white p-5 shadow-sm"
@@ -421,7 +421,7 @@ export default function ProfileReadinessPage() {
               </div>
             </motion.section>
 
-            {/* ── Verified Credentials Summary ─────────────────────────────── */}
+            {/* â”€â”€ Verified Credentials Summary â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
             <motion.section
               variants={fadeUpItem}
               className="flex items-center justify-between rounded-[24px] border border-[#f59e0b]/20 bg-[#fff8ee] p-4 shadow-sm"
@@ -440,7 +440,7 @@ export default function ProfileReadinessPage() {
               </Link>
             </motion.section>
 
-            {/* ── Share CTA ─────────────────────────────────────────────────── */}
+            {/* â”€â”€ Share CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
             <motion.button
               variants={fadeUpItem}
               className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#6b0000] py-3.5 text-[14px] font-bold text-white shadow-sm transition-colors hover:bg-[#4a0000]"

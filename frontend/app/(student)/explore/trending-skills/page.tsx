@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -34,19 +34,24 @@ export default function TrendingSkillsPage() {
   return (
     <div className="flex flex-1 flex-col h-full bg-[#f5f3f0] font-sans overflow-hidden relative">
       {/* -- Header ------------------------------------------------------------ */}
-      <header className="shrink-0 relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14">
+      <header className="shrink-0 relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-6 pb-14">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
-        <div className="relative z-10 flex items-center gap-3">
-          <Link
-            href="/explore"
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
-            aria-label="Back to Explore"
-          >
-            <ArrowLeft size={16} />
-          </Link>
-          <h1 className="font-display text-[16.5px] font-bold leading-tight tracking-tight text-white">
-            Trending Skills
-          </h1>
+        <div className="relative z-10 flex flex-col">
+          <div className="flex items-center gap-3">
+            <Link
+              href="/explore"
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+              aria-label="Back to Explore"
+            >
+              <ArrowLeft size={16} />
+            </Link>
+            <h1 className="font-display text-[22px] font-bold leading-tight tracking-tight text-white">
+              Trending Skills
+            </h1>
+          </div>
+          <p className="text-[13px] text-white/80 ml-[44px]">
+            Most requested qualifications by employers.
+          </p>
         </div>
       </header>
 
@@ -57,9 +62,7 @@ export default function TrendingSkillsPage() {
         animate="show"
         className="flex-1 overflow-y-auto bg-white rounded-t-[2.5rem] relative z-10 -mt-6 px-4 pt-6 pb-24 flex flex-col gap-2.5 shadow-[0_-4px_24px_rgba(0,0,0,0.05)]"
       >
-        <motion.p variants={fadeUpItem} className="px-1 text-[12.5px] text-[#7a7373]">
-          Top in-demand skills this month
-        </motion.p>
+
 
         {skillsDemandData.map((skill) => {
           const isOpen = expanded === skill.rank;
@@ -71,15 +74,15 @@ export default function TrendingSkillsPage() {
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#fff8ee] text-[13px] font-bold text-[#f59e0b]">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#fff8ee] text-[14.5px] font-bold text-[#f59e0b]">
                     {skill.rank}
                   </div>
-                  <span className="text-[14px] font-bold text-[#201d1d]">
+                  <span className="text-[15.5px] font-bold text-[#201d1d]">
                     {skill.name}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="flex items-center gap-1 text-[12.5px] font-bold text-emerald-600">
+                  <span className="flex items-center gap-1 text-[14px] font-bold text-emerald-600">
                     <TrendingUp size={13} strokeWidth={2.5} /> {skill.growth}
                   </span>
                   <button
@@ -114,7 +117,7 @@ export default function TrendingSkillsPage() {
                     transition={{ duration: 0.25, ease: "easeOut" }}
                     className="overflow-hidden"
                   >
-                    <p className="border-t border-black/[0.05] pt-3 text-[12.5px] leading-relaxed text-[#5e5a5a]">
+                    <p className="border-t border-black/[0.05] pt-3 text-[14px] leading-relaxed text-[#5e5a5a]">
                       {skill.description}
                     </p>
                   </motion.div>
@@ -126,7 +129,7 @@ export default function TrendingSkillsPage() {
 
         <motion.button
           variants={fadeUpItem}
-          className="mt-1 flex w-full items-center justify-center gap-1.5 rounded-full border border-black/[0.08] bg-white py-2.5 text-[12.5px] font-bold text-[#201d1d] shadow-sm hover:bg-[#faf9f8]"
+          className="mt-1 flex w-full items-center justify-center gap-1.5 rounded-full border border-black/[0.08] bg-white py-2.5 text-[14px] font-bold text-[#201d1d] shadow-sm hover:bg-[#faf9f8]"
         >
           See all skills <ChevronRight size={14} />
         </motion.button>

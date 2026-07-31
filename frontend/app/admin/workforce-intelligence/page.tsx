@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
@@ -28,11 +28,11 @@ export default function AdminDashboardPage() {
       <div className="flex w-full flex-col p-8 pb-16">
           
           {/* Header */}
-          <header className="relative mb-6 overflow-hidden rounded-2xl bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] p-8 shadow-sm">
+          <header className="relative mb-6 overflow-hidden rounded-2xl bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] p-5 shadow-sm">
             <div className="absolute inset-0 opacity-40 mix-blend-screen pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 60%)' }} />
             <div className="relative z-10 flex items-end justify-between">
               <div className="flex flex-col gap-1.5">
-                <h1 className="font-display text-[28px] font-bold leading-tight text-white">
+                <h1 className="font-display text-[22px] font-bold leading-tight text-white">
                   Santa Rosa Workforce Intelligence
                 </h1>
                 <p className="text-[14.5px] text-white/80">

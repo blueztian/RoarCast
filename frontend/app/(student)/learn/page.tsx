@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -48,41 +48,40 @@ export default function LearnHubPage() {
 
   return (
     <div className="flex flex-1 flex-col h-full bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] font-sans overflow-hidden">
-      {/* ── Red Header ──────────────────────────────────────────────────────── */}
-      <header className="shrink-0 relative overflow-hidden px-5 pt-12 pb-5">
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬ Red Header Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */}
+      <header className="shrink-0 relative overflow-hidden px-5 pt-6 pb-5">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
-        <div className="relative z-10 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
-              <BookOpen size={20} className="text-[#f59e0b]" strokeWidth={2} />
+        <div className="relative z-10 flex flex-col">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
+                <BookOpen size={20} className="text-[#f59e0b]" strokeWidth={2} />
+              </div>
+              <h1 className="font-display text-[22px] font-bold leading-tight tracking-tight text-white">
+                Learn
+              </h1>
             </div>
-            <h1 className="font-display text-[22px] font-bold leading-tight tracking-tight text-white">
-              Learn
-            </h1>
+            <button className="relative p-1.5" aria-label="Notifications">
+              <Bell size={22} className="text-white" strokeWidth={1.5} />
+              <span
+                aria-hidden="true"
+                className="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border-2 border-[#4a0000] bg-[#f59e0b]"
+              />
+            </button>
           </div>
-          <button className="relative p-1.5" aria-label="Notifications">
-            <Bell size={22} className="text-white" strokeWidth={1.5} />
-            <span
-              aria-hidden="true"
-              className="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border-2 border-[#4a0000] bg-[#f59e0b]"
-            />
-          </button>
+          <p className="text-[13px] text-white/80 ml-[46px] -mt-0.5">
+            What would you like to learn today?
+          </p>
         </div>
       </header>
 
-      {/* ── White Content Sheet ─────────────────────────────────────────────── */}
+      {/* Ã¢â€â‚¬Ã¢â€â‚¬ White Content Sheet Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */}
       <motion.div
         variants={stagger}
         initial="hidden"
         animate="show"
         className="flex-1 overflow-y-auto bg-white rounded-t-[2.5rem] relative z-10 px-4 pt-8 pb-24 flex flex-col gap-4 shadow-[0_-4px_24px_rgba(0,0,0,0.1)]"
       >
-        <motion.p
-          variants={fadeUpItem}
-          className="text-[13px] font-medium text-[#7a7373] text-center mb-2"
-        >
-          What would you like to do today?
-        </motion.p>
 
         {learnMenuItems.map((item) => (
           <motion.div key={item.href} variants={fadeUpItem}>
@@ -94,10 +93,10 @@ export default function LearnHubPage() {
                 <item.icon size={30} strokeWidth={1.75} />
               </div>
               <div className="flex flex-1 flex-col gap-0.5">
-                <span className="text-[18px] font-bold leading-tight text-[#201d1d]">
+                <span className="text-[19.5px] font-bold leading-tight text-[#201d1d]">
                   {item.title}
                 </span>
-                <span className="text-[13px] leading-snug text-[#7a7373]">
+                <span className="text-[14.5px] leading-snug text-[#7a7373]">
                   {item.description}
                 </span>
               </div>

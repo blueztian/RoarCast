@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
@@ -50,19 +50,24 @@ function CareerPathsContent() {
   return (
     <div className="flex flex-1 flex-col h-full bg-[#f5f3f0] font-sans overflow-hidden relative">
       {/* -- Header ------------------------------------------------------------ */}
-      <header className="shrink-0 relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14">
+      <header className="shrink-0 relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-6 pb-14">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
-        <div className="relative z-10 flex items-center gap-3">
-          <Link
-            href="/explore"
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
-            aria-label="Back to Explore"
-          >
-            <ArrowLeft size={16} />
-          </Link>
-          <h1 className="font-display text-[16.5px] font-bold leading-tight tracking-tight text-white">
-            Career Paths
-          </h1>
+        <div className="relative z-10 flex flex-col">
+          <div className="flex items-center gap-3">
+            <Link
+              href="/explore"
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+              aria-label="Back to Explore"
+            >
+              <ArrowLeft size={16} />
+            </Link>
+            <h1 className="font-display text-[22px] font-bold leading-tight tracking-tight text-white">
+              Career Paths
+            </h1>
+          </div>
+          <p className="text-[13px] text-white/80 ml-[44px]">
+            Roadmaps to reach your target role.
+          </p>
         </div>
       </header>
 
@@ -80,7 +85,7 @@ function CareerPathsContent() {
           <button
             onClick={() => setActiveTab("paths")}
             className={cn(
-              "flex-1 rounded-full py-2 text-[12.5px] font-bold transition-colors",
+              "flex-1 rounded-full py-2 text-[14px] font-bold transition-colors",
               activeTab === "paths" ? "bg-[#6b0000] text-white" : "text-[#7a7373] hover:bg-white"
             )}
           >
@@ -89,7 +94,7 @@ function CareerPathsContent() {
           <button
             onClick={() => setActiveTab("roles")}
             className={cn(
-              "flex-1 rounded-full py-2 text-[12.5px] font-bold transition-colors",
+              "flex-1 rounded-full py-2 text-[14px] font-bold transition-colors",
               activeTab === "roles" ? "bg-[#6b0000] text-white" : "text-[#7a7373] hover:bg-white"
             )}
           >
@@ -113,11 +118,11 @@ function CareerPathsContent() {
                           <Route size={18} className="text-[#f59e0b]" strokeWidth={2} />
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-[13.5px] font-bold leading-tight text-[#201d1d]">
+                          <span className="text-[15px] font-bold leading-tight text-[#201d1d]">
                             {path.role}
                           </span>
-                          <span className="mt-0.5 text-[11.5px] text-[#7a7373]">
-                            {path.industry} · {path.match}% match
+                          <span className="mt-0.5 text-[13px] text-[#7a7373]">
+                            {path.industry} Ã‚Â· {path.match}% match
                           </span>
                         </div>
                       </div>
@@ -145,7 +150,7 @@ function CareerPathsContent() {
                           transition={{ duration: 0.25, ease: "easeOut" }}
                           className="overflow-hidden"
                         >
-                          <p className="border-t border-black/[0.05] pt-3 text-[12.5px] leading-relaxed text-[#5e5a5a]">
+                          <p className="border-t border-black/[0.05] pt-3 text-[14px] leading-relaxed text-[#5e5a5a]">
                             {path.description}
                           </p>
                         </motion.div>
@@ -157,7 +162,7 @@ function CareerPathsContent() {
             </motion.div>
             <motion.button
               variants={fadeUpItem}
-              className="flex w-full items-center justify-center gap-1.5 rounded-full border border-black/[0.08] bg-white py-2.5 text-[12.5px] font-bold text-[#201d1d] shadow-sm hover:bg-[#faf9f8]"
+              className="flex w-full items-center justify-center gap-1.5 rounded-full border border-black/[0.08] bg-white py-2.5 text-[14px] font-bold text-[#201d1d] shadow-sm hover:bg-[#faf9f8]"
             >
               Explore more roles <ChevronRight size={14} />
             </motion.button>
@@ -174,10 +179,10 @@ function CareerPathsContent() {
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1 pr-3">
-                    <h3 className="text-[14.5px] font-bold leading-snug text-[#201d1d]">
+                    <h3 className="text-[16px] font-bold leading-snug text-[#201d1d]">
                       {role.role}
                     </h3>
-                    <p className="mt-1 text-[12px] font-medium text-[#7a7373]">
+                    <p className="mt-1 text-[13.5px] font-medium text-[#7a7373]">
                       {role.opportunities} opportunities analyzed
                     </p>
                   </div>
@@ -198,22 +203,22 @@ function CareerPathsContent() {
                           d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                         />
                       </svg>
-                      <span className="font-display text-[13px] font-bold text-[#201d1d]">
+                      <span className="font-display text-[14.5px] font-bold text-[#201d1d]">
                         {role.match}%
                       </span>
                     </div>
-                    <span className="mt-1 text-[10px] font-bold text-[#7a7373]">match</span>
+                    <span className="mt-1 text-[11.5px] font-bold text-[#7a7373]">match</span>
                   </div>
                 </div>
 
                 <div className="mb-1 mt-4">
-                  <p className="mb-2 text-[11px] font-medium text-[#7a7373]">Top Skill Tags</p>
+                  <p className="mb-2 text-[12.5px] font-medium text-[#7a7373]">Top Skill Tags</p>
                   <div className="flex flex-wrap gap-2">
                     {role.skillTags.map((tag) => (
                       <span
                         key={tag}
                         className={cn(
-                          "rounded-md border px-2.5 py-1 text-[11px] font-medium",
+                          "rounded-md border px-2.5 py-1 text-[12.5px] font-medium",
                           idx === 0
                             ? "border-[#6b0000]/15 bg-[#6b0000]/5 text-[#6b0000]"
                             : "border-black/[0.06] bg-white text-[#5e5a5a]"
@@ -225,7 +230,7 @@ function CareerPathsContent() {
                   </div>
                 </div>
 
-                <div className="mt-3 flex items-center justify-end pt-2 text-[11.5px] font-bold">
+                <div className="mt-3 flex items-center justify-end pt-2 text-[13px] font-bold">
                   <span
                     className={cn(
                       "flex items-center gap-1.5",

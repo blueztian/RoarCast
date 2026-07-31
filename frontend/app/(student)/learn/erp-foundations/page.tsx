@@ -23,7 +23,7 @@ import {
 } from "@/lib/studentState";
 import { staggerContainer, staggerItem, fadeUp } from "@/lib/motion";
 
-// ── Module data ───────────────────────────────────────────────────────────────
+// â”€â”€ Module data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export interface Module {
   id: string;
@@ -48,9 +48,9 @@ const MODULES: Module[] = [
     estimatedMinutes: 8,
     content: {
       explanation:
-        "Enterprise Resource Planning (ERP) systems are integrated software platforms that manage core business processes—accounting, procurement, inventory, HR—from a single unified system. Instead of siloed spreadsheets, every department reads from and writes to one shared source of truth.",
+        "Enterprise Resource Planning (ERP) systems are integrated software platforms that manage core business processesâ€”accounting, procurement, inventory, HRâ€”from a single unified system. Instead of siloed spreadsheets, every department reads from and writes to one shared source of truth.",
       example:
-        "Picture a sales order arriving at Laguna Technopark. The moment it's confirmed in the ERP, inventory is reserved, the AP/AR ledger is queued, and the warehouse gets a pick list—all without anyone sending a single email. That's ERP: one transaction ripples cleanly across every function.",
+        "Picture a sales order arriving at Laguna Technopark. The moment it's confirmed in the ERP, inventory is reserved, the AP/AR ledger is queued, and the warehouse gets a pick listâ€”all without anyone sending a single email. That's ERP: one transaction ripples cleanly across every function.",
       keyTakeaway:
         "ERP systems eliminate re-entry errors by linking all departments through shared data. Your job as an accounting associate is to be the reliable link between the business event and the ledger record.",
       quickChecks: [
@@ -79,7 +79,7 @@ const MODULES: Module[] = [
           question:
             "When a sales order is confirmed in an ERP, what typically happens automatically?",
           options: [
-            "Nothing—approvals are always manual",
+            "Nothingâ€”approvals are always manual",
             "Only the invoice is generated",
             "Inventory, ledger, and warehouse tasks are all updated",
             "Only email notifications are sent",
@@ -99,9 +99,9 @@ const MODULES: Module[] = [
       explanation:
         "In an ERP, accounting workflow defines the path a financial transaction takes from business event to ledger entry. This includes initiating a document (invoice, PO, receipt), routing it for approval, posting it to the correct GL account, and reconciling it at month-end.",
       example:
-        "An employee submits a reimbursement claim. The ERP routes it to their manager for approval, then to Finance for GL coding and posting. The system matches the claim against the employee record and the cost center budget—then closes the expense with a single journal entry. No printed forms, no email chains.",
+        "An employee submits a reimbursement claim. The ERP routes it to their manager for approval, then to Finance for GL coding and posting. The system matches the claim against the employee record and the cost center budgetâ€”then closes the expense with a single journal entry. No printed forms, no email chains.",
       keyTakeaway:
-        "Every business event should end in a clean GL posting. Accounting workflow is the process discipline that makes that happen consistently—your role is to ensure accuracy at each checkpoint.",
+        "Every business event should end in a clean GL posting. Accounting workflow is the process discipline that makes that happen consistentlyâ€”your role is to ensure accuracy at each checkpoint.",
       quickChecks: [
         {
           question: "What is a GL account?",
@@ -134,11 +134,11 @@ const MODULES: Module[] = [
     estimatedMinutes: 10,
     content: {
       explanation:
-        "Reconciliation is the process of ensuring your ERP's financial records match external statements—bank statements, supplier invoices, or subsidiary ledgers. Discrepancies signal either a missing entry, a timing difference, or an error that must be resolved before period-close.",
+        "Reconciliation is the process of ensuring your ERP's financial records match external statementsâ€”bank statements, supplier invoices, or subsidiary ledgers. Discrepancies signal either a missing entry, a timing difference, or an error that must be resolved before period-close.",
       example:
-        "At month-end, the AP balance in your ERP shows ₱480,000 owed to a supplier. The supplier statement says ₱495,000. The ₱15,000 gap could be an invoice that arrived late and wasn't entered yet. You locate it, post it, and the records align. That's a clean reconciliation.",
+        "At month-end, the AP balance in your ERP shows â‚±480,000 owed to a supplier. The supplier statement says â‚±495,000. The â‚±15,000 gap could be an invoice that arrived late and wasn't entered yet. You locate it, post it, and the records align. That's a clean reconciliation.",
       keyTakeaway:
-        "Reconciliation is proof that your books reflect reality. In an ERP, it's faster than manual processes—but only if transactions are posted correctly and completely in real time.",
+        "Reconciliation is proof that your books reflect reality. In an ERP, it's faster than manual processesâ€”but only if transactions are posted correctly and completely in real time.",
       quickChecks: [
         {
           question: "What does reconciliation verify?",
@@ -212,7 +212,7 @@ const MODULES: Module[] = [
   },
 ];
 
-// ── Quick Check component ─────────────────────────────────────────────────────
+// â”€â”€ Quick Check component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function QuickCheck({
   question,
@@ -236,9 +236,9 @@ function QuickCheck({
   }
 
   return (
-    <div className="rounded-2xl border border-paper-line bg-paper p-5">
-      <p className="mb-4 font-medium text-ink">{question}</p>
-      <div className="flex flex-col gap-2">
+    <div className="rounded-[20px] border border-black/[0.05] bg-[#faf9f8] p-5 shadow-sm">
+      <p className="mb-4 text-[15.5px] font-bold text-[#201d1d]">{question}</p>
+      <div className="flex flex-col gap-2.5">
         {options.map((opt, i) => {
           const isSelected = selected === i;
           const isCorrect = selected !== null && i === correct;
@@ -249,14 +249,14 @@ function QuickCheck({
               type="button"
               onClick={() => handleSelect(i)}
               disabled={selected !== null}
-              className={`rounded-xl border px-4 py-3 text-left text-sm transition-colors ${
+              className={`rounded-2xl border px-4 py-3.5 text-left text-[14.5px] font-medium transition-colors ${
                 isCorrect
-                  ? "border-green-300 bg-green-50 text-green-800"
+                  ? "border-green-500/30 bg-green-50 text-green-800"
                   : isWrong
-                  ? "border-red-200 bg-red-50 text-red-700"
+                  ? "border-red-500/30 bg-red-50 text-red-800"
                   : isSelected
-                  ? "border-roar-maroon bg-roar-maroon/5 text-roar-maroon"
-                  : "border-paper-line bg-white text-ink-soft hover:border-ink/20 hover:text-ink disabled:cursor-default"
+                  ? "border-[#6b0000] bg-[#6b0000]/5 text-[#6b0000]"
+                  : "border-black/[0.08] bg-white text-[#5e5a5a] hover:border-black/[0.15] hover:text-[#201d1d] disabled:cursor-default"
               }`}
             >
               {opt}
@@ -266,14 +266,14 @@ function QuickCheck({
       </div>
       {selected !== null && (
         <motion.p
-          initial={{ opacity: 0, y: 4 }}
+          initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: 1, y: 0 }}
-          className={`mt-3 text-sm font-medium ${
+          className={`mt-3.5 text-[14px] font-bold ${
             selected === correct ? "text-green-700" : "text-red-600"
           }`}
         >
           {selected === correct
-            ? "✓ Correct!"
+            ? "âœ“ Correct!"
             : `Not quite. The answer is: "${options[correct]}"`}
         </motion.p>
       )}
@@ -281,7 +281,7 @@ function QuickCheck({
   );
 }
 
-// ── Module content view ───────────────────────────────────────────────────────
+// â”€â”€ Module content view â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function ModuleContent({
   module,
@@ -300,45 +300,45 @@ function ModuleContent({
   return (
     <div className="space-y-6">
       {/* Explanation */}
-      <div className="rounded-2xl border border-paper-line bg-white p-7">
-        <p className="mb-4 font-mono text-[11px] uppercase tracking-wide text-ink-faint">
+      <div className="rounded-[20px] border border-black/[0.05] bg-white p-6 shadow-sm">
+        <p className="mb-4 font-mono text-[11.5px] font-bold uppercase tracking-wide text-[#7a7373]">
           Explanation
         </p>
-        <p className="text-[15px] leading-relaxed text-ink-soft">
+        <p className="text-[16px] leading-relaxed text-[#5e5a5a]">
           {module.content.explanation}
         </p>
       </div>
 
       {/* Process Example */}
-      <div className="rounded-2xl border border-roar-amber/20 bg-gradient-to-br from-white to-[#FFFBEF] p-7">
-        <p className="mb-4 font-mono text-[11px] uppercase tracking-wide text-roar-amber">
+      <div className="rounded-[20px] border border-[#d97706]/20 bg-gradient-to-br from-white to-[#fffbeb] p-6 shadow-sm">
+        <p className="mb-4 font-mono text-[11.5px] font-bold uppercase tracking-wide text-[#d97706]">
           Real-World Example
         </p>
-        <p className="text-[15px] leading-relaxed text-ink-soft">
+        <p className="text-[16px] leading-relaxed text-[#5e5a5a]">
           {module.content.example}
         </p>
       </div>
 
       {/* Key Takeaway */}
-      <div className="rounded-2xl border border-roar-maroon/15 bg-gradient-to-br from-white to-[#FBF2EF] p-7">
-        <p className="mb-2 font-mono text-[11px] uppercase tracking-wide text-roar-maroon">
+      <div className="rounded-[20px] border border-[#6b0000]/15 bg-gradient-to-br from-white to-[#fff5f2] p-6 shadow-sm">
+        <p className="mb-3 font-mono text-[11.5px] font-bold uppercase tracking-wide text-[#6b0000]">
           Key Takeaway
         </p>
-        <p className="font-medium text-ink">{module.content.keyTakeaway}</p>
-        <label className="mt-4 flex cursor-pointer items-center gap-2">
+        <p className="font-bold text-[16px] text-[#201d1d]">{module.content.keyTakeaway}</p>
+        <label className="mt-5 flex cursor-pointer items-center gap-3">
           <input
             type="checkbox"
             checked={readConfirmed}
             onChange={(e) => setReadConfirmed(e.target.checked)}
-            className="h-4 w-4 rounded border-paper-line accent-roar-maroon"
+            className="h-5 w-5 rounded border-black/[0.2] accent-[#6b0000]"
           />
-          <span className="text-sm text-ink-soft">I understand this takeaway</span>
+          <span className="text-[14.5px] font-medium text-[#5e5a5a]">I understand this takeaway</span>
         </label>
       </div>
 
       {/* Quick Checks */}
-      <div className="space-y-4">
-        <p className="font-mono text-[11px] uppercase tracking-wide text-ink-faint">
+      <div className="space-y-4 mt-2">
+        <p className="font-mono text-[11.5px] font-bold uppercase tracking-wide text-[#7a7373]">
           Quick Checks ({correctCount}/{totalChecks} correct)
         </p>
         {module.content.quickChecks.map((qc, i) => (
@@ -362,9 +362,9 @@ function ModuleContent({
           type="button"
           onClick={canComplete ? onComplete : undefined}
           disabled={!canComplete}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-roar-maroon px-7 py-4 text-sm font-semibold text-white shadow-glow transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-40"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#201d1d] px-7 py-4 text-[15.5px] font-bold text-white shadow-sm transition-transform active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
         >
-          <CheckCircle2 size={16} strokeWidth={2.5} />
+          <CheckCircle2 size={18} strokeWidth={2.5} />
           {canComplete
             ? "Mark Module Complete"
             : `Complete all ${totalChecks} checks to continue`}
@@ -374,7 +374,7 @@ function ModuleContent({
   );
 }
 
-// ── Page ──────────────────────────────────────────────────────────────────────
+// â”€â”€ Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default function LearnPage() {
   const router = useRouter();
@@ -433,7 +433,7 @@ export default function LearnPage() {
         refreshStatuses();
       }, 1200);
     } else {
-      // All done — go to assessment
+      // All done â€” go to assessment
       setTimeout(() => {
         setCompletedAnimation(null);
         router.push("/assessment/erp-workflow");
@@ -444,237 +444,185 @@ export default function LearnPage() {
   const allComplete = areAllModulesComplete();
 
   return (
-    <>
-      <SignalBackground />
-      <section className="mx-auto max-w-5xl px-6 pb-24 pt-32">
-        {/* Header */}
-        <motion.div variants={fadeUp} initial="hidden" animate="visible" className="mb-8">
-          <Link
-            href="/squads/erp-fundamentals"
-            className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wide text-ink-faint transition-colors hover:text-ink"
-          >
-            <ArrowLeft size={13} />
-            Back to Squad
-          </Link>
-        </motion.div>
+    <div className="flex flex-1 flex-col h-full bg-[#f5f3f0] font-sans overflow-hidden relative">
+      {/* ── Header ── */}
+      <header className="shrink-0 relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-6 pb-12">
+        <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
+        <div className="relative z-10 flex flex-col">
+          <div className="flex items-center gap-3">
+            <Link
+              href="/learn/squads/erp-fundamentals"
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+              aria-label="Back to Squad"
+            >
+              <ArrowLeft size={16} />
+            </Link>
+            <h1 className="font-display text-[22px] font-bold leading-tight tracking-tight text-white">
+              Upskilling Roadmap
+            </h1>
+          </div>
+          <p className="text-[13px] text-white/80 ml-[44px]">
+            Your personalized path to readiness.
+          </p>
+        </div>
+      </header>
 
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          animate="visible"
-          className="grid gap-8 lg:grid-cols-[300px_1fr]"
-        >
-          {/* Sidebar */}
-          <motion.aside variants={staggerItem} className="space-y-4">
-            <div>
-              <span className="font-mono text-[11px] uppercase tracking-widest text-roar-maroon">
-                Learning Pathway
-              </span>
-              <h1 className="mt-1 font-display text-xl font-semibold text-ink">
-                ERP Workflow
-              </h1>
-            </div>
+      {/* ── Content sheet ── */}
+      <motion.div
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
+        className="flex-1 overflow-y-auto bg-white rounded-t-[2.5rem] relative z-10 -mt-6 px-4 pt-6 pb-24 flex flex-col gap-5 shadow-[0_-4px_24px_rgba(0,0,0,0.05)]"
+      >
+        {/* Overall progress */}
+        <div className="flex flex-col rounded-[20px] border border-black/[0.05] bg-[#faf9f8] p-4 shadow-sm">
+          <div className="mb-2 flex items-center justify-between">
+            <span className="font-bold text-[13px] text-[#201d1d]">
+              Pathway Progress
+            </span>
+            <span className="font-bold text-[14px] text-[#6b0000] tabular-nums">
+              {overallProgress}%
+            </span>
+          </div>
+          <div className="h-2 overflow-hidden rounded-full bg-[#e8e4df]">
+            <motion.div
+              className="h-full rounded-full bg-[#6b0000]"
+              animate={{ width: `${overallProgress}%` }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            />
+          </div>
+        </div>
 
-            {/* Overall progress */}
-            <div className="rounded-2xl border border-paper-line bg-white p-4">
-              <div className="mb-2 flex items-center justify-between">
-                <span className="font-mono text-[11px] uppercase tracking-wide text-ink-faint">
-                  Progress
-                </span>
-                <span className="font-display text-lg font-semibold text-ink tabular-nums">
-                  {overallProgress}%
-                </span>
-              </div>
-              <div className="h-2 overflow-hidden rounded-full bg-paper-dim">
-                <motion.div
-                  className="h-full rounded-full bg-roar-maroon"
-                  animate={{ width: `${overallProgress}%` }}
-                  transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                  role="progressbar"
-                  aria-valuenow={overallProgress}
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                  aria-label="Overall learning progress"
-                />
-              </div>
-            </div>
+        {/* Module Nav / Pill Filter */}
+        <div className="sticky top-0 z-20 -mx-4 px-4 py-2 bg-white/95 backdrop-blur-sm">
+          <div className="flex overflow-x-auto no-scrollbar rounded-full bg-[#faf9f8] p-1 shadow-inner border border-black/[0.05]">
+            {MODULES.map((module) => {
+              const status = statuses[module.id] ?? "not_started";
+              const locked = !isUnlocked(module);
+              const isActive = activeModuleId === module.id;
 
-            {/* Module list */}
-            <nav aria-label="Modules">
-              <div className="flex flex-col gap-2">
-                {MODULES.map((module) => {
-                  const status = statuses[module.id] ?? "not_started";
-                  const locked = !isUnlocked(module);
-                  const isActive = activeModuleId === module.id;
+              return (
+                <button
+                  key={module.id}
+                  type="button"
+                  onClick={() => handleModuleClick(module)}
+                  disabled={locked}
+                  className={`flex-1 shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-[12.5px] font-bold transition-colors flex items-center justify-center gap-1.5 ${
+                    isActive
+                      ? "bg-[#6b0000] text-white shadow-sm"
+                      : locked
+                      ? "text-[#c0bbbb] cursor-not-allowed"
+                      : "text-[#7a7373] hover:bg-white hover:text-[#201d1d]"
+                  }`}
+                >
+                  {locked ? (
+                    <Lock size={12} strokeWidth={2.5} />
+                  ) : status === "completed" ? (
+                    <CheckCircle2 size={13} strokeWidth={2.5} />
+                  ) : status === "in_progress" ? (
+                    <PlayCircle size={13} strokeWidth={2.5} />
+                  ) : null}
+                  {module.index + 1}
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
-                  return (
-                    <button
-                      key={module.id}
-                      type="button"
-                      onClick={() => handleModuleClick(module)}
-                      disabled={locked}
-                      aria-current={isActive ? "page" : undefined}
-                      className={`flex items-center gap-3 rounded-2xl border p-4 text-left transition-colors ${
-                        isActive
-                          ? "border-roar-maroon/25 bg-roar-maroon/[0.04]"
-                          : locked
-                          ? "cursor-not-allowed border-paper-line bg-paper opacity-50"
-                          : "border-paper-line bg-white hover:border-ink/15 hover:bg-paper-dim"
-                      }`}
-                    >
-                      <span
-                        className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs transition-colors ${
-                          status === "completed"
-                            ? "bg-roar-maroon text-white"
-                            : status === "in_progress"
-                            ? "border border-roar-amber text-roar-amber"
-                            : locked
-                            ? "bg-paper-dim text-ink-faint"
-                            : "bg-paper-dim text-ink-faint"
-                        }`}
-                      >
-                        {locked ? (
-                          <Lock size={11} strokeWidth={2.5} />
-                        ) : status === "completed" ? (
-                          <CheckCircle2 size={13} strokeWidth={2.5} />
-                        ) : status === "in_progress" ? (
-                          <PlayCircle size={13} strokeWidth={2.5} />
-                        ) : (
-                          <span className="font-mono text-[10px]">
-                            {String(module.index + 1).padStart(2, "0")}
-                          </span>
-                        )}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <p
-                          className={`text-sm font-medium truncate ${
-                            isActive ? "text-ink" : "text-ink-soft"
-                          }`}
-                        >
-                          {module.title}
-                        </p>
-                        <p className="font-mono text-[11px] text-ink-faint">
-                          ~{module.estimatedMinutes} min
-                        </p>
-                      </div>
-                      {isActive && !locked && (
-                        <ChevronRight size={14} className="shrink-0 text-roar-maroon" />
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            </nav>
-
-            {allComplete && (
-              <Link
-                href="/assessment/erp-workflow"
-                className="flex w-full items-center justify-center gap-2 rounded-full bg-roar-maroon px-5 py-3 text-sm font-semibold text-white"
+        {/* Active Module Content */}
+        <div className="flex flex-col">
+          <AnimatePresence mode="wait">
+            {completedAnimation === activeModuleId ? (
+              <motion.div
+                key="complete-flash"
+                initial={{ opacity: 0, scale: 0.94 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.94 }}
+                transition={{ duration: 0.3 }}
+                className="flex flex-col items-center justify-center gap-4 rounded-3xl border border-[#6b0000]/15 bg-gradient-to-br from-white to-[#fff5f2] p-10 text-center shadow-sm"
               >
-                Take Skill Check
-                <ArrowRight size={14} strokeWidth={2.5} />
-              </Link>
-            )}
-          </motion.aside>
-
-          {/* Content area */}
-          <motion.div variants={staggerItem}>
-            <AnimatePresence mode="wait">
-              {completedAnimation === activeModuleId ? (
-                <motion.div
-                  key="complete-flash"
-                  initial={{ opacity: 0, scale: 0.94 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.94 }}
-                  transition={{ duration: 0.3 }}
-                  className="flex flex-col items-center justify-center gap-4 rounded-3xl border border-roar-maroon/15 bg-gradient-to-br from-white to-[#FBF2EF] p-16 text-center"
+                <motion.span
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="flex h-14 w-14 items-center justify-center rounded-full bg-[#6b0000] text-white"
                 >
-                  <motion.span
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    className="flex h-16 w-16 items-center justify-center rounded-full bg-roar-maroon text-white"
-                  >
-                    <CheckCircle2 size={32} strokeWidth={2} />
-                  </motion.span>
-                  <h2 className="font-display text-2xl font-semibold text-ink">
-                    Module Complete!
-                  </h2>
-                  <p className="text-ink-soft">
-                    {activeModule.index < MODULES.length - 1
-                      ? "Unlocking next module…"
-                      : "All modules complete! Redirecting to Skill Check…"}
-                  </p>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key={activeModuleId}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  {/* Module header */}
-                  <div className="mb-6 rounded-2xl border border-paper-line bg-white p-6">
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <span className="font-mono text-[11px] uppercase tracking-wide text-ink-faint">
-                          Module {activeModule.index + 1} of {MODULES.length}
-                        </span>
-                        <h2 className="mt-1 font-display text-2xl font-semibold text-ink">
-                          {activeModule.title}
-                        </h2>
-                        <p className="mt-1 text-sm text-ink-soft">{activeModule.subtitle}</p>
-                      </div>
-                      <span
-                        className={`shrink-0 rounded-full px-3 py-1 font-mono text-[11px] ${
-                          activeStatus === "completed"
-                            ? "bg-roar-maroon/10 text-roar-maroon"
-                            : activeStatus === "in_progress"
-                            ? "bg-roar-amber/10 text-roar-amber"
-                            : "bg-paper-dim text-ink-faint"
-                        }`}
-                      >
-                        {activeStatus === "completed"
-                          ? "Completed"
-                          : activeStatus === "in_progress"
-                          ? "In Progress"
-                          : "Not Started"}
+                  <CheckCircle2 size={28} strokeWidth={2} />
+                </motion.span>
+                <h2 className="font-display text-[20px] font-bold text-[#201d1d]">
+                  Module Complete!
+                </h2>
+                <p className="text-[14px] text-[#7a7373]">
+                  {activeModule.index < MODULES.length - 1
+                    ? "Unlocking next module..."
+                    : "All modules complete! Redirecting..."}
+                </p>
+              </motion.div>
+            ) : (
+              <motion.div
+                key={activeModuleId}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col gap-6"
+              >
+                {/* Module header */}
+                <div className="rounded-[20px] border border-black/[0.05] bg-white p-5 shadow-sm">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex flex-col gap-1">
+                      <span className="text-[11.5px] font-bold uppercase tracking-wider text-[#d97706]">
+                        Module {activeModule.index + 1} of {MODULES.length}
                       </span>
+                      <h2 className="font-display text-[20px] font-bold text-[#201d1d] leading-tight">
+                        {activeModule.title}
+                      </h2>
+                      <p className="text-[13.5px] text-[#7a7373] mt-1 leading-snug">
+                        {activeModule.subtitle}
+                      </p>
                     </div>
                   </div>
+                </div>
 
-                  {activeStatus === "completed" ? (
-                    <div className="flex flex-col items-center gap-4 rounded-2xl border border-paper-line bg-white p-10 text-center">
-                      <CheckCircle2 size={40} className="text-roar-maroon" strokeWidth={1.5} />
-                      <p className="font-display text-lg font-semibold text-ink">
-                        You&apos;ve completed this module
-                      </p>
-                      <p className="text-sm text-ink-soft">
-                        Feel free to review the content, or continue to the next module.
-                      </p>
-                      {activeModule.index < MODULES.length - 1 && (
-                        <button
-                          type="button"
-                          onClick={() =>
-                            handleModuleClick(MODULES[activeModule.index + 1])
-                          }
-                          className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-semibold text-paper hover:bg-roar-maroon"
-                        >
-                          Next Module
-                          <ArrowRight size={14} strokeWidth={2.5} />
-                        </button>
-                      )}
-                    </div>
-                  ) : (
-                    <ModuleContent module={activeModule} onComplete={handleComplete} />
-                  )}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
-        </motion.div>
-      </section>
-    </>
+                {activeStatus === "completed" ? (
+                  <div className="flex flex-col items-center gap-3 rounded-[20px] border border-black/[0.05] bg-[#faf9f8] p-8 text-center shadow-sm">
+                    <CheckCircle2 size={36} className="text-[#6b0000]" strokeWidth={1.5} />
+                    <p className="font-display text-[18px] font-bold text-[#201d1d]">
+                      You've completed this module
+                    </p>
+                    {activeModule.index < MODULES.length - 1 && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleModuleClick(MODULES[activeModule.index + 1])
+                        }
+                        className="mt-2 inline-flex items-center gap-2 rounded-full bg-[#201d1d] px-6 py-3 text-[14px] font-bold text-white transition-transform active:scale-95"
+                      >
+                        Next Module
+                        <ArrowRight size={14} strokeWidth={2.5} />
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <ModuleContent module={activeModule} onComplete={handleComplete} />
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {allComplete && (
+            <motion.div variants={fadeUpItem} className="mt-8">
+              <Link
+                href="/assessment/erp-workflow"
+                className="flex w-full items-center justify-center gap-2 rounded-full bg-[#6b0000] px-5 py-3.5 text-[15px] font-bold text-white shadow-sm transition-transform active:scale-[0.98]"
+              >
+                Take Skill Check
+                <ArrowRight size={16} strokeWidth={2.5} />
+              </Link>
+            </motion.div>
+          )}
+        </div>
+      </motion.div>
+    </div>
   );
 }
