@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -25,8 +25,8 @@ export default function CourseDetailPage({ params }: { params: { courseId: strin
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
-      {/* ── Header ──────────────────────────────────────────────────────────── */}
-      <header className="fixed inset-x-0 top-0 z-30 flex flex-col justify-end overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-5 rounded-b-[2.5rem] shadow-sm transition-all" style={{ height: 120 }}>
+      {/* â”€â”€ Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      <header className="fixed inset-x-0 top-0 z-30 flex flex-col justify-end overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-5 rounded-b-[2.5rem] shadow-sm transition-all" style={{ height: 90 }}>
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex items-start gap-3">
           <Link href="/learn/courses" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20">
@@ -36,7 +36,7 @@ export default function CourseDetailPage({ params }: { params: { courseId: strin
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#f59e0b]">
               Skill: {course.skill}
             </span>
-            <h1 className="font-display text-[20px] font-bold text-white leading-tight">
+            <h1 className="font-display text-[22px] font-bold text-white leading-tight">
               {course.title}
             </h1>
           </div>
@@ -52,24 +52,24 @@ export default function CourseDetailPage({ params }: { params: { courseId: strin
         variants={fadeUp}
         className="flex flex-col gap-5 px-4 pt-2"
       >
-        {/* ── Why this matters ────────────────────────────────────────────────── */}
+        {/* â”€â”€ Why this matters â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="flex flex-col rounded-[24px] bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
           <div className="mb-4 inline-flex items-center gap-2 self-start rounded-full bg-[#fff8ee] px-3 py-1.5 border border-[#f59e0b]/20">
             <div className="h-1.5 w-1.5 rounded-full bg-[#f59e0b]" />
-            <span className="text-[11px] font-bold text-[#d97706]">{course.tag}</span>
+            <span className="text-[12.5px] font-bold text-[#d97706]">{course.tag}</span>
           </div>
 
-          <p className="text-[13px] font-medium leading-snug text-[#5e5a5a]">
+          <p className="text-[14.5px] font-medium leading-snug text-[#5e5a5a]">
             {course.reason}
           </p>
 
           <div className="my-4 h-px w-full bg-black/[0.05]" />
 
-          <h2 className="text-[11.5px] font-bold uppercase tracking-wider text-[#201d1d]">
+          <h2 className="text-[13px] font-bold uppercase tracking-wider text-[#201d1d]">
             Why this matters for you
           </h2>
 
-          <div className="mt-3 flex flex-col gap-3 text-[12.5px]">
+          <div className="mt-3 flex flex-col gap-3 text-[14px]">
             <div className="flex items-start justify-between">
               <span className="text-[#7a7373]">Target role</span>
               <span className="font-bold text-[#201d1d] max-w-[60%] text-right">{course.targetRole}</span>
@@ -85,27 +85,27 @@ export default function CourseDetailPage({ params }: { params: { courseId: strin
           </div>
 
           <div className="mt-4 rounded-xl bg-[#faf9f8] p-3.5">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#7a7373]">
+            <span className="text-[12.5px] font-bold uppercase tracking-wider text-[#7a7373]">
               Learning Outcome
             </span>
-            <p className="mt-1 text-[12.5px] font-medium leading-snug text-[#201d1d]">
+            <p className="mt-1 text-[14px] font-medium leading-snug text-[#201d1d]">
               {course.outcome}
             </p>
           </div>
         </div>
 
-        {/* ── Squad Connection ────────────────────────────────────────────────── */}
+        {/* â”€â”€ Squad Connection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         {course.squadConnection && (
           <div className="flex flex-col rounded-[24px] border border-[#6b0000]/15 bg-[#6b0000]/5 p-5">
             <div className="flex items-start justify-between">
               <div className="flex flex-col gap-1">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#6b0000]">
+                <span className="text-[12.5px] font-bold uppercase tracking-wider text-[#6b0000]">
                   You&apos;re learning this with
                 </span>
-                <h3 className="font-display text-[16px] font-bold text-[#201d1d]">
+                <h3 className="font-display text-[17.5px] font-bold text-[#201d1d]">
                   {course.squadConnection.name}
                 </h3>
-                <div className="mt-1 flex items-center gap-1.5 text-[12px] text-[#7a7373]">
+                <div className="mt-1 flex items-center gap-1.5 text-[13.5px] text-[#7a7373]">
                   <Users size={14} /> {course.squadConnection.members} members
                 </div>
               </div>
@@ -119,9 +119,9 @@ export default function CourseDetailPage({ params }: { params: { courseId: strin
           </div>
         )}
 
-        {/* ── Curriculum ──────────────────────────────────────────────────────── */}
+        {/* â”€â”€ Curriculum â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="flex flex-col">
-          <h2 className="mb-4 font-display text-[18px] font-bold text-[#201d1d]">
+          <h2 className="mb-4 font-display text-[19.5px] font-bold text-[#201d1d]">
             Curriculum
           </h2>
 
@@ -151,15 +151,15 @@ export default function CourseDetailPage({ params }: { params: { courseId: strin
                     )}>
                       {isCompleted ? <CheckCircle2 size={20} /> :
                         isLocked ? <Lock size={16} /> :
-                          <span className="text-[13px] font-bold">{i + 1}</span>}
+                          <span className="text-[14.5px] font-bold">{i + 1}</span>}
                     </div>
 
                     <div className="flex flex-col gap-0.5">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#7a7373]">
+                      <span className="text-[12.5px] font-bold uppercase tracking-wider text-[#7a7373]">
                         Module {i + 1}
                       </span>
                       <span className={cn(
-                        "text-[14px] font-bold",
+                        "text-[15.5px] font-bold",
                         (isLocked || isUpcoming) ? "text-[#9c9595]" : "text-[#201d1d]"
                       )}>
                         {module.title}

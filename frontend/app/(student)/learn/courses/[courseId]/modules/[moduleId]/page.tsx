@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -14,7 +14,7 @@ const fadeUp = {
   show: { opacity: 1, y: 0, transition: { duration: 0.3 } },
 };
 
-// Every module shares this generic lesson shape — how far you've gotten
+// Every module shares this generic lesson shape â€” how far you've gotten
 // within it is driven by the module's own status (Completed/Current/Locked/Upcoming).
 const LESSON_TEMPLATE = ["Introduction", "Core Concepts", "Practice Activity", "Quiz"];
 
@@ -51,7 +51,7 @@ export default function ModuleDetailPage({
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
-      <header className="fixed inset-x-0 top-0 z-30 flex flex-col justify-end overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-5 rounded-b-[2.5rem] shadow-sm transition-all" style={{ height: 120 }}>
+      <header className="fixed inset-x-0 top-0 z-30 flex flex-col justify-end overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-5 rounded-b-[2.5rem] shadow-sm transition-all" style={{ height: 90 }}>
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex items-start gap-3">
           <Link
@@ -62,9 +62,9 @@ export default function ModuleDetailPage({
           </Link>
           <div className="flex flex-col">
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#f59e0b]">
-              {course.title} · Module {moduleIndex + 1} of {course.curriculum.length}
+              {course.title} Â· Module {moduleIndex + 1} of {course.curriculum.length}
             </span>
-            <h1 className="font-display text-[20px] font-bold text-white leading-tight">
+            <h1 className="font-display text-[22px] font-bold text-white leading-tight">
               {currentModule.title}
             </h1>
           </div>
@@ -80,13 +80,13 @@ export default function ModuleDetailPage({
         variants={fadeUp}
         className="flex flex-col gap-5 px-4 pt-2"
       >
-        {/* ── Lesson progress ─────────────────────────────────────────────── */}
+        {/* â”€â”€ Lesson progress â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="flex flex-col rounded-[24px] bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
           <div className="mb-2 flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#7a7373]">
+            <span className="text-[12.5px] font-bold uppercase tracking-wider text-[#7a7373]">
               Lesson Progress
             </span>
-            <span className="text-[12.5px] font-bold text-[#6b0000]">
+            <span className="text-[14px] font-bold text-[#6b0000]">
               {doneCount} of {lessons.length} completed
             </span>
           </div>
@@ -98,7 +98,7 @@ export default function ModuleDetailPage({
           </div>
         </div>
 
-        {/* ── Lesson list ──────────────────────────────────────────────────── */}
+        {/* â”€â”€ Lesson list â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="flex flex-col gap-3">
           {lessons.map((lesson) => (
             <div
@@ -119,7 +119,7 @@ export default function ModuleDetailPage({
               )}
               <span
                 className={cn(
-                  "text-[14px] font-bold",
+                  "text-[15.5px] font-bold",
                   lesson.state === "locked" ? "text-[#9c9595]" : "text-[#201d1d]"
                 )}
               >
@@ -129,14 +129,14 @@ export default function ModuleDetailPage({
           ))}
         </div>
 
-        {/* ── Continue button ──────────────────────────────────────────────── */}
+        {/* â”€â”€ Continue button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <Link
           href={
             nextModule
               ? `/learn/courses/${course.id}/modules/${nextModule.id}`
               : `/learn/courses/${course.id}`
           }
-          className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#6b0000] py-3.5 text-[14px] font-bold text-white shadow-sm transition-colors hover:bg-[#4a0000]"
+          className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#6b0000] py-3.5 text-[15.5px] font-bold text-white shadow-sm transition-colors hover:bg-[#4a0000]"
         >
           Continue Learning <ArrowRight size={18} />
         </Link>

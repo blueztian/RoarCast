@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -26,7 +26,7 @@ export default function VerifyCredentialPage({
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-0">
-      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14 rounded-b-[2.5rem]">
+      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-6 pb-14 rounded-b-[2.5rem]">
         <div className="relative z-10 flex items-center gap-3">
           <Link
             href="/credentials"
@@ -35,7 +35,7 @@ export default function VerifyCredentialPage({
           >
             <ArrowLeft size={18} />
           </Link>
-          <h1 className="font-display text-[20px] font-bold leading-tight tracking-tight text-white">
+          <h1 className="font-display text-[22px] font-bold leading-tight tracking-tight text-white">
             Verify Credential
           </h1>
         </div>

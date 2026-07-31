@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -15,7 +15,7 @@ const fadeUpItem = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
 
-// Mocked readiness history — mirrors the 72% score shown on the Profile page.
+// Mocked readiness history â€” mirrors the 72% score shown on the Profile page.
 const readinessHistory = [
   { month: "Jan", score: 48 },
   { month: "Feb", score: 52 },
@@ -61,7 +61,7 @@ export default function AuditHistoryPage() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
-      <header className="fixed inset-x-0 top-0 z-30 flex flex-col justify-end overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-5 rounded-b-[2.5rem] shadow-sm transition-all" style={{ height: 120 }}>
+      <header className="fixed inset-x-0 top-0 z-30 flex flex-col justify-end overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-5 rounded-b-[2.5rem] shadow-sm transition-all" style={{ height: 90 }}>
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex items-center gap-3">
           <Link
@@ -86,7 +86,7 @@ export default function AuditHistoryPage() {
         animate="show"
         className="relative z-10 mx-4 mt-2 flex flex-col gap-4 pb-12"
       >
-        {/* ── Readiness over time chart ─────────────────────────────────── */}
+        {/* â”€â”€ Readiness over time chart â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <motion.section
           variants={fadeUpItem}
           className="flex flex-col rounded-[24px] bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
@@ -124,7 +124,7 @@ export default function AuditHistoryPage() {
           </div>
         </motion.section>
 
-        {/* ── Past assessments ─────────────────────────────────────────── */}
+        {/* â”€â”€ Past assessments â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <motion.section variants={fadeUpItem} className="flex flex-col">
           <div className="mb-3 flex items-center justify-between px-1">
             <h3 className="font-display text-[16px] font-bold text-[#201d1d]">

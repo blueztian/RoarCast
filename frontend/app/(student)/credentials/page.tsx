@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
@@ -34,13 +34,13 @@ export default function CredentialsPage() {
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-0">
       <div className="sticky top-0 z-30">
-        <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-7 rounded-b-[2.5rem]">
+        <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-6 pb-7 rounded-b-[2.5rem]">
           <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
           <div className="relative z-10 flex flex-col gap-1">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <Award size={26} className="text-[#f59e0b]" strokeWidth={2} />
-                <h1 className="font-display text-[24px] font-bold leading-tight tracking-tight text-white">
+                <h1 className="font-display text-[22px] font-bold leading-tight tracking-tight text-white">
                   Credentials
                 </h1>
               </div>
@@ -52,11 +52,8 @@ export default function CredentialsPage() {
                 />
               </button>
             </div>
-            <span className="absolute -top-6 left-[36px] text-[11px] font-bold uppercase tracking-widest text-[#f59e0b]">
-              Your Achievements
-            </span>
-            <p className="mt-1 text-[13.5px] text-white/80 ml-[36px]">
-              Skills you’ve completed and can carry beyond RoarCast.
+            <p className="mt-2 text-[13.5px] text-white/80">
+              Skills youÃ¢â‚¬â„¢ve completed and can carry beyond RoarCast.
             </p>
           </div>
         </header>
@@ -69,7 +66,7 @@ export default function CredentialsPage() {
         animate="show"
         className="relative z-10 mx-4 flex flex-col gap-3 pt-2 pb-0"
       >
-        {/* ── Credentials / Badges tab toggle ──────────────────────────────── */}
+        {/* Ã¢â€â‚¬Ã¢â€â‚¬ Credentials / Badges tab toggle Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */}
         <motion.div
           variants={fadeUpItem}
           className="flex rounded-full bg-white p-1 shadow-sm border border-black/[0.05]"
@@ -79,7 +76,7 @@ export default function CredentialsPage() {
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={cn(
-                "flex-1 rounded-full py-2 text-[13.5px] font-bold capitalize transition-colors",
+                "flex-1 rounded-full py-2 text-[15px] font-bold capitalize transition-colors",
                 activeTab === tab ? "bg-[#6b0000] text-white" : "text-[#7a7373] hover:bg-[#faf9f8]"
               )}
             >
@@ -96,7 +93,7 @@ export default function CredentialsPage() {
             ))}
             <motion.button
               variants={fadeUpItem}
-              className="flex w-full items-center justify-center gap-1.5 rounded-full border border-black/[0.08] bg-white py-2.5 text-[13.5px] font-bold text-[#201d1d] shadow-sm hover:bg-[#faf9f8]"
+              className="flex w-full items-center justify-center gap-1.5 rounded-full border border-black/[0.08] bg-white py-2.5 text-[15px] font-bold text-[#201d1d] shadow-sm hover:bg-[#faf9f8]"
             >
               View all credentials <ArrowRight size={14} />
             </motion.button>
@@ -121,10 +118,10 @@ export default function CredentialsPage() {
                 >
                   <Award size={24} className={badge.earned ? "text-white" : "text-[#9c9595]"} />
                 </div>
-                <span className="mt-2.5 text-[14.5px] font-bold leading-tight text-[#201d1d]">
+                <span className="mt-2.5 text-[16px] font-bold leading-tight text-[#201d1d]">
                   {badge.title}
                 </span>
-                <span className="mt-1 text-[12.5px] text-[#7a7373]">
+                <span className="mt-1 text-[14px] text-[#7a7373]">
                   {badge.earned ? `Earned ${badge.earnedDate}` : "Not yet earned"}
                 </span>
               </div>
@@ -132,16 +129,16 @@ export default function CredentialsPage() {
           </motion.div>
         )}
 
-        {/* ── Optional In Progress Area ──────────────────────────────────── */}
+        {/* Ã¢â€â‚¬Ã¢â€â‚¬ Optional In Progress Area Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */}
         <motion.div variants={fadeUpItem} className="mt-2 flex flex-col gap-2 px-1">
-          <h2 className="font-display text-[17px] font-bold text-[#201d1d]">
+          <h2 className="font-display text-[18.5px] font-bold text-[#201d1d]">
             Next credential
           </h2>
           <div className="flex flex-col rounded-[20px] border border-[#f59e0b]/20 bg-[#fff8ee] p-4 shadow-sm">
-            <h3 className="font-display text-[16px] font-bold text-[#201d1d]">
+            <h3 className="font-display text-[17.5px] font-bold text-[#201d1d]">
               SAP ERP Advanced Operations
             </h3>
-            <div className="mt-2 flex items-center justify-between text-[12px] font-medium text-[#7a7373]">
+            <div className="mt-2 flex items-center justify-between text-[13.5px] font-medium text-[#7a7373]">
               <span>62% complete</span>
               <Link href="/learn" className="flex items-center gap-1 font-bold text-[#d97706] hover:underline">
                 Continue learning <ArrowRight size={12} />
@@ -166,16 +163,16 @@ function CredentialCard({ cred }: { cred: any }) {
       >
         <div className="flex items-start justify-between">
           <div className="flex flex-col">
-            <h3 className="font-display text-[16.5px] font-bold leading-tight text-[#201d1d] pr-2">
+            <h3 className="font-display text-[18px] font-bold leading-tight text-[#201d1d] pr-2">
               {cred.title}
             </h3>
-            <p className="mt-0.5 text-[12px] text-[#7a7373]">
+            <p className="mt-0.5 text-[13.5px] text-[#7a7373]">
               Issued: {cred.issued}
             </p>
           </div>
           <div className="flex shrink-0 items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 text-emerald-700 border border-emerald-100">
             <CheckCircle2 size={12} strokeWidth={2.5} />
-            <span className="text-[9.5px] font-bold uppercase tracking-wider">
+            <span className="text-[11px] font-bold uppercase tracking-wider">
               Verified
             </span>
           </div>
@@ -184,7 +181,7 @@ function CredentialCard({ cred }: { cred: any }) {
         <div className="mt-2.5 flex items-end justify-between gap-2">
           <div className="flex flex-1 flex-wrap gap-1.5">
             {cred.competencies.map((comp: string) => (
-              <span key={comp} className="rounded-md bg-[#faf9f8] border border-black/[0.04] px-2 py-1 text-[11.5px] font-medium text-[#201d1d]">
+              <span key={comp} className="rounded-md bg-[#faf9f8] border border-black/[0.04] px-2 py-1 text-[13px] font-medium text-[#201d1d]">
                 {comp}
               </span>
             ))}

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -16,7 +16,7 @@ const fadeUpItem = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
 
-// Mocked for now — mirrors the credentials + skills data shown elsewhere in the app.
+// Mocked for now â€” mirrors the credentials + skills data shown elsewhere in the app.
 const portfolioData = {
   readinessScore: 72,
   skillsCount: 12,
@@ -47,8 +47,8 @@ export default function PortfolioPage() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-0">
-      {/* ── Hero Section ─────────────────────────────────────────────────── */}
-      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14 rounded-b-[2.5rem]">
+      {/* â”€â”€ Hero Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-6 pb-14 rounded-b-[2.5rem]">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex items-center justify-between">
           <Link
@@ -58,7 +58,7 @@ export default function PortfolioPage() {
           >
             <ArrowLeft size={18} />
           </Link>
-          <h1 className="font-display text-[20px] font-bold leading-tight tracking-tight text-white">
+          <h1 className="font-display text-[22px] font-bold leading-tight tracking-tight text-white">
             My Portfolio
           </h1>
           <button
@@ -76,7 +76,7 @@ export default function PortfolioPage() {
         animate="show"
         className="relative z-10 mx-4 -mt-8 flex flex-col gap-4 pb-4"
       >
-        {/* ── Profile Card ──────────────────────────────────────────────── */}
+        {/* â”€â”€ Profile Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <motion.section
           variants={fadeUpItem}
           className="flex flex-col items-center rounded-[24px] bg-white p-6 text-center shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
@@ -88,11 +88,11 @@ export default function PortfolioPage() {
             {mockStudent.name}
           </h2>
           <p className="mt-0.5 text-[12.5px] text-[#7a7373]">
-            {mockStudent.program} · {mockStudent.location}
+            {mockStudent.program} Â· {mockStudent.location}
           </p>
         </motion.section>
 
-        {/* ── Stats Row ─────────────────────────────────────────────────── */}
+        {/* â”€â”€ Stats Row â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <motion.section
           variants={fadeUpItem}
           className="grid grid-cols-3 gap-3"
@@ -116,7 +116,7 @@ export default function PortfolioPage() {
           ))}
         </motion.section>
 
-        {/* ── About Me ──────────────────────────────────────────────────── */}
+        {/* â”€â”€ About Me â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <motion.section
           variants={fadeUpItem}
           className="flex flex-col rounded-[24px] border border-black/[0.05] bg-white p-5 shadow-sm"
@@ -129,7 +129,7 @@ export default function PortfolioPage() {
           </p>
         </motion.section>
 
-        {/* ── Top Skills ────────────────────────────────────────────────── */}
+        {/* â”€â”€ Top Skills â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <motion.section
           variants={fadeUpItem}
           className="flex flex-col rounded-[24px] border border-black/[0.05] bg-white p-5 shadow-sm"
@@ -152,7 +152,7 @@ export default function PortfolioPage() {
           </div>
         </motion.section>
 
-        {/* ── Verified Credentials Summary ─────────────────────────────── */}
+        {/* â”€â”€ Verified Credentials Summary â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <motion.section
           variants={fadeUpItem}
           className="flex items-center justify-between rounded-[24px] border border-[#f59e0b]/20 bg-[#fff8ee] p-4"
@@ -171,7 +171,7 @@ export default function PortfolioPage() {
           </Link>
         </motion.section>
 
-        {/* ── Share CTA ─────────────────────────────────────────────────── */}
+        {/* â”€â”€ Share CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <motion.button
           variants={fadeUpItem}
           className="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-[#6b0000] py-3.5 text-[14px] font-bold text-white shadow-sm transition-colors hover:bg-[#4a0000]"

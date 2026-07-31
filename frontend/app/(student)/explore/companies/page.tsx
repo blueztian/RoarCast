@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -58,19 +58,24 @@ export default function CompaniesPage() {
   return (
     <div className="flex flex-1 flex-col h-full bg-[#f5f3f0] font-sans overflow-hidden relative">
       {/* -- Header ------------------------------------------------------------ */}
-      <header className="shrink-0 relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14">
+      <header className="shrink-0 relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-6 pb-14">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
-        <div className="relative z-10 flex items-center gap-3">
-          <Link
-            href="/explore"
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
-            aria-label="Back to Explore"
-          >
-            <ArrowLeft size={16} />
-          </Link>
-          <h1 className="font-display text-[16.5px] font-bold leading-tight tracking-tight text-white">
-            Hiring Companies
-          </h1>
+        <div className="relative z-10 flex flex-col">
+          <div className="flex items-center gap-3">
+            <Link
+              href="/explore"
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+              aria-label="Back to Explore"
+            >
+              <ArrowLeft size={16} />
+            </Link>
+            <h1 className="font-display text-[22px] font-bold leading-tight tracking-tight text-white">
+              Hiring Companies
+            </h1>
+          </div>
+          <p className="text-[13px] text-white/80 ml-[44px]">
+            Top companies recruiting for your skills.
+          </p>
         </div>
       </header>
 
@@ -88,7 +93,7 @@ export default function CompaniesPage() {
           <button
             onClick={() => setActiveTab("companies")}
             className={cn(
-              "flex-1 rounded-full py-2 text-[12.5px] font-bold transition-colors",
+              "flex-1 rounded-full py-2 text-[14px] font-bold transition-colors",
               activeTab === "companies" ? "bg-[#6b0000] text-white" : "text-[#7a7373] hover:bg-white"
             )}
           >
@@ -97,7 +102,7 @@ export default function CompaniesPage() {
           <button
             onClick={() => setActiveTab("peza")}
             className={cn(
-              "flex-1 rounded-full py-2 text-[12.5px] font-bold transition-colors",
+              "flex-1 rounded-full py-2 text-[14px] font-bold transition-colors",
               activeTab === "peza" ? "bg-[#6b0000] text-white" : "text-[#7a7373] hover:bg-white"
             )}
           >
@@ -115,14 +120,14 @@ export default function CompaniesPage() {
                 >
                   <CompanyLogo domain={company.domain} name={company.name} />
                   <div className="flex flex-1 flex-col">
-                    <span className="text-[13.5px] font-bold leading-tight text-[#201d1d]">
+                    <span className="text-[15px] font-bold leading-tight text-[#201d1d]">
                       {company.name}
                     </span>
-                    <span className="mt-0.5 text-[11.5px] text-[#7a7373]">
-                      {company.industry} · {company.zone}
+                    <span className="mt-0.5 text-[13px] text-[#7a7373]">
+                      {company.industry} Ã‚Â· {company.zone}
                     </span>
                   </div>
-                  <span className="shrink-0 rounded-full bg-[#fff8ee] px-2.5 py-1 text-[11px] font-bold text-[#d97706]">
+                  <span className="shrink-0 rounded-full bg-[#fff8ee] px-2.5 py-1 text-[12.5px] font-bold text-[#d97706]">
                     {company.openings} openings
                   </span>
                 </div>
@@ -130,7 +135,7 @@ export default function CompaniesPage() {
             </motion.div>
             <motion.button
               variants={fadeUpItem}
-              className="flex w-full items-center justify-center gap-1.5 rounded-full border border-black/[0.08] bg-white py-2.5 text-[12.5px] font-bold text-[#201d1d] shadow-sm hover:bg-[#faf9f8]"
+              className="flex w-full items-center justify-center gap-1.5 rounded-full border border-black/[0.08] bg-white py-2.5 text-[14px] font-bold text-[#201d1d] shadow-sm hover:bg-[#faf9f8]"
             >
               View all companies <ChevronRight size={14} />
             </motion.button>
@@ -146,14 +151,14 @@ export default function CompaniesPage() {
                   <Factory size={18} className="text-[#f59e0b]" strokeWidth={1.75} />
                 </div>
                 <div className="flex flex-1 flex-col">
-                  <span className="text-[13.5px] font-bold leading-tight text-[#201d1d]">
+                  <span className="text-[15px] font-bold leading-tight text-[#201d1d]">
                     {zone.name}
                   </span>
-                  <span className="mt-0.5 text-[11.5px] text-[#7a7373]">
+                  <span className="mt-0.5 text-[13px] text-[#7a7373]">
                     {zone.industries}
                   </span>
                 </div>
-                <span className="shrink-0 text-[11px] font-bold text-[#7a7373]">
+                <span className="shrink-0 text-[12.5px] font-bold text-[#7a7373]">
                   {zone.employers} employers
                 </span>
               </div>
