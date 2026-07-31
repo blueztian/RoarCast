@@ -25,7 +25,7 @@ export default function VerifyCredentialPage({
   if (!cred) return notFound();
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
+    <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-0">
       <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14 rounded-b-[2.5rem]">
         <div className="relative z-10 flex items-center gap-3">
           <Link
@@ -45,7 +45,7 @@ export default function VerifyCredentialPage({
         initial="hidden"
         animate="show"
         variants={fadeUp}
-        className="relative z-10 mx-4 -mt-8 flex flex-col gap-4 pb-12"
+        className="relative z-10 mx-4 -mt-8 flex flex-col gap-4 pb-0"
       >
         <div className="flex flex-col items-center rounded-[28px] bg-white p-6 text-center shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
           <span className="text-[10.5px] font-bold uppercase tracking-widest text-[#7a7373]">

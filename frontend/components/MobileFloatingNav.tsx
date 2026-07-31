@@ -35,17 +35,22 @@ const NAV_ITEMS = [
     label: "Profile",
     href: "/profile",
     icon: UserCircle,
-    activeRoutes: ["/profile", "/help"],
+    activeRoutes: ["/profile", "/help", "/credentials/portfolio"],
   },
 ];
 
 export default function MobileFloatingNav() {
   const pathname = usePathname();
 
-  const isActive = (item: (typeof NAV_ITEMS)[0]) =>
-    item.activeRoutes.some(
+  const isActive = (item: (typeof NAV_ITEMS)[0]) => {
+    if (item.label === "Credentials" && pathname.startsWith("/credentials/portfolio")) {
+      return false;
+    }
+
+    return item.activeRoutes.some(
       (route) => pathname === route || pathname.startsWith(route + "/")
     );
+  };
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-50 md:hidden">

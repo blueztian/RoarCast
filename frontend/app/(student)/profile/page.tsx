@@ -37,7 +37,7 @@ export default function ProfileReadinessPage() {
   if (!mounted) return null;
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
+    <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-0">
       {/* ── 1. Hero Section ─────────────────────────────────────────────────── */}
       <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14 rounded-b-[2.5rem]">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
@@ -68,7 +68,7 @@ export default function ProfileReadinessPage() {
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="relative z-10 mx-4 -mt-8 flex flex-col gap-4 pb-12"
+        className="relative z-10 mx-4 -mt-8 flex flex-col gap-4 pb-0"
       >
         {/* ── 1.5 Goals / Profile Identity Card ────────────────────────────── */}
         <motion.section
@@ -76,14 +76,14 @@ export default function ProfileReadinessPage() {
           className="flex flex-col rounded-[24px] bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
         >
           <div className="flex items-center gap-3">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#f59e0b] to-[#d97706] text-[15px] font-bold text-white">
+            <div className="h-14 w-14 shrink-0 rounded-full bg-gradient-to-br from-[#f59e0b] to-[#d97706] flex items-center justify-center text-[18px] font-bold text-white shadow-sm">
               {getInitials(mockStudent.name)}
             </div>
             <div className="flex flex-col">
-              <span className="font-display text-[16.5px] font-bold text-[#201d1d]">
+              <span className="font-display text-[17px] font-bold text-[#201d1d]">
                 {mockStudent.name}
               </span>
-              <span className="text-[11.5px] text-[#7a7373]">
+              <span className="text-[12.5px] text-[#7a7373]">
                 Graduate Student, {mockStudent.location}
               </span>
             </div>
@@ -91,14 +91,14 @@ export default function ProfileReadinessPage() {
 
           <div className="my-4 h-px w-full bg-black/[0.05]" />
 
-          <span className="text-[11px] font-bold uppercase tracking-widest text-[#7a7373]">
+          <span className="text-[12px] font-bold uppercase tracking-widest text-[#7a7373]">
             My Goal
           </span>
-          <p className="mt-1.5 text-[13.5px] font-medium leading-snug text-[#201d1d]">
+          <p className="mt-1.5 text-[14.5px] font-medium leading-snug text-[#201d1d]">
             Land a {mockStudent.careerInterest} role within 6 months.
           </p>
 
-          <div className="mt-3 flex items-center justify-between text-[11px] font-bold text-[#7a7373]">
+          <div className="mt-3 flex items-center justify-between text-[12px] font-bold text-[#7a7373]">
             <span>Progress</span>
             <span className="text-[#6b0000]">68%</span>
           </div>
@@ -109,9 +109,15 @@ export default function ProfileReadinessPage() {
             />
           </div>
 
-          <button className="mt-4 flex w-full items-center justify-center gap-2 rounded-full border border-black/[0.08] bg-white py-2.5 text-[12.5px] font-bold text-[#201d1d] shadow-sm transition-colors hover:bg-[#faf9f8]">
+          <button className="mt-4 flex w-full items-center justify-center gap-2 rounded-full border border-black/[0.08] bg-white py-2.5 text-[13.5px] font-bold text-[#201d1d] shadow-sm transition-colors hover:bg-[#faf9f8]">
             Update goal
           </button>
+          <Link
+            href="/credentials/portfolio"
+            className="mt-3 flex w-full items-center justify-center rounded-full border border-black/[0.08] bg-white py-2.5 text-[13.5px] font-bold text-[#201d1d] shadow-sm transition-colors hover:bg-[#faf9f8]"
+          >
+            My Portfolio
+          </Link>
         </motion.section>
 
         {/* ── 2. Main Readiness Card ────────────────────────────────────────── */}
@@ -122,10 +128,10 @@ export default function ProfileReadinessPage() {
           <span className="text-[11px] font-bold uppercase tracking-widest text-[#7a7373]">
             Target Role
           </span>
-          <h2 className="mt-1.5 font-display text-[16px] font-bold text-[#201d1d]">
+          <h2 className="mt-1.5 font-display text-[17px] font-bold text-[#201d1d]">
             Junior Accounting Operations Associate
           </h2>
-          <p className="mt-1 text-[11.5px] text-[#7a7373]">
+          <p className="mt-1 text-[12.5px] text-[#7a7373]">
             Compared against current Santa Rosa industry demand
           </p>
 
@@ -171,7 +177,7 @@ export default function ProfileReadinessPage() {
             </div>
           </div>
 
-          <p className="mt-4 text-[13px] font-medium leading-snug text-[#5e5a5a]">
+          <p className="mt-4 text-[14px] font-medium leading-snug text-[#5e5a5a]">
             You already match most foundational requirements.
           </p>
         </motion.section>
@@ -180,7 +186,7 @@ export default function ProfileReadinessPage() {
         <motion.section variants={fadeUpItem} className="flex flex-col gap-4">
           {/* You Already Have */}
           <div className="flex flex-col rounded-[24px] border border-black/[0.05] bg-white p-5 shadow-sm">
-            <h3 className="text-[11px] font-bold uppercase tracking-widest text-[#7a7373] mb-4">
+            <h3 className="text-[12px] font-bold uppercase tracking-widest text-[#7a7373] mb-4">
               You Already Have
             </h3>
             <div className="flex flex-col gap-3">
@@ -192,7 +198,7 @@ export default function ProfileReadinessPage() {
               ].map((skill) => (
                 <div key={skill} className="flex items-center gap-3">
                   <CheckCircle2 size={16} className="text-[#9c9595]" />
-                  <span className="text-[13.5px] font-medium text-[#201d1d]">
+                  <span className="text-[14.5px] font-medium text-[#201d1d]">
                     {skill}
                   </span>
                 </div>
@@ -202,21 +208,21 @@ export default function ProfileReadinessPage() {
 
           {/* Your Priority Gaps */}
           <div className="flex flex-col rounded-[24px] border border-[#f59e0b]/20 bg-[#fff8ee] p-5 shadow-sm">
-            <h3 className="text-[11px] font-bold uppercase tracking-widest text-[#d97706] mb-4">
+            <h3 className="text-[12px] font-bold uppercase tracking-widest text-[#d97706] mb-4">
               Your Priority Gaps
             </h3>
 
             {/* Primary Gap */}
             <div className="flex flex-col rounded-xl bg-white p-4 shadow-sm border border-[#f59e0b]/30">
               <div className="flex items-start justify-between">
-                <span className="font-display text-[16px] font-bold text-[#201d1d]">
+                <span className="font-display text-[17px] font-bold text-[#201d1d]">
                   SAP ERP
                 </span>
-                <span className="rounded-full bg-[#6b0000] px-2.5 py-1 text-[10px] font-bold tracking-wider text-white uppercase">
+                <span className="rounded-full bg-[#6b0000] px-2.5 py-1 text-[11px] font-bold tracking-wider text-white uppercase">
                   High Priority
                 </span>
               </div>
-              <p className="mt-1.5 text-[11.5px] text-[#7a7373] leading-snug">
+              <p className="mt-1.5 text-[12.5px] text-[#7a7373] leading-snug">
                 Appears frequently in relevant role requirements
               </p>
             </div>
@@ -229,10 +235,10 @@ export default function ProfileReadinessPage() {
                     key={skill}
                     className="flex items-center justify-between border-b border-black/[0.05] pb-2 last:border-0 last:pb-0"
                   >
-                    <span className="text-[13.5px] font-medium text-[#201d1d]">
+                    <span className="text-[14.5px] font-medium text-[#201d1d]">
                       {skill}
                     </span>
-                    <span className="text-[10px] font-bold text-[#7a7373] uppercase tracking-wider">
+                    <span className="text-[11px] font-bold text-[#7a7373] uppercase tracking-wider">
                       Gap
                     </span>
                   </div>
