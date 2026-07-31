@@ -26,9 +26,9 @@ export default function CourseDetailPage({ params }: { params: { courseId: strin
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
       {/* ── Header ──────────────────────────────────────────────────────────── */}
-      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] rounded-b-[2.5rem]">
+      <header className="fixed inset-x-0 top-0 z-30 flex flex-col justify-end overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-5 rounded-b-[2.5rem] shadow-sm transition-all" style={{ height: 120 }}>
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
-        <div className="relative z-10 flex items-start gap-3 px-5 pt-12 pb-8">
+        <div className="relative z-10 flex items-start gap-3">
           <Link href="/learn/courses" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20">
             <ChevronLeft size={20} />
           </Link>
@@ -43,11 +43,14 @@ export default function CourseDetailPage({ params }: { params: { courseId: strin
         </div>
       </header>
 
+      {/* Spacer for fixed header */}
+      <div className="h-[120px] shrink-0" aria-hidden="true" />
+
       <motion.div
         initial="hidden"
         animate="show"
         variants={fadeUp}
-        className="flex flex-col gap-5 px-4 pt-5"
+        className="flex flex-col gap-5 px-4 pt-2"
       >
         {/* ── Why this matters ────────────────────────────────────────────────── */}
         <div className="flex flex-col rounded-[24px] bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
@@ -65,7 +68,7 @@ export default function CourseDetailPage({ params }: { params: { courseId: strin
           <h2 className="text-[11.5px] font-bold uppercase tracking-wider text-[#201d1d]">
             Why this matters for you
           </h2>
-          
+
           <div className="mt-3 flex flex-col gap-3 text-[12.5px]">
             <div className="flex items-start justify-between">
               <span className="text-[#7a7373]">Target role</span>
@@ -121,14 +124,14 @@ export default function CourseDetailPage({ params }: { params: { courseId: strin
           <h2 className="mb-4 font-display text-[18px] font-bold text-[#201d1d]">
             Curriculum
           </h2>
-          
+
           <div className="flex flex-col gap-3">
             {course.curriculum?.map((module, i) => {
               const isCompleted = module.status === "Completed";
               const isCurrent = module.status === "Current";
               const isLocked = module.status === "Locked";
               const isUpcoming = module.status === "Upcoming";
-              
+
               return (
                 <Link
                   href={`/learn/courses/${course.id}/modules/${module.id}`}
@@ -143,14 +146,14 @@ export default function CourseDetailPage({ params }: { params: { courseId: strin
                     <div className={cn(
                       "flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-[2px]",
                       isCompleted ? "border-emerald-500 bg-emerald-50 text-emerald-500" :
-                      isCurrent ? "border-[#f59e0b] bg-[#f59e0b] text-white" :
-                      "border-[#e0dcd5] bg-[#faf9f8] text-[#9c9595]"
+                        isCurrent ? "border-[#f59e0b] bg-[#f59e0b] text-white" :
+                          "border-[#e0dcd5] bg-[#faf9f8] text-[#9c9595]"
                     )}>
                       {isCompleted ? <CheckCircle2 size={20} /> :
-                       isLocked ? <Lock size={16} /> :
-                       <span className="text-[13px] font-bold">{i + 1}</span>}
+                        isLocked ? <Lock size={16} /> :
+                          <span className="text-[13px] font-bold">{i + 1}</span>}
                     </div>
-                    
+
                     <div className="flex flex-col gap-0.5">
                       <span className="text-[11px] font-bold uppercase tracking-wider text-[#7a7373]">
                         Module {i + 1}

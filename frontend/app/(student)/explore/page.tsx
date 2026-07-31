@@ -74,13 +74,7 @@ export default function ExploreHubPage() {
           scroll position. Its own visual style is untouched — the shadow
           still eases in on scroll exactly as before. The spacer below keeps
           the header's place in flow so content isn't hidden underneath it. */}
-      <header
-        className={cn(
-          "fixed inset-x-0 top-0 z-0 overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-7 transition-shadow duration-200",
-          scrolled ? "shadow-[0_2px_16px_rgba(0,0,0,0.15)]" : "shadow-none"
-        )}
-        style={{ height: HEADER_H }}
-      >
+      <header className="fixed inset-x-0 top-0 z-30 flex flex-col justify-end overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-5 rounded-b-[2.5rem] shadow-sm transition-all" style={{ height: 120 }}>
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -100,19 +94,14 @@ export default function ExploreHubPage() {
       </header>
 
       {/* Spacer keeps the header's place in flow now that it's always fixed. */}
-      <div style={{ height: HEADER_H }} aria-hidden="true" />
+      <div className="h-[120px] shrink-0" aria-hidden="true" />
 
       {/* -- Content sheet ------------------------------------------------------ */}
       <motion.div
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="relative z-10 flex flex-1 flex-col bg-white px-4 pb-12 pt-6 shadow-[0_-4px_24px_rgba(0,0,0,0.05)] transition-[margin-top,border-radius] duration-200"
-        style={{
-          marginTop: scrolled ? 0 : -OVERLAP,
-          borderTopLeftRadius: scrolled ? 0 : 32,
-          borderTopRightRadius: scrolled ? 0 : 32,
-        }}
+        className="relative z-10 flex flex-1 flex-col bg-white px-4 pb-12 pt-6 shadow-[0_-4px_24px_rgba(0,0,0,0.05)] mt-2 rounded-[24px]"
       >
         <motion.h2
           variants={fadeUpItem}

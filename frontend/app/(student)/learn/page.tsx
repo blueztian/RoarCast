@@ -51,7 +51,7 @@ export default function LearnHubPage() {
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
       {/* ── Red Header (Matches Explore) ──────────────────────────────────────── */}
-      <header className="relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-12 pb-14 rounded-b-[2.5rem]">
+      <header className="fixed inset-x-0 top-0 z-30 flex flex-col justify-end overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-5 rounded-b-[2.5rem] shadow-sm transition-all" style={{ height: 120 }}>
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex flex-col gap-1">
           <div className="flex items-center justify-between">
@@ -75,11 +75,14 @@ export default function LearnHubPage() {
         </div>
       </header>
 
+      {/* Spacer for fixed header */}
+      <div className="h-[120px] shrink-0" aria-hidden="true" />
+
       <motion.div
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="relative z-10 mx-4 -mt-8 flex flex-col gap-4 pb-32"
+        className="relative z-10 mx-4 mt-2 flex flex-col gap-4 pb-32"
       >
         {/* ── 1. Your Upskilling Roadmap ──────────────────────────────────────── */}
         <motion.section variants={fadeUpItem} className="flex flex-col rounded-[24px] bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.05)]">
