@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
 import SignalBackground from "@/components/SignalBackground";
 import ReadinessRing from "@/components/ReadinessRing";
 
-// â”€â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Types ────────────────────────────────────────────────────────────────────
 type Stage = "landing" | "audit" | "signup" | "loading" | "snapshot";
 
 interface AuditData {
@@ -47,7 +47,7 @@ interface Question {
   choices?: { value: string; label: string }[];
 }
 
-// â”€â”€â”€ Static Data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Static Data ──────────────────────────────────────────────────────────────
 const EDUCATION_LEVELS = [
   { id: "shs", label: "Senior High School student" },
   { id: "college", label: "College student" },
@@ -107,7 +107,7 @@ const RATING_LABELS = [
   "Highly confident"
 ];
 
-// â”€â”€â”€ Question generation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Question generation ──────────────────────────────────────────────────────
 function getQuestions(degree: string, careerPath: string): Question[] {
   const isAccounting = /Accounting|Accountancy|Finance/.test(degree);
   const isIT = /Computer Science|Information Technology/.test(degree);
@@ -119,7 +119,7 @@ function getQuestions(degree: string, careerPath: string): Question[] {
 
   const qs: Question[] = [];
 
-  // â”€â”€ Technical Q1 (context-aware) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Technical Q1 (context-aware) ──────────────────────────────────────────
   if (isAccountingPath || isAccounting) {
     qs.push({
       id: "t1", category: "technical", key: "industryTools",
@@ -150,7 +150,7 @@ function getQuestions(degree: string, careerPath: string): Question[] {
     });
   }
 
-  // â”€â”€ Technical Q2 (data/spreadsheets) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Technical Q2 (data/spreadsheets) ──────────────────────────────────────
   if (isDataPath || isAccounting || isIT) {
     qs.push({
       id: "t2", category: "technical", key: "dataSkills",
@@ -167,7 +167,7 @@ function getQuestions(degree: string, careerPath: string): Question[] {
     });
   }
 
-  // â”€â”€ Workplace â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Workplace ──────────────────────────────────────────────────────────────
   qs.push({
     id: "w1", category: "workplace", key: "teamwork",
     text: "How confident are you working in a professional team?",
@@ -182,7 +182,7 @@ function getQuestions(degree: string, careerPath: string): Question[] {
     type: "rating",
   });
 
-  // â”€â”€ Digital readiness â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Digital readiness ──────────────────────────────────────────────────────
   qs.push({
     id: "d1", category: "digital", key: "digitalComfort",
     text: "How comfortable are you with digital work tools?",
@@ -196,7 +196,7 @@ function getQuestions(degree: string, careerPath: string): Question[] {
     ],
   });
 
-  // â”€â”€ Exposure â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Exposure ───────────────────────────────────────────────────────────────
   qs.push({
     id: "e1", category: "exposure", key: "hasInternship",
     text: "Have you completed any internship or on-the-job training?",
@@ -213,7 +213,7 @@ function getQuestions(degree: string, careerPath: string): Question[] {
   return qs;
 }
 
-// â”€â”€â”€ Score engine â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Score engine ─────────────────────────────────────────────────────────────
 function computeReadiness(data: AuditData, questions: Question[]): ReadinessResult {
   let score = 38;
 
@@ -281,7 +281,7 @@ function computeReadiness(data: AuditData, questions: Question[]): ReadinessResu
   };
 }
 
-// â”€â”€â”€ Animation variants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Animation variants ───────────────────────────────────────────────────────
 const slideIn = {
   hidden: { opacity: 0, x: 40 },
   show: { opacity: 1, x: 0, transition: { duration: 0.35, ease: "easeOut" } },
@@ -298,7 +298,7 @@ const fadeUp = {
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
 };
 
-// â”€â”€â”€ Root page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Root page ────────────────────────────────────────────────────────────────
 export default function LandingPage() {
   const [mounted, setMounted] = useState(false);
   const [stage, setStage] = useState<Stage>("landing");
@@ -352,7 +352,7 @@ export default function LandingPage() {
   };
 
   return (
-    // Centered mobile shell â€” mirrors the student app wrapper
+    // Centered mobile shell — mirrors the student app wrapper
     <div className="flex min-h-[100dvh] justify-center bg-[#201d1d]">
       <div className="relative flex h-[100dvh] w-full max-w-[430px] flex-col overflow-hidden bg-[#f5f3f0]">
         <AnimatePresence mode="wait">
@@ -406,13 +406,13 @@ export default function LandingPage() {
   );
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// STAGE 1 â€” Landing Screen
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ──────────────────────────────────────────────────
+// STAGE 1 — Landing Screen
+// ──────────────────────────────────────────────────
 function LandingScreen({ onStart }: { onStart: () => void }) {
   return (
     <div className="flex h-full flex-col">
-      {/* Dark maroon hero â€” same gradient as student pages */}
+      {/* Dark maroon hero — same gradient as student pages */}
       <div className="relative flex flex-[1.2] flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-6 pb-14">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
 
@@ -422,7 +422,7 @@ function LandingScreen({ onStart }: { onStart: () => void }) {
           initial="hidden"
           animate="show"
         >
-          {/* Logo â€” breathing pulse */}
+          {/* Logo — breathing pulse */}
           <motion.div
             variants={fadeUp}
             animate={{ scale: [1, 1.05, 1], opacity: [0.88, 1, 0.88] }}
@@ -454,7 +454,7 @@ function LandingScreen({ onStart }: { onStart: () => void }) {
             {["Industry Demand", "Skill Gap", "Upskilling"].map((label, i) => (
               <span key={label} className="flex items-center gap-1.5">
                 <span className="text-[11px] font-bold text-white/60">{label}</span>
-                {i < 2 && <span className="text-white/30">â†’</span>}
+                {i < 2 && <span className="text-white/30">→</span>}
               </span>
             ))}
           </motion.div>
@@ -491,9 +491,9 @@ function LandingScreen({ onStart }: { onStart: () => void }) {
   );
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// STAGE 2 â€” Audit Flow container
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ──────────────────────────────────────────────────
+// STAGE 2 — Audit Flow container
+// ──────────────────────────────────────────────────
 function AuditFlow({
   step, totalSteps, data, questions, setField, setAnswer, onNext, onBack,
 }: {
@@ -596,7 +596,7 @@ function AuditFlow({
   );
 }
 
-// â”€â”€â”€ Education Step â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Education Step ───────────────────────────────────────────────────────────
 function EducationStep({ selected, onSelect }: { selected: string; onSelect: (v: string) => void }) {
   const [localSelected, setLocalSelected] = useState(selected);
   
@@ -639,7 +639,7 @@ function EducationStep({ selected, onSelect }: { selected: string; onSelect: (v:
   );
 }
 
-// â”€â”€â”€ Degree Step â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Degree Step ──────────────────────────────────────────────────────────────
 function DegreeStep({ selected, onSelect }: {
   selected: string;
   onSelect: (v: string) => void;
@@ -711,7 +711,7 @@ function DegreeStep({ selected, onSelect }: {
   );
 }
 
-// â”€â”€â”€ Career Path Step â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Career Path Step ─────────────────────────────────────────────────────────
 function CareerStep({ selected, onSelect }: {
   selected: string;
   onSelect: (v: string) => void;
@@ -757,7 +757,7 @@ function CareerStep({ selected, onSelect }: {
   );
 }
 
-// â”€â”€â”€ Question Step â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Question Step ────────────────────────────────────────────────────────────
 function QuestionStep({
   question, currentAnswer, onAnswer,
 }: {
@@ -795,7 +795,7 @@ function QuestionStep({
       </div>
 
       <div className="flex flex-1 flex-col gap-4">
-        {/* â”€â”€ Rating 1â€“5 Vertical Cards â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Rating 1–5 Vertical Cards ──────────────────────────────────── */}
         {question.type === "rating" && (
           <div className="flex flex-col gap-2.5">
             {[1, 2, 3, 4, 5].map((v, i) => (
@@ -828,7 +828,7 @@ function QuestionStep({
           </div>
         )}
 
-        {/* â”€â”€ 4-choice â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── 4-choice ────────────────────────────────────────────────────── */}
         {question.type === "choice" && (
           <div className="flex flex-col gap-2.5">
             {question.choices!.map(({ value, label }) => (
@@ -855,7 +855,7 @@ function QuestionStep({
           </div>
         )}
 
-        {/* â”€â”€ Yes / No â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Yes / No ────────────────────────────────────────────────────── */}
         {question.type === "yesno" && (
           <div className="flex flex-col gap-3">
             {[
@@ -889,12 +889,12 @@ function QuestionStep({
   );
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// STAGE 3 â€” Signup Screen
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ──────────────────────────────────────────────────
+// STAGE 3 — Signup Screen
+// ──────────────────────────────────────────────────
 function SignupScreen({ onBack, onSubmit }: { onBack: () => void; onSubmit: () => void }) {
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
-  const valid = form.name.trim().length > 1 && form.email.includes("@") && form.password.length >= 6;
+  const [form, setForm] = useState({ name: "", email: "" });
+  const valid = form.name.trim().length > 1 && form.email.includes("@");
 
   return (
     <div className="flex h-full flex-col bg-[#f5f3f0]">
@@ -907,7 +907,7 @@ function SignupScreen({ onBack, onSubmit }: { onBack: () => void; onSubmit: () =
         >
           <ArrowLeft size={18} />
         </button>
-        <h2 className="font-display text-[16px] font-bold text-[#201d1d]">Account Creation</h2>
+        <h2 className="font-display text-[16px] font-bold text-[#201d1d]">Create Your RoarCast Profile</h2>
       </div>
 
       <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-5 pt-6 pb-10">
@@ -922,7 +922,7 @@ function SignupScreen({ onBack, onSubmit }: { onBack: () => void; onSubmit: () =
           </h3>
           <p className="text-[13.5px] leading-relaxed text-[#7a7373]">
             You&apos;ve completed your 60-second workforce readiness check. <br/>
-            <span className="font-medium text-[#201d1d]">Create your account to view your results.</span>
+            <span className="font-medium text-[#201d1d]">Save your readiness snapshot to view your results.</span>
           </p>
         </div>
 
@@ -932,7 +932,6 @@ function SignupScreen({ onBack, onSubmit }: { onBack: () => void; onSubmit: () =
             [
               { key: "name", label: "Full Name", type: "text", placeholder: "Juan dela Cruz" },
               { key: "email", label: "Email Address", type: "email", placeholder: "juan@email.com" },
-              { key: "password", label: "Password", type: "password", placeholder: "At least 6 characters" },
             ] as const
           ).map(({ key, label, type, placeholder }) => (
             <div key={key} className="flex flex-col gap-1.5">
@@ -962,12 +961,7 @@ function SignupScreen({ onBack, onSubmit }: { onBack: () => void; onSubmit: () =
             disabled={!valid}
             className="w-full rounded-full bg-gradient-to-r from-[#6b0000] to-[#4a0000] py-4 text-[15px] font-bold text-white shadow-[0_4px_20px_rgba(107,0,0,0.3)] transition-opacity disabled:opacity-40"
           >
-            Create Account &amp; View Results
-          </button>
-          
-          <button className="flex w-full items-center justify-center gap-2.5 rounded-full border border-black/[0.08] bg-white py-3.5 text-[14px] font-bold text-[#201d1d] shadow-sm transition-all active:bg-[#faf9f8]">
-            <Image src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width={18} height={18} />
-            Continue with Google
+            Save Profile &amp; View Results
           </button>
         </div>
 
@@ -979,9 +973,9 @@ function SignupScreen({ onBack, onSubmit }: { onBack: () => void; onSubmit: () =
   );
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// STAGE 4 â€” Loading Screen
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ──────────────────────────────────────────────────
+// STAGE 4 — Loading Screen
+// ──────────────────────────────────────────────────
 function LoadingScreen({ onDone }: { onDone: () => void }) {
   const [msgIndex, setMsgIndex] = useState(0);
 
@@ -1045,15 +1039,15 @@ function LoadingScreen({ onDone }: { onDone: () => void }) {
   );
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// STAGE 5 â€” Readiness Snapshot
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ──────────────────────────────────────────────────
+// STAGE 5 — Readiness Snapshot
+// ──────────────────────────────────────────────────
 function SnapshotScreen({ result, careerPath }: { result: ReadinessResult; careerPath: string }) {
   const careerLabel = CAREER_PATHS.find(c => c.id === careerPath)?.label ?? "Your Target Role";
 
   return (
     <div className="flex h-full flex-col overflow-y-auto bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000]">
-      {/* Hero header â€” matches dashboard header layout exactly */}
+      {/* Hero header — matches dashboard header layout exactly */}
       <header className="relative shrink-0 overflow-hidden px-5 pt-6 pb-8">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex flex-col gap-1">
@@ -1069,14 +1063,14 @@ function SnapshotScreen({ result, careerPath }: { result: ReadinessResult; caree
         </div>
       </header>
 
-      {/* Content â€” rounded top, overlapping header */}
+      {/* Content — rounded top, overlapping header */}
       <motion.div
         variants={staggerUp}
         initial="hidden"
         animate="show"
         className="flex-1 overflow-y-auto bg-[#f5f3f0] rounded-t-[2.5rem] relative z-10 px-4 pt-6 pb-12 flex flex-col gap-3 shadow-[0_-4px_24px_rgba(0,0,0,0.1)]"
       >
-        {/* â”€â”€ Score card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Score card ──────────────────────────────────────────────────── */}
         <motion.div
           variants={fadeUp}
           className="flex flex-col items-center rounded-[24px] bg-white p-5 shadow-[0_4px_24px_rgba(0,0,0,0.07)]"
@@ -1095,11 +1089,11 @@ function SnapshotScreen({ result, careerPath }: { result: ReadinessResult; caree
           </div>
 
           <p className="mt-2 text-center text-[12px] leading-snug text-[#9c9595]">
-            Towards <span className="font-bold text-[#201d1d]">{careerLabel}</span> â€” not a hiring score, a readiness snapshot.
+            Towards <span className="font-bold text-[#201d1d]">{careerLabel}</span> — not a hiring score, a readiness snapshot.
           </p>
         </motion.div>
 
-        {/* â”€â”€ Recommended next step â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Recommended next step ──────────────────────────────────────── */}
         <motion.div
           variants={fadeUp}
           className="flex flex-col rounded-[20px] border border-[#f59e0b]/25 bg-[#fff8ee] p-4"
@@ -1115,7 +1109,7 @@ function SnapshotScreen({ result, careerPath }: { result: ReadinessResult; caree
           </p>
         </motion.div>
 
-        {/* â”€â”€ CTAs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── CTAs ──────────────────────────────────────────────────────── */}
         <motion.div variants={fadeUp} className="flex flex-col gap-2.5">
           <Link
             id="snapshot-go-to-dashboard"

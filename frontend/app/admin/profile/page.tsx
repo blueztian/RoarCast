@@ -1,6 +1,6 @@
-﻿"use client";
+"use client";
 
-import { UserCircle, Shield, Key } from "lucide-react";
+import { UserCircle, Shield } from "lucide-react";
 
 export default function ProfilePage() {
   return (
@@ -42,13 +42,8 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <div className="mt-6 flex gap-3">
-             <button className="px-4 py-2 border border-black/[0.1] rounded-lg text-[13px] font-bold hover:bg-black/[0.02]">
-                Edit Profile
-             </button>
-             <button className="flex items-center gap-2 px-4 py-2 border border-black/[0.1] rounded-lg text-[13px] font-bold hover:bg-black/[0.02]">
-                <Key size={14} /> Change Password
-             </button>
+          <div className="mt-6 flex items-center gap-3 text-[13px] text-[#7a7373] bg-[#faf9f8] p-3 rounded-lg border border-black/[0.05]">
+             <span className="font-bold text-[#6b0000]">Demo Admin Profile:</span> Profile editing and authentication settings are disabled in prototype mode.
           </div>
         </div>
       </div>

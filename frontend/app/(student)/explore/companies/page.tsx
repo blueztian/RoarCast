@@ -124,7 +124,7 @@ export default function CompaniesPage() {
                       {company.name}
                     </span>
                     <span className="mt-0.5 text-[13px] text-[#7a7373]">
-                      {company.industry} Ã‚Â· {company.zone}
+                      {company.industry} · {company.zone}
                     </span>
                   </div>
                   <span className="shrink-0 rounded-full bg-[#fff8ee] px-2.5 py-1 text-[12.5px] font-bold text-[#d97706]">

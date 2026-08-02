@@ -214,7 +214,7 @@ export default function IndustryPulsePage() {
                     {role.role}
                   </span>
                   <span className="mt-0.5 text-[12.5px] text-[#7a7373]">
-                    {role.opportunities} openings Ã‚Â· {role.metadata.location}
+                    {role.opportunities} openings · {role.metadata.location}
                   </span>
                 </div>
                 <span className="shrink-0 text-[13.5px] font-bold text-[#6b0000]">

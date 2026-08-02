@@ -53,7 +53,7 @@ export default function CredentialsPage() {
               </button>
             </div>
             <p className="mt-2 text-[13.5px] text-white/80">
-              Skills youÃ¢â‚¬â„¢ve completed and can carry beyond RoarCast.
+              Skills you’ve completed and can carry beyond RoarCast.
             </p>
           </div>
         </header>
@@ -66,7 +66,7 @@ export default function CredentialsPage() {
         animate="show"
         className="relative z-10 mx-4 flex flex-col gap-3 pt-2 pb-0"
       >
-        {/* Ã¢â€â‚¬Ã¢â€â‚¬ Credentials / Badges tab toggle Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */}
+        {/* ── Credentials / Badges tab toggle ──────────────────────────────── */}
         <motion.div
           variants={fadeUpItem}
           className="flex rounded-full bg-white p-1 shadow-sm border border-black/[0.05]"
@@ -129,7 +129,7 @@ export default function CredentialsPage() {
           </motion.div>
         )}
 
-        {/* Ã¢â€â‚¬Ã¢â€â‚¬ Optional In Progress Area Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ */}
+        {/* ── Optional In Progress Area ──────────────────────────────────── */}
         <motion.div variants={fadeUpItem} className="mt-2 flex flex-col gap-2 px-1">
           <h2 className="font-display text-[18.5px] font-bold text-[#201d1d]">
             Next credential

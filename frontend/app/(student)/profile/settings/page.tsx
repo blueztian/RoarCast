@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -20,15 +20,15 @@ const fadeUpItem = {
 const settingsGroups = [
   {
     title: "Account",
-    items: [{ icon: UserCircle, label: "Edit Profile, Change Password" }],
+    items: [{ icon: UserCircle, label: "Edit Demo Profile & Preferences" }],
   },
   {
     title: "Notifications",
-    items: [{ icon: Bell, label: "Email, Push, Reminders" }],
+    items: [{ icon: Bell, label: "Demo Alerts & Reminders" }],
   },
   {
     title: "Privacy & Security",
-    items: [{ icon: ShieldCheck, label: "Data & Privacy, 2FA" }],
+    items: [{ icon: ShieldCheck, label: "Demo Data & Local Storage Preferences" }],
   },
   {
     title: "Help & Support",

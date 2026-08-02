@@ -122,7 +122,7 @@ function CareerPathsContent() {
                             {path.role}
                           </span>
                           <span className="mt-0.5 text-[13px] text-[#7a7373]">
-                            {path.industry} Ã‚Â· {path.match}% match
+                            {path.industry} · {path.match}% match
                           </span>
                         </div>
                       </div>

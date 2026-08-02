@@ -37,9 +37,9 @@ export default function ReportsPage() {
                   <h3 className="font-bold text-[15px] text-[#201d1d]">{report.name}</h3>
                   <div className="flex items-center gap-3 text-[12px] text-[#7a7373] mt-0.5">
                     <span className="flex items-center gap-1"><Calendar size={12} /> {report.date}</span>
-                    <span>â€¢</span>
+                    <span>•</span>
                     <span className="font-semibold">{report.type}</span>
-                    <span>â€¢</span>
+                    <span>•</span>
                     <span>{report.size}</span>
                   </div>
                 </div>

@@ -23,7 +23,7 @@ import {
 } from "@/lib/studentState";
 import { staggerContainer, staggerItem, fadeUp } from "@/lib/motion";
 
-// â”€â”€ Module data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Module data ───────────────────────────────────────────────────────────────
 
 export interface Module {
   id: string;
@@ -48,9 +48,9 @@ const MODULES: Module[] = [
     estimatedMinutes: 8,
     content: {
       explanation:
-        "Enterprise Resource Planning (ERP) systems are integrated software platforms that manage core business processesâ€”accounting, procurement, inventory, HRâ€”from a single unified system. Instead of siloed spreadsheets, every department reads from and writes to one shared source of truth.",
+        "Enterprise Resource Planning (ERP) systems are integrated software platforms that manage core business processes—accounting, procurement, inventory, HR—from a single unified system. Instead of siloed spreadsheets, every department reads from and writes to one shared source of truth.",
       example:
-        "Picture a sales order arriving at Laguna Technopark. The moment it's confirmed in the ERP, inventory is reserved, the AP/AR ledger is queued, and the warehouse gets a pick listâ€”all without anyone sending a single email. That's ERP: one transaction ripples cleanly across every function.",
+        "Picture a sales order arriving at Laguna Technopark. The moment it's confirmed in the ERP, inventory is reserved, the AP/AR ledger is queued, and the warehouse gets a pick list—all without anyone sending a single email. That's ERP: one transaction ripples cleanly across every function.",
       keyTakeaway:
         "ERP systems eliminate re-entry errors by linking all departments through shared data. Your job as an accounting associate is to be the reliable link between the business event and the ledger record.",
       quickChecks: [
@@ -79,7 +79,7 @@ const MODULES: Module[] = [
           question:
             "When a sales order is confirmed in an ERP, what typically happens automatically?",
           options: [
-            "Nothingâ€”approvals are always manual",
+            "Nothing—approvals are always manual",
             "Only the invoice is generated",
             "Inventory, ledger, and warehouse tasks are all updated",
             "Only email notifications are sent",
@@ -99,9 +99,9 @@ const MODULES: Module[] = [
       explanation:
         "In an ERP, accounting workflow defines the path a financial transaction takes from business event to ledger entry. This includes initiating a document (invoice, PO, receipt), routing it for approval, posting it to the correct GL account, and reconciling it at month-end.",
       example:
-        "An employee submits a reimbursement claim. The ERP routes it to their manager for approval, then to Finance for GL coding and posting. The system matches the claim against the employee record and the cost center budgetâ€”then closes the expense with a single journal entry. No printed forms, no email chains.",
+        "An employee submits a reimbursement claim. The ERP routes it to their manager for approval, then to Finance for GL coding and posting. The system matches the claim against the employee record and the cost center budget—then closes the expense with a single journal entry. No printed forms, no email chains.",
       keyTakeaway:
-        "Every business event should end in a clean GL posting. Accounting workflow is the process discipline that makes that happen consistentlyâ€”your role is to ensure accuracy at each checkpoint.",
+        "Every business event should end in a clean GL posting. Accounting workflow is the process discipline that makes that happen consistently—your role is to ensure accuracy at each checkpoint.",
       quickChecks: [
         {
           question: "What is a GL account?",
@@ -134,11 +134,11 @@ const MODULES: Module[] = [
     estimatedMinutes: 10,
     content: {
       explanation:
-        "Reconciliation is the process of ensuring your ERP's financial records match external statementsâ€”bank statements, supplier invoices, or subsidiary ledgers. Discrepancies signal either a missing entry, a timing difference, or an error that must be resolved before period-close.",
+        "Reconciliation is the process of ensuring your ERP's financial records match external statements—bank statements, supplier invoices, or subsidiary ledgers. Discrepancies signal either a missing entry, a timing difference, or an error that must be resolved before period-close.",
       example:
-        "At month-end, the AP balance in your ERP shows â‚±480,000 owed to a supplier. The supplier statement says â‚±495,000. The â‚±15,000 gap could be an invoice that arrived late and wasn't entered yet. You locate it, post it, and the records align. That's a clean reconciliation.",
+        "At month-end, the AP balance in your ERP shows ₱480,000 owed to a supplier. The supplier statement says ₱495,000. The ₱15,000 gap could be an invoice that arrived late and wasn't entered yet. You locate it, post it, and the records align. That's a clean reconciliation.",
       keyTakeaway:
-        "Reconciliation is proof that your books reflect reality. In an ERP, it's faster than manual processesâ€”but only if transactions are posted correctly and completely in real time.",
+        "Reconciliation is proof that your books reflect reality. In an ERP, it's faster than manual processes—but only if transactions are posted correctly and completely in real time.",
       quickChecks: [
         {
           question: "What does reconciliation verify?",
@@ -212,7 +212,7 @@ const MODULES: Module[] = [
   },
 ];
 
-// â”€â”€ Quick Check component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Quick Check component ─────────────────────────────────────────────────────
 
 function QuickCheck({
   question,
@@ -273,7 +273,7 @@ function QuickCheck({
           }`}
         >
           {selected === correct
-            ? "âœ“ Correct!"
+            ? "✓ Correct!"
             : `Not quite. The answer is: "${options[correct]}"`}
         </motion.p>
       )}
@@ -281,7 +281,7 @@ function QuickCheck({
   );
 }
 
-// â”€â”€ Module content view â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Module content view ───────────────────────────────────────────────────────
 
 function ModuleContent({
   module,
@@ -374,7 +374,7 @@ function ModuleContent({
   );
 }
 
-// â”€â”€ Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function LearnPage() {
   const router = useRouter();
@@ -433,7 +433,7 @@ export default function LearnPage() {
         refreshStatuses();
       }, 1200);
     } else {
-      // All done â€” go to assessment
+      // All done — go to assessment
       setTimeout(() => {
         setCompletedAnimation(null);
         router.push("/assessment/erp-workflow");

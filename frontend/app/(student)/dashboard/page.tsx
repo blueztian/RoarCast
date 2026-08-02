@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -13,8 +13,8 @@ import { cn } from "@/lib/utils";
 import SignalBackground from "@/components/SignalBackground";
 import ReadinessRing from "@/components/ReadinessRing";
 
-// â”€â”€â”€ Mock Data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// Industry Pulse data lives in data/industryPulse.ts â€” reserved for Explore pages.
+// ─── Mock Data ─────────────────────────────────────────────────────────────────
+// Industry Pulse data lives in data/industryPulse.ts — reserved for Explore pages.
 
 const studentProfile = {
   name: "Jana",
@@ -45,7 +45,7 @@ const quickAction = {
   href: "/learn/erp-foundations",
 };
 
-// â”€â”€â”€ Animations â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Animations ────────────────────────────────────────────────────────────────
 const stagger = {
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { staggerChildren: 0.09 } },
@@ -55,7 +55,7 @@ const fadeUp = {
   show: { opacity: 1, y: 0, transition: { duration: 0.42, ease: "easeOut" } },
 };
 
-// â”€â”€â”€ Priority Badge â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Priority Badge ────────────────────────────────────────────────────────────
 function PriorityBadge({ level }: { level: string }) {
   const isHigh = level === "High";
   return (
@@ -72,7 +72,7 @@ function PriorityBadge({ level }: { level: string }) {
   );
 }
 
-// â”€â”€â”€ Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Page ──────────────────────────────────────────────────────────────────────
 export default function DashboardPage() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -81,7 +81,7 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-1 flex-col h-full bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] font-sans overflow-hidden">
 
-      {/* â”€â”€ Hero Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Hero Header ─────────────────────────────────────────────────── */}
       <header className="shrink-0 relative overflow-hidden px-5 pt-6 pb-5">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
 
@@ -104,13 +104,13 @@ export default function DashboardPage() {
               RoarCast
             </Link>
 
-            <Link href="#" className="relative p-1.5">
+            <button type="button" className="relative p-1.5" aria-label="Notifications" title="No new system notifications">
               <Bell size={24} className="text-white" strokeWidth={1.5} />
               <span
                 aria-hidden="true"
                 className="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border-2 border-[#4a0000] bg-[#f59e0b]"
               />
-            </Link>
+            </button>
           </div>
 
           {/* Greeting */}
@@ -125,7 +125,7 @@ export default function DashboardPage() {
         </div>
       </header>
 
-      {/* â”€â”€ Content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Content ────────────────────────────────────────────────────── */}
       <motion.div
         variants={stagger}
         initial="hidden"
@@ -133,7 +133,7 @@ export default function DashboardPage() {
         className="flex-1 overflow-y-auto bg-[#f5f3f0] rounded-t-[2.5rem] relative z-10 px-4 pt-6 pb-24 flex flex-col gap-4 shadow-[0_-4px_24px_rgba(0,0,0,0.1)]"
       >
 
-        {/* â”€â”€ 1 Â· Your Readiness Score â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── 1 · Your Readiness Score ──────────────────────────────────────── */}
         <motion.section
           variants={fadeUp}
           aria-labelledby="readiness-heading"
@@ -148,7 +148,7 @@ export default function DashboardPage() {
 
           {/* Gauge + Target Role */}
           <div className="flex items-center gap-4">
-            {/* Full-circle ring â€” sized for mobile */}
+            {/* Full-circle ring — sized for mobile */}
             <div className="shrink-0">
               <ReadinessRing
                 percentage={readiness.score}
@@ -182,7 +182,7 @@ export default function DashboardPage() {
           </p>
         </motion.section>
 
-        {/* â”€â”€ 2 Â· Top Skill Gaps â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── 2 · Top Skill Gaps ────────────────────────────────────────────── */}
         <motion.section
           variants={fadeUp}
           aria-labelledby="gaps-heading"
@@ -218,7 +218,7 @@ export default function DashboardPage() {
           </ul>
         </motion.section>
 
-        {/* â”€â”€ 3 Â· Recommended for You â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── 3 · Recommended for You ───────────────────────────────────────── */}
         <motion.section
           variants={fadeUp}
           aria-labelledby="rec-heading"
@@ -252,7 +252,7 @@ export default function DashboardPage() {
           </div>
         </motion.section>
 
-        {/* â”€â”€ 4 Â· Quick Action â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── 4 · Quick Action ──────────────────────────────────────────────── */}
         <motion.section
           variants={fadeUp}
           aria-labelledby="action-heading"

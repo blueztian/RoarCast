@@ -14,7 +14,7 @@ const fadeUp = {
   show: { opacity: 1, y: 0, transition: { duration: 0.3 } },
 };
 
-// Every module shares this generic lesson shape â€” how far you've gotten
+// Every module shares this generic lesson shape — how far you've gotten
 // within it is driven by the module's own status (Completed/Current/Locked/Upcoming).
 const LESSON_TEMPLATE = ["Introduction", "Core Concepts", "Practice Activity", "Quiz"];
 
@@ -62,7 +62,7 @@ export default function ModuleDetailPage({
           </Link>
           <div className="flex flex-col">
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#f59e0b]">
-              {course.title} Â· Module {moduleIndex + 1} of {course.curriculum.length}
+              {course.title} · Module {moduleIndex + 1} of {course.curriculum.length}
             </span>
             <h1 className="font-display text-[22px] font-bold text-white leading-tight">
               {currentModule.title}
@@ -80,7 +80,7 @@ export default function ModuleDetailPage({
         variants={fadeUp}
         className="flex flex-col gap-5 px-4 pt-2"
       >
-        {/* â”€â”€ Lesson progress â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Lesson progress ─────────────────────────────────────────────── */}
         <div className="flex flex-col rounded-[24px] bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
           <div className="mb-2 flex items-center justify-between">
             <span className="text-[12.5px] font-bold uppercase tracking-wider text-[#7a7373]">
@@ -98,7 +98,7 @@ export default function ModuleDetailPage({
           </div>
         </div>
 
-        {/* â”€â”€ Lesson list â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Lesson list ──────────────────────────────────────────────────── */}
         <div className="flex flex-col gap-3">
           {lessons.map((lesson) => (
             <div
@@ -129,7 +129,7 @@ export default function ModuleDetailPage({
           ))}
         </div>
 
-        {/* â”€â”€ Continue button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Continue button ──────────────────────────────────────────────── */}
         <Link
           href={
             nextModule

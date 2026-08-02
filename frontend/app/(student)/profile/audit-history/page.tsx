@@ -15,7 +15,7 @@ const fadeUpItem = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
 
-// Mocked readiness history â€” mirrors the 72% score shown on the Profile page.
+// Mocked readiness history — mirrors the 72% score shown on the Profile page.
 const readinessHistory = [
   { month: "Jan", score: 48 },
   { month: "Feb", score: 52 },
@@ -86,7 +86,7 @@ export default function AuditHistoryPage() {
         animate="show"
         className="relative z-10 mx-4 mt-2 flex flex-col gap-4 pb-12"
       >
-        {/* â”€â”€ Readiness over time chart â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Readiness over time chart ─────────────────────────────────── */}
         <motion.section
           variants={fadeUpItem}
           className="flex flex-col rounded-[24px] bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
@@ -124,7 +124,7 @@ export default function AuditHistoryPage() {
           </div>
         </motion.section>
 
-        {/* â”€â”€ Past assessments â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Past assessments ─────────────────────────────────────────── */}
         <motion.section variants={fadeUpItem} className="flex flex-col">
           <div className="mb-3 flex items-center justify-between px-1">
             <h3 className="font-display text-[16px] font-bold text-[#201d1d]">

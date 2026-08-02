@@ -32,7 +32,7 @@ export default function SquadsListPage() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
-      {/* â”€â”€ Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Header ──────────────────────────────────────────────────────────── */}
       <header className="relative flex-col justify-end overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-5 rounded-b-[2.5rem] shadow-sm transition-all" style={{ height: 90 }}>
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex items-center gap-3">
@@ -80,10 +80,10 @@ export default function SquadsListPage() {
         animate="show"
         className="flex flex-col gap-8 px-4 pt-2"
       >
-        {/* â”€â”€ Squad Spotlight â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Squad Spotlight ───────────────────────────────────────────────── */}
         <SquadSpotlight squad={squadsData[0]} />
 
-        {/* â”€â”€ Recommended For You â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Recommended For You ────────────────────────────────────────────── */}
         <div className="flex flex-col gap-4">
           <h2 className="font-display text-[18.5px] font-bold text-[#201d1d]">
             Recommended for you
@@ -95,7 +95,7 @@ export default function SquadsListPage() {
           </div>
         </div>
 
-        {/* â”€â”€ Explore Other Skills â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Explore Other Skills ────────────────────────────────────────────── */}
         <div className="flex flex-col gap-4">
           <h2 className="font-display text-[18.5px] font-bold text-[#201d1d]">
             Explore other skill squads
@@ -126,7 +126,7 @@ function SquadSpotlight({ squad }: { squad: any }) {
           {squad.name}
         </h2>
 
-        {/* â”€â”€ Members, front and center â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Members, front and center ──────────────────────────────────────── */}
         <div className="mt-3 flex items-center gap-2.5">
           <div className="flex -space-x-2">
             {Array.from({ length: squad.members.total }).map((_, n) => (
@@ -144,7 +144,7 @@ function SquadSpotlight({ squad }: { squad: any }) {
           </span>
         </div>
 
-        {/* â”€â”€ Shared Goal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Shared Goal ───────────────────────────────────────────────────── */}
         <div className="mt-4 flex flex-col gap-1 rounded-[18px] bg-[#fff8ee] p-3.5 border border-[#f59e0b]/15">
           <span className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-wider text-[#d97706]">
             <Target size={12} strokeWidth={2.5} /> Shared Goal
@@ -154,7 +154,7 @@ function SquadSpotlight({ squad }: { squad: any }) {
           </p>
         </div>
 
-        {/* â”€â”€ Squad Progress â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Squad Progress ────────────────────────────────────────────────── */}
         <div className="mt-4 flex flex-col gap-1.5">
           <div className="flex items-center justify-between text-[13px]">
             <span className="font-bold text-[#201d1d]">Squad Progress</span>
@@ -165,7 +165,7 @@ function SquadSpotlight({ squad }: { squad: any }) {
           </div>
         </div>
 
-        {/* â”€â”€ Recent Activity â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Recent Activity ───────────────────────────────────────────────── */}
         <div className="mt-4 flex flex-col gap-3 border-t border-black/[0.05] pt-4">
           <span className="text-[12px] font-bold uppercase tracking-wider text-[#7a7373]">
             Recent Activity
@@ -185,7 +185,7 @@ function SquadSpotlight({ squad }: { squad: any }) {
         </div>
       </div>
 
-      {/* â”€â”€ Go to squad â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Go to squad ───────────────────────────────────────────────────── */}
       <Link
         href={`/learn/squads/${squad.id}`}
         className="flex w-full items-center justify-center gap-2 bg-[#6b0000] py-3.5 text-[15px] font-bold text-white transition-colors hover:bg-[#4a0000]"

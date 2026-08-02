@@ -28,7 +28,7 @@ export default function SquadDetailPage({ params }: { params: { squadId: string 
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
-      {/* â”€â”€ Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Header ──────────────────────────────────────────────────────────── */}
       <header className="fixed inset-x-0 top-0 z-30 flex flex-col justify-end overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-5 rounded-b-[2.5rem] shadow-sm transition-all" style={{ height: 90 }}>
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex items-start gap-3">
@@ -47,7 +47,7 @@ export default function SquadDetailPage({ params }: { params: { squadId: string 
                 <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
                 {squad.members.activeThisWeek} active
               </span>
-              <span>Â·</span>
+              <span>·</span>
               <span>{squad.members.total} members</span>
             </div>
           </div>
@@ -57,7 +57,7 @@ export default function SquadDetailPage({ params }: { params: { squadId: string 
       {/* Spacer for fixed header */}
       <div className="h-[120px] shrink-0" aria-hidden="true" />
 
-      {/* â”€â”€ Tabs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Tabs ────────────────────────────────────────────────────────────── */}
       <div className="sticky top-[120px] z-20 mx-4 mt-2 flex w-auto overflow-x-auto rounded-[20px] bg-white px-4 no-scrollbar shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
         {["Activity", "Discussion", "Roadmap", "Members"].map((tab) => (
           <button
@@ -82,7 +82,7 @@ export default function SquadDetailPage({ params }: { params: { squadId: string 
         variants={fadeUp}
         className="flex flex-col gap-4 px-4 pt-5"
       >
-        {/* â”€â”€ Top Summary Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Top Summary Card ────────────────────────────────────────────────── */}
         <div className="flex flex-col rounded-[24px] bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
           <h2 className="text-[12.5px] font-bold uppercase tracking-wider text-[#7a7373] mb-4">
             Squad Progress
@@ -137,7 +137,7 @@ export default function SquadDetailPage({ params }: { params: { squadId: string 
           </div>
         </div>
 
-        {/* â”€â”€ This Week's Mission â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── This Week's Mission ─────────────────────────────────────────────── */}
         {isJoined(squad.status) && (
           <div className="flex flex-col rounded-[24px] border border-[#f59e0b]/30 bg-[#fff8ee] p-5">
             <span className="text-[12.5px] font-bold uppercase tracking-wider text-[#d97706]">
@@ -161,7 +161,7 @@ export default function SquadDetailPage({ params }: { params: { squadId: string 
           </div>
         )}
 
-        {/* â”€â”€ Tab Content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Tab Content ─────────────────────────────────────────────────────── */}
         <div className="mt-2 flex flex-col pb-8">
           {activeTab === "Activity" && <ActivityTab activities={squad.activityFeed || []} />}
           {activeTab === "Discussion" && <DiscussionTab discussions={squad.discussions || []} />}
@@ -177,7 +177,7 @@ function isJoined(status: string) {
   return status === "Joined";
 }
 
-// â”€â”€â”€ Sub-components â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Sub-components ────────────────────────────────────────────────────────────
 
 function ActivityTab({ activities }: { activities: any[] }) {
   if (!activities) return <p className="text-[14.5px] text-[#7a7373] text-center py-8">No activity yet.</p>;
@@ -193,7 +193,7 @@ function ActivityTab({ activities }: { activities: any[] }) {
             <p className="text-[14.5px] text-[#201d1d]">
               <span className="font-bold">{act.user}</span> {act.action}
             </p>
-            <p className="font-bold text-[#6b0000] text-[15px]">â€œ{act.target}â€</p>
+            <p className="font-bold text-[#6b0000] text-[15px]">“{act.target}”</p>
             <span className="text-[12.5px] text-[#7a7373] mt-0.5">{act.time}</span>
           </div>
         </div>
@@ -252,7 +252,7 @@ function RoadmapTab({ roadmap, outcome }: { roadmap: any[], outcome: string }) {
                 step.status === "current" ? "border-[#f59e0b] text-[#d97706]" :
                   "border-[#e0dcd5] text-[#9c9595]"
             )}>
-              {step.status === "completed" ? "âœ“" : step.week}
+              {step.status === "completed" ? "✓" : step.week}
             </div>
             <div className="flex flex-col pt-1.5">
               <span className={cn(
@@ -262,7 +262,7 @@ function RoadmapTab({ roadmap, outcome }: { roadmap: any[], outcome: string }) {
                 {step.title}
               </span>
               {step.status === "current" && (
-                <span className="text-[12.5px] font-bold text-[#d97706] mt-0.5">â† Current week</span>
+                <span className="text-[12.5px] font-bold text-[#d97706] mt-0.5">← Current week</span>
               )}
             </div>
           </div>

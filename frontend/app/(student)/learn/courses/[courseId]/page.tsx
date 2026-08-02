@@ -25,7 +25,7 @@ export default function CourseDetailPage({ params }: { params: { courseId: strin
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
-      {/* â”€â”€ Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Header ──────────────────────────────────────────────────────────── */}
       <header className="fixed inset-x-0 top-0 z-30 flex flex-col justify-end overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-5 rounded-b-[2.5rem] shadow-sm transition-all" style={{ height: 90 }}>
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
         <div className="relative z-10 flex items-start gap-3">
@@ -52,7 +52,7 @@ export default function CourseDetailPage({ params }: { params: { courseId: strin
         variants={fadeUp}
         className="flex flex-col gap-5 px-4 pt-2"
       >
-        {/* â”€â”€ Why this matters â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Why this matters ────────────────────────────────────────────────── */}
         <div className="flex flex-col rounded-[24px] bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
           <div className="mb-4 inline-flex items-center gap-2 self-start rounded-full bg-[#fff8ee] px-3 py-1.5 border border-[#f59e0b]/20">
             <div className="h-1.5 w-1.5 rounded-full bg-[#f59e0b]" />
@@ -94,7 +94,7 @@ export default function CourseDetailPage({ params }: { params: { courseId: strin
           </div>
         </div>
 
-        {/* â”€â”€ Squad Connection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Squad Connection ────────────────────────────────────────────────── */}
         {course.squadConnection && (
           <div className="flex flex-col rounded-[24px] border border-[#6b0000]/15 bg-[#6b0000]/5 p-5">
             <div className="flex items-start justify-between">
@@ -119,7 +119,7 @@ export default function CourseDetailPage({ params }: { params: { courseId: strin
           </div>
         )}
 
-        {/* â”€â”€ Curriculum â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Curriculum ──────────────────────────────────────────────────────── */}
         <div className="flex flex-col">
           <h2 className="mb-4 font-display text-[19.5px] font-bold text-[#201d1d]">
             Curriculum
