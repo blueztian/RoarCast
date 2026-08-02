@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ChevronLeft, Search, Briefcase, Award, Users, BookOpen, Target, ArrowRight } from "lucide-react";
+import { ArrowLeft, Search, Briefcase, Award, Users, BookOpen, Target, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { squadsData } from "@/data/mockLearn";
 import SignalBackground from "@/components/SignalBackground";
@@ -31,56 +31,66 @@ export default function SquadsListPage() {
   const exploreSquads = squadsData.slice(2);
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
+    <div className="flex flex-1 flex-col h-full bg-[#f5f3f0] font-sans overflow-y-auto relative">
       {/* ── Header ──────────────────────────────────────────────────────────── */}
-      <header className="relative flex-col justify-end overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-5 rounded-b-[2.5rem] shadow-sm transition-all" style={{ height: 90 }}>
+      <header className="shrink-0 relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-6 pb-12">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
-        <div className="relative z-10 flex items-center gap-3">
-          <Link href="/learn" className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20">
-            <ChevronLeft size={20} />
-          </Link>
-          <div className="flex flex-col">
-            <h1 className="font-display text-[22px] font-bold text-white">Skill Squads</h1>
-            <p className="text-[12px] text-white/70">Learn with peers working toward the same industry skill.</p>
+        <div className="relative z-10 flex flex-col">
+          <div className="flex items-center gap-3">
+            <Link
+              href="/learn"
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+              aria-label="Back to Learn"
+            >
+              <ArrowLeft size={16} />
+            </Link>
+            <h1 className="font-display text-[22px] font-bold leading-tight tracking-tight text-white">
+              Skill Squads
+            </h1>
           </div>
+          <p className="text-[13px] text-white/80 ml-[44px]">
+            Learn with peers working toward the same industry skill.
+          </p>
         </div>
       </header>
 
-      <div className="sticky top-0 z-20 mx-4 mt-3 mb-2 flex flex-col gap-3 rounded-[24px] bg-white p-3 shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
-        <div className="relative">
-          <Search size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9c9595]" />
-          <input
-            type="text"
-            placeholder="Search skills or squads"
-            className="h-11 w-full rounded-full border border-black/[0.08] bg-[#faf9f8] pl-10 pr-4 text-[15.5px] outline-none transition-colors focus:border-[#6b0000] focus:bg-white"
-          />
-        </div>
-
-        <div className="flex gap-2 overflow-x-auto no-scrollbar">
-          {FILTERS.map((f) => (
-            <button
-              key={f}
-              onClick={() => setActiveFilter(f)}
-              className={cn(
-                "shrink-0 rounded-full px-4 py-1.5 text-[14px] font-bold transition-colors",
-                activeFilter === f
-                  ? "bg-[#201d1d] text-white"
-                  : "bg-[#f0ede9] text-[#5e5a5a] hover:bg-[#e8e4df]"
-              )}
-            >
-              {f}
-            </button>
-          ))}
-        </div>
-      </div>
-
+      {/* ── White Content Sheet ─────────────────────────────────────────────── */}
       <motion.div
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="flex flex-col gap-8 px-4 pt-2"
+        className="flex-1 min-h-screen bg-white rounded-t-[2.5rem] relative z-10 -mt-6 px-4 pt-6 pb-24 flex flex-col gap-6 shadow-[0_-4px_24px_rgba(0,0,0,0.05)]"
       >
-        {/* ── Squad Spotlight ───────────────────────────────────────────────── */}
+        <div className="sticky top-2 z-20 flex flex-col gap-3 rounded-[24px] bg-[#faf9f8] p-3 border border-black/[0.05] shadow-sm">
+          <div className="relative">
+            <Search size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9c9595]" />
+            <input
+              type="text"
+              placeholder="Search skills or squads"
+              className="h-11 w-full rounded-full border border-black/[0.08] bg-white pl-10 pr-4 text-[15.5px] outline-none transition-colors focus:border-[#6b0000]"
+            />
+          </div>
+
+          <div className="flex gap-2 overflow-x-auto no-scrollbar">
+            {FILTERS.map((f) => (
+              <button
+                key={f}
+                onClick={() => setActiveFilter(f)}
+                className={cn(
+                  "shrink-0 rounded-full px-4 py-1.5 text-[14px] font-bold transition-colors",
+                  activeFilter === f
+                    ? "bg-[#201d1d] text-white shadow-sm"
+                    : "bg-[#e8e4df]/60 text-[#5e5a5a] hover:bg-[#e8e4df]"
+                )}
+              >
+                {f}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-8 pt-1">
+          {/* ── Squad Spotlight ───────────────────────────────────────────────── */}
         <SquadSpotlight squad={squadsData[0]} />
 
         {/* ── Recommended For You ────────────────────────────────────────────── */}
@@ -104,6 +114,7 @@ export default function SquadsListPage() {
             {exploreSquads.map((squad) => (
               <SquadCard key={squad.id} squad={squad} />
             ))}
+          </div>
           </div>
         </div>
       </motion.div>

@@ -18,7 +18,6 @@ export default function ResultsPage() {
   const router = useRouter();
   const [snapshot, setSnapshot] = useState<ReadinessSnapshot | null>(null);
   const [isChecking, setIsChecking] = useState(true);
-  const [isSampleMode, setIsSampleMode] = useState(false);
   const [explaining, setExplaining] = useState<SkillResult | null>(null);
 
   useEffect(() => {
@@ -36,7 +35,6 @@ export default function ResultsPage() {
 
     demoRepository.markAuditComplete();
     setSnapshot(current);
-    setIsSampleMode(demoRepository.isSampleMode());
     setIsChecking(false);
   }, [router]);
 
@@ -56,13 +54,6 @@ export default function ResultsPage() {
 
   return (
     <section className="mx-auto max-w-5xl px-6 pb-24 pt-12 sm:pt-20 sm:pb-32">
-      {isSampleMode && (
-        <div className="mb-6 flex justify-center">
-          <span className="rounded-md bg-amber-100 px-3 py-1 font-mono text-xs font-bold uppercase tracking-wide text-[#b45309]">
-            Sample persona mode
-          </span>
-        </div>
-      )}
       <div className="mb-14 flex flex-col items-center gap-6 text-center">
         <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-4 py-1.5 text-xs font-bold text-[#b45309]">
           <Sparkles size={14} /> Diagnostic Status: {snapshot.label}
@@ -168,10 +159,10 @@ export default function ResultsPage() {
             <ArrowRight size={17} />
           </Link>
           <Link
-            href="/skills/erp-workflow"
+            href="/learn/erp-foundations"
             className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/15 bg-white px-6 py-4 text-sm font-semibold text-ink transition-colors hover:border-ink/30 hover:bg-black/[0.02]"
           >
-            View Priority Skill Detail
+            View Upskilling Roadmap
           </Link>
         </div>
       </div>

@@ -45,7 +45,7 @@ export default function SkillGapCard({ skill, onWhy }: SkillGapCardProps) {
 
       <div className="flex flex-col gap-3 sm:flex-row">
         <Link
-          href="/skills/erp-workflow"
+          href="/learn/erp-foundations"
           className="inline-flex items-center justify-center gap-2 rounded-full bg-roar-maroon px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#5a0000]"
         >
           Close This Gap

@@ -89,11 +89,11 @@ export default function LandingPage() {
               whileTap={{ scale: 0.97 }}
               className="w-full rounded-full bg-gradient-to-r from-[#6b0000] to-[#4a0000] py-4 text-[16px] font-bold tracking-tight text-white shadow-[0_4px_24px_rgba(107,0,0,0.35)] transition-shadow hover:shadow-[0_6px_28px_rgba(107,0,0,0.45)]"
             >
-              Take My Micro Audit
+              Start 60-Second Micro-Audit
             </motion.button>
 
             <p className="mt-3 text-center text-[12.5px] text-[#9c9595]">
-              60 seconds to discover your workforce readiness
+              Discover your workforce readiness & upskilling pathway
             </p>
 
             <div className="mt-6 flex items-center justify-center gap-2">

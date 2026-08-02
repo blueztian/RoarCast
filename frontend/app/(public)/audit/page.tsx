@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Check, Sparkles, RotateCcw, Play } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Sparkles, RotateCcw } from "lucide-react";
 import { EDUCATION_LEVELS, DEGREE_PROGRAMS, CAREER_PATHS } from "@/features/demo-data";
 import { getContextAwareQuestions } from "@/features/onboarding";
 import { calculateDemoReadiness } from "@/features/readiness";
@@ -122,31 +122,6 @@ export default function CanonicalAuditPage() {
     setData({ educationLevel: "", degree: "", careerPath: "", skillAnswers: {} });
   };
 
-  const handleUseSampleAnswers = () => {
-    const sampleData: AuditData = {
-      educationLevel: "college",
-      degree: "Accounting Information Systems",
-      careerPath: "accounting-ops",
-      skillAnswers: {
-        industryTools: 4,
-        dataSkills: 4,
-        teamwork: 4,
-        communication: 4,
-        digitalComfort: "somewhat",
-        hasInternship: true,
-        hasCertification: false,
-      },
-    };
-    setData(sampleData);
-    demoRepository.setSampleMode(true);
-    const sampleQuestions = getContextAwareQuestions(sampleData.degree, sampleData.careerPath);
-    const snapshot = calculateDemoReadiness(sampleData, sampleQuestions);
-    demoRepository.saveAuditData(sampleData);
-    demoRepository.saveReadinessSnapshot(snapshot);
-    demoRepository.clearAuditDraft();
-    router.push("/signup");
-  };
-
   if (!isReady) {
     return (
       <div className="flex min-h-[100dvh] items-center justify-center bg-[#201d1d]">
@@ -210,17 +185,6 @@ export default function CanonicalAuditPage() {
             >
               {step === 0 && (
                 <div>
-                  <div className="mb-4 flex justify-between items-center bg-[#6b0000]/[0.05] p-3 rounded-xl border border-[#6b0000]/15">
-                    <span className="text-[12px] font-mono font-medium text-[#6b0000]">Presentation Mode</span>
-                    <button
-                      type="button"
-                      onClick={handleUseSampleAnswers}
-                      className="flex items-center gap-1.5 rounded-lg bg-[#6b0000] px-3 py-1.5 text-[12px] font-bold text-white transition hover:bg-[#800000]"
-                    >
-                      <Play size={12} fill="white" />
-                      Use sample audit answers
-                    </button>
-                  </div>
                   <h1 className="mb-2 font-display text-[22px] font-bold leading-tight text-[#201d1d]">
                     What is your current education level?
                   </h1>

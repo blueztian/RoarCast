@@ -133,7 +133,7 @@ export default function CredentialPage() {
               {/* Header */}
               <motion.div variants={staggerItem} className="text-center">
                 <p className="mb-2 font-mono text-[11px] uppercase tracking-widest text-roar-maroon">
-                  Demo Completion Record
+                  Course Completion Record
                 </p>
                 <h1 className="font-display text-3xl font-semibold text-ink sm:text-4xl">
                   {credential.skillName}
@@ -165,7 +165,7 @@ export default function CredentialPage() {
                   </div>
                   <div className="flex items-center gap-1.5 rounded-full border border-roar-maroon/20 bg-white/80 px-3 py-1.5 backdrop-blur">
                     <Shield size={12} strokeWidth={2} className="text-roar-maroon" />
-                    <span className="font-mono text-[11px] text-roar-maroon">Demo Completion</span>
+                    <span className="font-mono text-[11px] text-roar-maroon">Skill Completion</span>
                   </div>
                 </div>
 
@@ -247,7 +247,7 @@ export default function CredentialPage() {
                     { label: "Format", value: "4 Modules + Assessment" },
                     { label: "Score", value: `${demoRepository.getAssessmentResult()?.score ?? 0}%` },
                     { label: "Platform", value: "RoarCast" },
-                    { label: "Type", value: "Prototype Demo" },
+                    { label: "Type", value: "Micro-Credential" },
                     { label: "Location", value: "Santa Rosa, Laguna" },
                   ].map(({ label, value }) => (
                     <div key={label}>

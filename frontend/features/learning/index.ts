@@ -4,7 +4,7 @@
  */
 
 export const LEARNING_ROUTES = {
-  skillDetail: "/skills/erp-workflow",
+  skillDetail: "/learn/erp-foundations",
   interactiveModule: "/learn/erp-foundations",
   assessment: "/assessment/erp-workflow",
   credentialView: "/credentials/erp-workflow",

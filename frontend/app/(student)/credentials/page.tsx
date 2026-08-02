@@ -173,7 +173,7 @@ function CredentialCard({ cred }: { cred: any }) {
           <div className="flex shrink-0 items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 text-emerald-700 border border-emerald-100">
             <CheckCircle2 size={12} strokeWidth={2.5} />
             <span className="text-[11px] font-bold uppercase tracking-wider">
-              Demo Record
+              Course Record
             </span>
           </div>
         </div>

@@ -160,7 +160,7 @@ export default function PortfolioPage() {
           <div className="flex items-center gap-2.5">
             <Award size={18} className="text-[#d97706]" />
             <span className="text-[12.5px] font-bold text-[#201d1d]">
-              {portfolioData.certificatesCount} demo completion records
+              {portfolioData.certificatesCount} course completion records
             </span>
           </div>
           <Link

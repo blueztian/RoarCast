@@ -62,7 +62,6 @@ export default function DashboardPage() {
   const [profile, setProfile] = useState<StudentProfile | null>(null);
   const [snapshot, setSnapshot] = useState<ReadinessSnapshot | null>(null);
   const [isChecking, setIsChecking] = useState(true);
-  const [isSampleMode, setIsSampleMode] = useState(false);
 
   useEffect(() => {
     const s = demoRepository.getReadinessSnapshot();
@@ -77,7 +76,6 @@ export default function DashboardPage() {
     }
     setSnapshot(s);
     setProfile(p);
-    setIsSampleMode(demoRepository.isSampleMode());
     setIsChecking(false);
   }, [router]);
 
@@ -130,12 +128,6 @@ export default function DashboardPage() {
               />
             </button>
           </div>
-
-          {isSampleMode && (
-            <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-amber-400/20 border border-amber-400/40 px-3 py-1 text-[11px] font-mono font-bold uppercase tracking-wide text-amber-300">
-              Sample persona mode
-            </div>
-          )}
 
           <div className="space-y-0.5">
             <h1 className="font-display text-[22px] font-bold leading-tight tracking-tight text-white">

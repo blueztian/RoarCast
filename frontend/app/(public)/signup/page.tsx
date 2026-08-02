@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, CheckCircle2, Sparkles, RotateCcw, ShieldAlert } from "lucide-react";
-import { DEMO_STUDENT, CAREER_PATHS } from "@/features/demo-data";
+import { ArrowLeft, ArrowRight, CheckCircle2, RotateCcw } from "lucide-react";
+import { CAREER_PATHS } from "@/features/demo-data";
 import { demoRepository } from "@/lib/demoRepository";
 import type { StudentProfile, ProfileDraft } from "@/lib/storageTypes";
 
@@ -51,7 +51,6 @@ export default function SignupPage() {
   const [form, setForm] = useState<FormState>(emptyForm);
   const [direction, setDirection] = useState(1);
   const [isChecking, setIsChecking] = useState(true);
-  const [isSampleMode, setIsSampleMode] = useState(false);
   const totalSteps = steps.length + 1; // + review step
   const isReview = stepIndex === steps.length;
 
@@ -64,8 +63,6 @@ export default function SignupPage() {
       router.replace("/audit");
       return;
     }
-
-    setIsSampleMode(demoRepository.isSampleMode());
 
     // 2.3 Check for existing Profile Draft
     const draft = demoRepository.getProfileDraft();
@@ -105,21 +102,6 @@ export default function SignupPage() {
     const nextForm = { ...form, [field]: value };
     setForm(nextForm);
     saveDraft(stepIndex, nextForm);
-  }
-
-  function fillDemo() {
-    const sampleForm = {
-      name: DEMO_STUDENT.name,
-      age: String(DEMO_STUDENT.age),
-      school: DEMO_STUDENT.school,
-      program: DEMO_STUDENT.program,
-      gradYear: String(DEMO_STUDENT.gradYear),
-      careerInterest: DEMO_STUDENT.careerInterest,
-    };
-    setForm(sampleForm);
-    demoRepository.setSampleMode(true);
-    setIsSampleMode(true);
-    saveDraft(stepIndex, sampleForm);
   }
 
   function currentFieldsFilled() {
@@ -200,7 +182,7 @@ export default function SignupPage() {
             <ArrowLeft size={18} />
           </button>
           <div className="flex flex-col items-center">
-            <span className="font-display text-[15px] font-bold text-[#201d1d]">Demo Profile Setup</span>
+            <span className="font-display text-[15px] font-bold text-[#201d1d]">Student Profile Setup</span>
             <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-[#7a7373]">
               Step {stepIndex + 1} of {totalSteps}
             </span>
@@ -218,14 +200,6 @@ export default function SignupPage() {
             <div className="h-9 w-9" />
           )}
         </div>
-
-        {isSampleMode && (
-          <div className="bg-[#b45309]/10 px-5 py-2 flex items-center justify-center gap-2 border-b border-[#b45309]/20">
-            <span className="font-mono text-[11px] font-bold uppercase tracking-wide text-[#b45309]">
-              Sample persona mode
-            </span>
-          </div>
-        )}
 
         {/* Progress indicators */}
         <div className="px-6 pt-6 pb-2 flex items-center gap-2" aria-label="Onboarding progress">
@@ -282,17 +256,6 @@ export default function SignupPage() {
                   ))}
                 </div>
 
-                {stepIndex === 0 && (
-                  <button
-                    type="button"
-                    onClick={fillDemo}
-                    className="mt-6 inline-flex items-center gap-1.5 self-start rounded-xl border border-[#f59e0b]/40 bg-[#f59e0b]/10 px-3.5 py-2 text-[12.5px] font-bold text-[#b45309] transition-colors hover:bg-[#f59e0b]/20"
-                  >
-                    <Sparkles size={14} strokeWidth={2.5} />
-                    Use sample profile (Jana Cruz)
-                  </button>
-                )}
-
                 <div className="mt-10 flex items-center justify-between gap-3">
                   <button
                     type="button"
@@ -328,12 +291,12 @@ export default function SignupPage() {
                     Ready to View Your Results!
                   </h2>
                   <p className="text-[13px] text-[#7a7373] leading-relaxed">
-                    We have prepared your demonstration workforce diagnosis and skills gap summary.
+                    We have prepared your personalized workforce diagnosis and skills gap summary.
                   </p>
                 </div>
 
                 <h3 className="mb-3 font-display text-[16px] font-bold text-[#201d1d]">
-                  Your Demo Snapshot Summary
+                  Your Diagnostic Snapshot Summary
                 </h3>
 
                 <div className="mb-8 flex flex-col divide-y divide-black/[0.05] rounded-2xl border border-black/[0.07] bg-white shadow-xs">

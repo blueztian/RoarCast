@@ -20,15 +20,15 @@ const fadeUpItem = {
 const settingsGroups = [
   {
     title: "Account",
-    items: [{ icon: UserCircle, label: "Edit Demo Profile & Preferences" }],
+    items: [{ icon: UserCircle, label: "Edit Profile & Preferences" }],
   },
   {
     title: "Notifications",
-    items: [{ icon: Bell, label: "Demo Alerts & Reminders" }],
+    items: [{ icon: Bell, label: "Alerts & Reminders" }],
   },
   {
     title: "Privacy & Security",
-    items: [{ icon: ShieldCheck, label: "Demo Data & Local Storage Preferences" }],
+    items: [{ icon: ShieldCheck, label: "Data & Local Storage Preferences" }],
   },
   {
     title: "Help & Support",

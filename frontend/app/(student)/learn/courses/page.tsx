@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ChevronLeft, Award, PlayCircle, Clock } from "lucide-react";
+import { ArrowLeft, Award, PlayCircle, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { coursesData } from "@/data/mockLearn";
 import SignalBackground from "@/components/SignalBackground";
@@ -27,45 +27,56 @@ export default function CoursesListPage() {
   if (!mounted) return null;
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-[#f5f3f0] font-sans pb-28">
+    <div className="flex flex-1 flex-col h-full bg-[#f5f3f0] font-sans overflow-y-auto relative">
       {/* ── Header ──────────────────────────────────────────────────────────── */}
-      <header className="relative flex-col justify-end overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pb-5 rounded-b-[2.5rem] shadow-sm transition-all" style={{ height: 90 }}>
+      <header className="shrink-0 relative overflow-hidden bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] px-5 pt-6 pb-12">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
-        <div className="relative z-10 flex items-center gap-3">
-          <Link href="/learn" className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20">
-            <ChevronLeft size={20} />
-          </Link>
-          <div className="flex flex-col">
-            <h1 className="font-display text-[22px] font-bold text-white">Courses</h1>
-            <p className="text-[12px] text-white/70">Learning paths matched to the skills employers need.</p>
+        <div className="relative z-10 flex flex-col">
+          <div className="flex items-center gap-3">
+            <Link
+              href="/learn"
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+              aria-label="Back to Learn"
+            >
+              <ArrowLeft size={16} />
+            </Link>
+            <h1 className="font-display text-[22px] font-bold leading-tight tracking-tight text-white">
+              Courses
+            </h1>
           </div>
+          <p className="text-[13px] text-white/80 ml-[44px]">
+            Learning paths matched to the skills employers need.
+          </p>
         </div>
       </header>
 
-      <div className="sticky top-0 z-20 mx-4 mt-3 mb-2 flex rounded-full bg-white p-1 shadow-sm border border-black/[0.05]">
-        {TABS.map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={cn(
-              "flex-1 rounded-full py-2.5 px-2 text-[13.5px] sm:text-[15px] font-bold capitalize transition-colors leading-tight flex items-center justify-center text-center",
-              activeTab === tab ? "bg-[#6b0000] text-white" : "text-[#7a7373] hover:bg-[#faf9f8]"
-            )}
-          >
-            {tab}
-          </button>
-        ))}
-      </div>
-
+      {/* ── White Content Sheet ─────────────────────────────────────────────── */}
       <motion.div
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="flex flex-col gap-4 px-4 pt-2"
+        className="flex-1 min-h-screen bg-white rounded-t-[2.5rem] relative z-10 -mt-6 px-4 pt-6 pb-24 flex flex-col gap-4 shadow-[0_-4px_24px_rgba(0,0,0,0.05)]"
       >
-        {coursesData.map((course) => (
-          <CourseCard key={course.id} course={course} />
-        ))}
+        <div className="sticky top-2 z-20 flex rounded-full bg-[#faf9f8] p-1 shadow-sm border border-black/[0.05]">
+          {TABS.map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={cn(
+                "flex-1 rounded-full py-2.5 px-2 text-[13.5px] sm:text-[15px] font-bold capitalize transition-colors leading-tight flex items-center justify-center text-center",
+                activeTab === tab ? "bg-[#6b0000] text-white shadow-sm" : "text-[#7a7373] hover:bg-black/[0.03]"
+              )}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
+        <div className="flex flex-col gap-4 pt-1">
+          {coursesData.map((course) => (
+            <CourseCard key={course.id} course={course} />
+          ))}
+        </div>
       </motion.div>
     </div>
   );
