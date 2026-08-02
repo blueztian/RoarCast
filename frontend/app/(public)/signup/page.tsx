@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Sparkles } from "lucide-react";
-import { mockStudent } from "@/data/mockStudent";
+import { ArrowLeft, ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
+import { DEMO_STUDENT } from "@/features/demo-data";
+import { demoRepository } from "@/lib/demoRepository";
+import type { StudentProfile } from "@/lib/storageTypes";
 
 interface FormState {
   name: string;
@@ -34,10 +36,10 @@ const fieldMeta: Record<
   keyof FormState,
   { label: string; placeholder: string; type?: string }
 > = {
-  name: { label: "What's your name?", placeholder: "Jana Cruz" },
+  name: { label: "What is your name?", placeholder: "Jana Cruz" },
   age: { label: "How old are you?", placeholder: "23", type: "number" },
   school: { label: "Where do you study?", placeholder: "Santa Rosa, Laguna" },
-  program: { label: "What's your program or strand?", placeholder: "Accounting Information System" },
+  program: { label: "What is your academic program?", placeholder: "Accounting Information Systems" },
   gradYear: { label: "Expected graduation year?", placeholder: "2026", type: "number" },
   careerInterest: { label: "What career path interests you most?", placeholder: "Accounting Operations" },
 };
@@ -56,12 +58,12 @@ export default function SignupPage() {
 
   function fillDemo() {
     setForm({
-      name: mockStudent.name,
-      age: String(mockStudent.age),
-      school: mockStudent.school,
-      program: mockStudent.program,
-      gradYear: String(mockStudent.gradYear),
-      careerInterest: mockStudent.careerInterest,
+      name: DEMO_STUDENT.name,
+      age: String(DEMO_STUDENT.age),
+      school: DEMO_STUDENT.school,
+      program: DEMO_STUDENT.program,
+      gradYear: String(DEMO_STUDENT.gradYear),
+      careerInterest: DEMO_STUDENT.careerInterest,
     });
   }
 
@@ -77,141 +79,183 @@ export default function SignupPage() {
   }
 
   function goBack() {
+    if (stepIndex === 0) {
+      router.push("/audit");
+      return;
+    }
     setDirection(-1);
     setStepIndex((i) => Math.max(i - 1, 0));
   }
 
-  function startAudit() {
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem("roarcast_student", JSON.stringify(form));
-    }
-    router.push("/audit");
+  function saveProfileAndViewResults() {
+    const profile: StudentProfile = {
+      name: form.name,
+      age: form.age,
+      school: form.school,
+      program: form.program,
+      gradYear: form.gradYear,
+      careerInterest: form.careerInterest,
+      location: form.school,
+    };
+    demoRepository.saveStudentProfile(profile);
+    router.push("/results");
   }
 
   return (
-    <section className="mx-auto flex min-h-[100svh] max-w-xl flex-col justify-center px-6 pb-16 pt-32">
-      {/* progress */}
-      <div className="mb-12 flex items-center gap-2" aria-label="Onboarding progress">
-        {Array.from({ length: totalSteps }).map((_, i) => (
-          <div
-            key={i}
-            className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${
-              i <= stepIndex ? "bg-roar-maroon" : "bg-paper-line"
-            }`}
-          />
-        ))}
-      </div>
-
-      <AnimatePresence mode="wait" custom={direction}>
-        {!isReview ? (
-          <motion.div
-            key={stepIndex}
-            custom={direction}
-            initial={{ opacity: 0, x: direction > 0 ? 24 : -24 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: direction > 0 ? -24 : 24 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+    <div className="flex min-h-[100dvh] justify-center bg-[#201d1d]">
+      <div className="relative flex h-[100dvh] w-full max-w-[430px] flex-col overflow-hidden bg-[#f5f3f0]">
+        {/* Header navigation */}
+        <div className="flex shrink-0 items-center justify-between border-b border-black/[0.06] bg-white px-5 py-4 shadow-sm">
+          <button
+            type="button"
+            onClick={goBack}
+            aria-label="Go back"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-[#f5f3f0] text-[#5e5a5a] transition-colors hover:bg-black/[0.07]"
           >
-            <p className="mb-2 font-mono text-xs uppercase tracking-wide text-ink-faint">
+            <ArrowLeft size={18} />
+          </button>
+          <div className="flex flex-col items-center">
+            <span className="font-display text-[15px] font-bold text-[#201d1d]">Demo Profile Setup</span>
+            <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-[#7a7373]">
               Step {stepIndex + 1} of {totalSteps}
-            </p>
-            <h1 className="mb-8 font-display text-2xl font-semibold text-ink sm:text-3xl">
-              Let&rsquo;s set up your profile.
-            </h1>
+            </span>
+          </div>
+          <div className="h-9 w-9" />
+        </div>
 
-            <div className="flex flex-col gap-6">
-              {steps[stepIndex].fields.map((field) => (
-                <label key={field} className="block">
-                  <span className="mb-2 block text-sm font-medium text-ink-soft">
-                    {fieldMeta[field].label}
-                  </span>
-                  <input
-                    type={fieldMeta[field].type ?? "text"}
-                    value={form[field]}
-                    onChange={(e) => update(field, e.target.value)}
-                    placeholder={fieldMeta[field].placeholder}
-                    className="w-full rounded-2xl border border-paper-line bg-white px-5 py-3.5 text-[15px] text-ink outline-none transition-colors focus:border-roar-maroon"
-                  />
-                </label>
-              ))}
-            </div>
+        {/* Progress indicators */}
+        <div className="px-6 pt-6 pb-2 flex items-center gap-2" aria-label="Onboarding progress">
+          {Array.from({ length: totalSteps }).map((_, i) => (
+            <div
+              key={i}
+              className={`h-1.5 flex-1 rounded-full transition-colors duration-300 ${
+                i <= stepIndex ? "bg-[#6b0000]" : "bg-[#e8e4dc]"
+              }`}
+            />
+          ))}
+        </div>
 
-            {stepIndex === 0 && (
-              <button
-                type="button"
-                onClick={fillDemo}
-                className="mt-6 inline-flex items-center gap-1.5 text-xs font-medium text-roar-amber hover:text-roar-maroon"
+        <div className="flex flex-1 flex-col overflow-y-auto px-6 pt-4 pb-12">
+          <AnimatePresence mode="wait" custom={direction}>
+            {!isReview ? (
+              <motion.div
+                key={stepIndex}
+                custom={direction}
+                initial={{ opacity: 0, x: direction > 0 ? 24 : -24 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: direction > 0 ? -24 : 24 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col"
               >
-                <Sparkles size={13} strokeWidth={2.5} />
-                Use a sample profile (Jana Cruz)
-              </button>
-            )}
+                <h1 className="mb-2 font-display text-[22px] font-bold text-[#201d1d]">
+                  Create your RoarCast profile
+                </h1>
+                <p className="mb-6 text-[13.5px] leading-relaxed text-[#7a7373]">
+                  Save your readiness snapshot to view your diagnostics and match with local employer signals.
+                </p>
 
-            <div className="mt-10 flex items-center justify-between">
-              <button
-                type="button"
-                onClick={goBack}
-                disabled={stepIndex === 0}
-                className="inline-flex items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-medium text-ink-soft disabled:opacity-0"
-              >
-                <ArrowLeft size={15} />
-                Back
-              </button>
-              <button
-                type="button"
-                onClick={goNext}
-                disabled={!currentFieldsFilled()}
-                className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-semibold text-paper transition-colors hover:bg-roar-maroon disabled:cursor-not-allowed disabled:bg-ink/20"
-              >
-                Continue
-                <ArrowRight size={15} />
-              </button>
-            </div>
-          </motion.div>
-        ) : (
-          <motion.div
-            key="review"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <p className="mb-2 font-mono text-xs uppercase tracking-wide text-ink-faint">
-              Step {totalSteps} of {totalSteps}
-            </p>
-            <h1 className="mb-8 font-display text-2xl font-semibold text-ink sm:text-3xl">
-              Here&rsquo;s what we&rsquo;ll use.
-            </h1>
-
-            <div className="mb-10 flex flex-col divide-y divide-paper-line rounded-2xl border border-paper-line bg-white">
-              {(Object.keys(fieldMeta) as (keyof FormState)[]).map((field) => (
-                <div key={field} className="flex items-center justify-between px-5 py-3.5">
-                  <span className="text-sm text-ink-faint">{fieldMeta[field].label}</span>
-                  <span className="text-sm font-medium text-ink">{form[field] || "—"}</span>
+                <div className="flex flex-col gap-5">
+                  {steps[stepIndex].fields.map((field) => (
+                    <label key={field} className="block">
+                      <span className="mb-1.5 block text-[12px] font-bold uppercase tracking-wider text-[#5e5a5a]">
+                        {fieldMeta[field].label}
+                      </span>
+                      <input
+                        type={fieldMeta[field].type ?? "text"}
+                        value={form[field]}
+                        onChange={(e) => update(field, e.target.value)}
+                        placeholder={fieldMeta[field].placeholder}
+                        className="w-full rounded-2xl border border-black/[0.08] bg-white px-4 py-3.5 text-[15px] text-[#201d1d] placeholder:text-[#c0bab5] outline-none transition-colors focus:border-[#6b0000] focus:ring-1 focus:ring-[#6b0000]"
+                      />
+                    </label>
+                  ))}
                 </div>
-              ))}
-            </div>
 
-            <div className="flex items-center justify-between">
-              <button
-                type="button"
-                onClick={goBack}
-                className="inline-flex items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-medium text-ink-soft"
+                {stepIndex === 0 && (
+                  <button
+                    type="button"
+                    onClick={fillDemo}
+                    className="mt-6 inline-flex items-center gap-1.5 self-start rounded-xl border border-[#f59e0b]/40 bg-[#f59e0b]/10 px-3.5 py-2 text-[12.5px] font-bold text-[#b45309] transition-colors hover:bg-[#f59e0b]/20"
+                  >
+                    <Sparkles size={14} strokeWidth={2.5} />
+                    Use sample profile (Jana Cruz)
+                  </button>
+                )}
+
+                <div className="mt-10 flex items-center justify-between gap-3">
+                  <button
+                    type="button"
+                    onClick={goBack}
+                    className="rounded-full border border-black/10 px-5 py-3 text-[14px] font-bold text-[#5e5a5a] transition-colors hover:bg-black/[0.03]"
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="button"
+                    onClick={goNext}
+                    disabled={!currentFieldsFilled()}
+                    className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#6b0000] to-[#4a0000] py-3.5 text-[15px] font-bold text-white shadow-[0_4px_18px_rgba(107,0,0,0.3)] transition-opacity disabled:opacity-40"
+                  >
+                    Continue
+                    <ArrowRight size={16} />
+                  </button>
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="review"
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col"
               >
-                <ArrowLeft size={15} />
-                Back
-              </button>
-              <button
-                type="button"
-                onClick={startAudit}
-                className="inline-flex items-center gap-2 rounded-full bg-roar-maroon px-7 py-3.5 text-sm font-semibold text-white transition-transform hover:scale-[1.02]"
-              >
-                Start My Micro-Audit
-                <ArrowRight size={16} />
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </section>
+                <div className="mb-6 flex flex-col items-center gap-2.5 rounded-[20px] bg-gradient-to-b from-amber-50/80 to-white px-5 py-5 text-center border border-amber-200/60 shadow-sm">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-amber-100/80 text-amber-700 mb-1">
+                    <CheckCircle2 size={26} strokeWidth={2.5} />
+                  </div>
+                  <h2 className="font-display text-[18px] font-bold text-[#201d1d]">
+                    Ready to View Your Results!
+                  </h2>
+                  <p className="text-[13px] text-[#7a7373] leading-relaxed">
+                    We have prepared your demonstration workforce diagnosis and skills gap summary.
+                  </p>
+                </div>
+
+                <h3 className="mb-3 font-display text-[16px] font-bold text-[#201d1d]">
+                  Your Demo Snapshot Summary
+                </h3>
+
+                <div className="mb-8 flex flex-col divide-y divide-black/[0.05] rounded-2xl border border-black/[0.07] bg-white shadow-xs">
+                  {(Object.keys(fieldMeta) as (keyof FormState)[]).map((field) => (
+                    <div key={field} className="flex items-center justify-between px-4 py-3.5">
+                      <span className="text-[13px] text-[#7a7373]">{fieldMeta[field].label}</span>
+                      <span className="text-[13.5px] font-bold text-[#201d1d]">{form[field] || "—"}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-between gap-3">
+                  <button
+                    type="button"
+                    onClick={goBack}
+                    className="rounded-full border border-black/10 px-5 py-3.5 text-[14px] font-bold text-[#5e5a5a]"
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="button"
+                    onClick={saveProfileAndViewResults}
+                    className="flex flex-1 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#6b0000] to-[#4a0000] py-4 text-[15px] font-bold text-white shadow-[0_4px_22px_rgba(107,0,0,0.35)] transition-transform active:scale-[0.98]"
+                  >
+                    Save Profile &amp; View Results
+                    <ArrowRight size={16} />
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+    </div>
   );
 }

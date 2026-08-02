@@ -3,6 +3,8 @@
  * All UI derives from this, never independently hardcoding values.
  */
 
+import { demoRepository } from "@/lib/demoRepository";
+
 // ── Keys ────────────────────────────────────────────────────────────────────
 const KEYS = {
   student: "roarcast_student",
@@ -220,7 +222,7 @@ export function markDashboardSeen(): void {
 export const BASE_READINESS = 72;
 
 export function computeReadiness(): number {
-  let score = BASE_READINESS;
+  let score = demoRepository.getReadinessSnapshot().score;
   if (isCredentialEarned()) score += 9;
   return Math.min(score, 100);
 }

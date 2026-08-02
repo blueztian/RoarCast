@@ -4,40 +4,28 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
-  Bell, ChevronRight,
-  TrendingUp, Database, RefreshCw, Layers,
-  Briefcase, Pencil,
+  Bell,
+  ChevronRight,
+  TrendingUp,
+  Database,
+  RefreshCw,
+  Layers,
+  Briefcase,
+  Pencil,
 } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import SignalBackground from "@/components/SignalBackground";
 import ReadinessRing from "@/components/ReadinessRing";
-
-// ─── Mock Data ─────────────────────────────────────────────────────────────────
-// Industry Pulse data lives in data/industryPulse.ts — reserved for Explore pages.
-
-const studentProfile = {
-  name: "Jana",
-  greeting: "Good morning",
-};
-
-const readiness = {
-  score: 72,
-  trend: "+12%",
-  targetRole: "Junior Accounting Operations Associate",
-};
+import { demoRepository } from "@/lib/demoRepository";
+import { DEMO_STUDENT, DEMO_READINESS_SNAPSHOT } from "@/features/demo-data";
+import type { StudentProfile, ReadinessSnapshot } from "@/lib/storageTypes";
 
 const skillGaps = [
-  { id: "sap-erp", name: "SAP ERP", priority: "High", icon: Database },
+  { id: "sap-erp", name: "SAP ERP Systems", priority: "High", icon: Database },
   { id: "data-recon", name: "Data Reconciliation", priority: "Medium", icon: RefreshCw },
-  { id: "erp-sys", name: "ERP Systems", priority: "Medium", icon: Layers },
+  { id: "erp-sys", name: "Workflow Foundations", priority: "Medium", icon: Layers },
 ];
-
-const recommendation = {
-  role: "Junior Accounting Operations Associate",
-  match: 72,
-  href: "/explore",
-};
 
 const quickAction = {
   title: "Continue your readiness plan",
@@ -45,26 +33,23 @@ const quickAction = {
   href: "/learn/erp-foundations",
 };
 
-// ─── Animations ────────────────────────────────────────────────────────────────
 const stagger = {
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { staggerChildren: 0.09 } },
 };
+
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
   show: { opacity: 1, y: 0, transition: { duration: 0.42, ease: "easeOut" } },
 };
 
-// ─── Priority Badge ────────────────────────────────────────────────────────────
 function PriorityBadge({ level }: { level: string }) {
   const isHigh = level === "High";
   return (
     <span
       className={cn(
         "rounded-full px-3 py-1.5 text-[11.5px] font-bold leading-none",
-        isHigh
-          ? "bg-[#4a0000] text-white"
-          : "bg-[#f59e0b] text-white"
+        isHigh ? "bg-[#4a0000] text-white" : "bg-[#f59e0b] text-white"
       )}
     >
       {level}
@@ -72,21 +57,32 @@ function PriorityBadge({ level }: { level: string }) {
   );
 }
 
-// ─── Page ──────────────────────────────────────────────────────────────────────
 export default function DashboardPage() {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const [profile, setProfile] = useState<StudentProfile>(DEMO_STUDENT);
+  const [snapshot, setSnapshot] = useState<ReadinessSnapshot>(DEMO_READINESS_SNAPSHOT);
+
+  useEffect(() => {
+    setMounted(true);
+    const p = demoRepository.getStudentProfile();
+    const s = demoRepository.getReadinessSnapshot();
+    if (p) setProfile(p);
+    if (s) setSnapshot(s);
+  }, []);
+
   if (!mounted) return null;
+
+  const firstName = profile.name ? profile.name.split(" ")[0] : "Student";
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
 
   return (
     <div className="flex flex-1 flex-col h-full bg-gradient-to-br from-[#6b0000] via-[#4a0000] to-[#2d0000] font-sans overflow-hidden">
-
       {/* ── Hero Header ─────────────────────────────────────────────────── */}
       <header className="shrink-0 relative overflow-hidden px-5 pt-6 pb-5">
         <SignalBackground className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen" />
 
         <div className="relative z-10">
-          {/* Logo + Bell */}
           <div className="flex items-center justify-between mb-4">
             <Link
               href="/dashboard"
@@ -104,7 +100,12 @@ export default function DashboardPage() {
               RoarCast
             </Link>
 
-            <button type="button" className="relative p-1.5" aria-label="Notifications" title="No new system notifications">
+            <button
+              type="button"
+              className="relative p-1.5"
+              aria-label="Notifications"
+              title="No new system notifications"
+            >
               <Bell size={24} className="text-white" strokeWidth={1.5} />
               <span
                 aria-hidden="true"
@@ -113,13 +114,12 @@ export default function DashboardPage() {
             </button>
           </div>
 
-          {/* Greeting */}
           <div className="space-y-0.5">
             <h1 className="font-display text-[22px] font-bold leading-tight tracking-tight text-white">
-              {studentProfile.greeting}, {studentProfile.name}
+              {greeting}, {firstName}
             </h1>
             <p className="text-[13px] text-white/75">
-              See where Santa Rosa&apos;s job market is moving.
+              See where Santa Rosa&apos;s job market is moving for {profile.program || "your field"}.
             </p>
           </div>
         </div>
@@ -132,53 +132,45 @@ export default function DashboardPage() {
         animate="show"
         className="flex-1 overflow-y-auto bg-[#f5f3f0] rounded-t-[2.5rem] relative z-10 px-4 pt-6 pb-24 flex flex-col gap-4 shadow-[0_-4px_24px_rgba(0,0,0,0.1)]"
       >
-
         {/* ── 1 · Your Readiness Score ──────────────────────────────────────── */}
         <motion.section
           variants={fadeUp}
           aria-labelledby="readiness-heading"
           className="rounded-[24px] bg-white p-5 shadow-[0_4px_24px_rgba(0,0,0,0.07)]"
         >
-          <h2
-            id="readiness-heading"
-            className="mb-4 text-[13px] font-bold text-[#201d1d]"
-          >
+          <h2 id="readiness-heading" className="mb-4 text-[13px] font-bold text-[#201d1d]">
             Your Readiness Score
           </h2>
 
-          {/* Gauge + Target Role */}
           <div className="flex items-center gap-4">
-            {/* Full-circle ring — sized for mobile */}
             <div className="shrink-0">
               <ReadinessRing
-                percentage={readiness.score}
+                percentage={snapshot.score}
                 size={128}
                 strokeWidth={10}
-                label="Job Ready"
+                label={snapshot.label}
               />
             </div>
 
-            {/* Target Role panel */}
             <div className="flex flex-1 flex-col rounded-[16px] border border-black/[0.07] bg-[#faf9f8] p-3.5">
               <span className="text-[11px] font-semibold uppercase tracking-wider text-[#9c9595]">
-                Target Role
+                Target Pathway
               </span>
               <p className="mt-1.5 font-display text-[14.5px] font-bold leading-snug text-[#201d1d]">
-                {readiness.targetRole}
+                {snapshot.targetRole}
               </p>
-              <button
+              <Link
+                href="/explore/career-paths"
                 className="mt-3 self-start text-[12px] font-bold text-[#f59e0b] transition-opacity hover:opacity-70"
-                aria-label="Change target role"
               >
                 Change target
-              </button>
+              </Link>
             </div>
           </div>
 
-          {/* Trend */}
           <p className="mt-3 flex items-center gap-1.5 text-[13px] font-bold text-emerald-600">
             <TrendingUp size={14} strokeWidth={2.5} aria-hidden="true" />
-            {readiness.trend} vs last month
+            +12% diagnostic gain in current session
           </p>
         </motion.section>
 
@@ -190,11 +182,14 @@ export default function DashboardPage() {
         >
           <div className="mb-3 flex items-center justify-between">
             <h2 id="gaps-heading" className="text-[14px] font-bold text-[#201d1d]">
-              Top Skill Gaps
+              Top Diagnostic Gaps
             </h2>
-            <button className="flex items-center gap-0.5 text-[12px] font-semibold text-[#6b0000]">
+            <Link
+              href="/results"
+              className="flex items-center gap-0.5 text-[12px] font-semibold text-[#6b0000] transition-opacity hover:opacity-75"
+            >
               See all <ChevronRight size={14} aria-hidden="true" />
-            </button>
+            </Link>
           </div>
 
           <ul className="flex flex-col divide-y divide-black/[0.04]" aria-label="Top skill gaps">
@@ -225,7 +220,7 @@ export default function DashboardPage() {
           className="rounded-[24px] bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
         >
           <h2 id="rec-heading" className="mb-3 text-[14px] font-bold text-[#201d1d]">
-            Recommended for you
+            Recommended Pathway
           </h2>
 
           <div className="flex items-center gap-3.5">
@@ -237,17 +232,17 @@ export default function DashboardPage() {
             </span>
             <div className="flex flex-1 flex-col">
               <p className="text-[14.5px] font-bold leading-snug text-[#201d1d]">
-                {recommendation.role}
+                {snapshot.targetRole}
               </p>
               <p className="mt-0.5 text-[13px] font-bold text-emerald-600">
-                {recommendation.match}% match
+                {snapshot.score}% readiness match
               </p>
             </div>
             <Link
-              href={recommendation.href}
+              href="/explore"
               className="shrink-0 rounded-full bg-[#f0ede9] px-4 py-2 text-[12.5px] font-semibold text-[#5e5a5a] transition-colors hover:bg-[#e8e4df]"
             >
-              View role
+              View roles
             </Link>
           </div>
         </motion.section>
@@ -285,7 +280,6 @@ export default function DashboardPage() {
             </span>
           </Link>
         </motion.section>
-
       </motion.div>
     </div>
   );
