@@ -12,12 +12,7 @@ import {
   MessageSquare,
 } from "lucide-react";
 import SignalBackground from "@/components/SignalBackground";
-import {
-  getSquad,
-  getOverallLearningProgress,
-  getLessonProgress,
-  MODULE_IDS,
-} from "@/lib/studentState";
+import { demoRepository, MODULE_IDS } from "@/lib/demoRepository";
 import { staggerContainer, staggerItem } from "@/lib/motion";
 
 const SQUAD_MODULES = [
@@ -76,10 +71,10 @@ export default function SquadPage() {
   const [moduleStatuses, setModuleStatuses] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    const squad = getSquad();
+    const squad = demoRepository.getSquad();
     setJoined(squad?.squadId === "erp-fundamentals");
-    setMyProgress(getOverallLearningProgress());
-    setModuleStatuses(getLessonProgress());
+    setMyProgress(demoRepository.getOverallLearningProgress());
+    setModuleStatuses(demoRepository.getLessonProgress());
   }, []);
 
   const squadProgress = 38; // Squad's average (static mock for others)

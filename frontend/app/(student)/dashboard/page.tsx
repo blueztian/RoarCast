@@ -17,8 +17,8 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import SignalBackground from "@/components/SignalBackground";
 import ReadinessRing from "@/components/ReadinessRing";
+import { useRouter } from "next/navigation";
 import { demoRepository } from "@/lib/demoRepository";
-import { DEMO_STUDENT, DEMO_READINESS_SNAPSHOT } from "@/features/demo-data";
 import type { StudentProfile, ReadinessSnapshot } from "@/lib/storageTypes";
 
 const skillGaps = [
@@ -58,19 +58,36 @@ function PriorityBadge({ level }: { level: string }) {
 }
 
 export default function DashboardPage() {
-  const [mounted, setMounted] = useState(false);
-  const [profile, setProfile] = useState<StudentProfile>(DEMO_STUDENT);
-  const [snapshot, setSnapshot] = useState<ReadinessSnapshot>(DEMO_READINESS_SNAPSHOT);
+  const router = useRouter();
+  const [profile, setProfile] = useState<StudentProfile | null>(null);
+  const [snapshot, setSnapshot] = useState<ReadinessSnapshot | null>(null);
+  const [isChecking, setIsChecking] = useState(true);
+  const [isSampleMode, setIsSampleMode] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-    const p = demoRepository.getStudentProfile();
     const s = demoRepository.getReadinessSnapshot();
-    if (p) setProfile(p);
-    if (s) setSnapshot(s);
-  }, []);
+    if (!s) {
+      router.replace("/audit");
+      return;
+    }
+    const p = demoRepository.getStudentProfile();
+    if (!p) {
+      router.replace("/signup");
+      return;
+    }
+    setSnapshot(s);
+    setProfile(p);
+    setIsSampleMode(demoRepository.isSampleMode());
+    setIsChecking(false);
+  }, [router]);
 
-  if (!mounted) return null;
+  if (isChecking || !profile || !snapshot) {
+    return (
+      <div className="flex min-h-[100dvh] items-center justify-center bg-[#201d1d]">
+        <div className="text-white text-sm font-mono animate-pulse">Loading student dashboard...</div>
+      </div>
+    );
+  }
 
   const firstName = profile.name ? profile.name.split(" ")[0] : "Student";
   const hour = new Date().getHours();
@@ -113,6 +130,12 @@ export default function DashboardPage() {
               />
             </button>
           </div>
+
+          {isSampleMode && (
+            <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-amber-400/20 border border-amber-400/40 px-3 py-1 text-[11px] font-mono font-bold uppercase tracking-wide text-amber-300">
+              Sample persona mode
+            </div>
+          )}
 
           <div className="space-y-0.5">
             <h1 className="font-display text-[22px] font-bold leading-tight tracking-tight text-white">

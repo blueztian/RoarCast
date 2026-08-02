@@ -13,12 +13,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import SignalBackground from "@/components/SignalBackground";
-import {
-  areAllModulesComplete,
-  saveAssessmentResult,
-  getAssessmentResult,
-  getStudent,
-} from "@/lib/studentState";
+import { demoRepository } from "@/lib/demoRepository";
 import { staggerContainer, staggerItem, successReveal } from "@/lib/motion";
 import { evaluateAssessment, PASS_THRESHOLD, ANALYSIS_STEPS } from "@/features/assessment";
 
@@ -106,18 +101,18 @@ export default function AssessmentPage() {
   const [analysisStep, setAnalysisStep] = useState(0);
   const [score, setScore] = useState(0);
   const [passed, setPassed] = useState(false);
-  const studentName = getStudent().name;
+  const studentName = demoRepository.getStudentOrDefault().name;
 
   // Check if learning is complete
   useEffect(() => {
-    const existing = getAssessmentResult();
+    const existing = demoRepository.getAssessmentResult();
     if (existing) {
       setScore(existing.score);
       setPassed(existing.passed);
       setPhase("result");
       return;
     }
-    if (!areAllModulesComplete()) {
+    if (!demoRepository.areAllModulesComplete()) {
       setPhase("blocked");
     }
   }, []);
@@ -133,7 +128,7 @@ export default function AssessmentPage() {
       );
       setScore(evalResult.score);
       setPassed(evalResult.passed);
-      saveAssessmentResult(evalResult);
+      demoRepository.saveAssessmentResult(evalResult);
       setTimeout(() => setPhase("result"), 800);
       return;
     }
@@ -277,7 +272,7 @@ export default function AssessmentPage() {
                     <CheckCircle2 size={40} strokeWidth={1.5} />
                   </motion.span>
                   <p className="mb-2 font-mono text-sm uppercase tracking-widest text-roar-maroon">
-                    Skill Verified
+                    Demo Quiz Passed
                   </p>
                   <h1 className="font-display text-3xl font-semibold text-ink sm:text-4xl">
                     ERP Workflow Fundamentals

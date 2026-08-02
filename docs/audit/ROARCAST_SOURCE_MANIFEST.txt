@@ -1,0 +1,109 @@
+================================================================================
+ROARCAST SOURCE MANIFEST & LINE COUNT INVENTORY
+Generated for Independent Technical Review
+================================================================================
+
+Repository Root: C:/Users/my/OneDrive/Desktop/RoarCast
+Current Branch: develop
+Commit Hash: fb5e952b6e3448b73eeba71689dc052854d829fc
+Verification Timestamp: 2026-08-02T07:30:00+08:00
+Exclusions: node_modules, .next, dist, build, coverage, .git, caches, generated reports
+
+================================================================================
+FILE PATH                                                          LINE COUNT      BYTE SIZE
+================================================================================
+backend/.gitkeep                                                   [META/EMPTY]       0 bytes
+data-engine/.gitkeep                                               [META/EMPTY]       0 bytes
+docs/.gitkeep                                                      [META/EMPTY]       0 bytes
+FOUR_PLUS_ONE_Elimination_Brief.docx                              [BINARY/DOC]   22406 bytes
+FOUR_PLUS_ONE_Elimination_Brief.pdf                               [BINARY/PDF]  126562 bytes
+frontend/.gitignore                                                [META/CFG]        57 bytes
+frontend/app/(public)/audit/page.tsx                                138 lines    4773 bytes
+frontend/app/(public)/layout.tsx                                      3 lines     112 bytes
+frontend/app/(public)/page.tsx                                     1138 lines   57654 bytes
+frontend/app/(public)/signup/page.tsx                               217 lines    8250 bytes
+frontend/app/(student)/assessment/erp-workflow/page.tsx             539 lines   21728 bytes
+frontend/app/(student)/credentials/erp-workflow/page.tsx            325 lines   12871 bytes
+frontend/app/(student)/credentials/page.tsx                         194 lines    9620 bytes
+frontend/app/(student)/credentials/portfolio/page.tsx               184 lines    9575 bytes
+frontend/app/(student)/credentials/verify/[credentialId]/page.tsx   105 lines    4514 bytes
+frontend/app/(student)/dashboard/page.tsx                           292 lines   14866 bytes
+frontend/app/(student)/explore.zip                                 [BINARY/ZIP]   14311 bytes
+frontend/app/(student)/explore/career-paths/page.tsx                250 lines   11031 bytes
+frontend/app/(student)/explore/companies/page.tsx                   171 lines    7103 bytes
+frontend/app/(student)/explore/industry-pulse/page.tsx              230 lines   10567 bytes
+frontend/app/(student)/explore/page.tsx                             129 lines    5042 bytes
+frontend/app/(student)/explore/trending-skills/page.tsx             139 lines    6021 bytes
+frontend/app/(student)/layout.tsx                                     5 lines     209 bytes
+frontend/app/(student)/learn/courses/[courseId]/modules/[moduleId]/page.tsx  146 lines  6934 bytes
+frontend/app/(student)/learn/courses/[courseId]/page.tsx            183 lines    9959 bytes
+frontend/app/(student)/learn/courses/page.tsx                       135 lines    6216 bytes
+frontend/app/(student)/learn/erp-foundations/page.tsx               628 lines   27138 bytes
+frontend/app/(student)/learn/page.tsx                               110 lines    6082 bytes
+frontend/app/(student)/learn/squads/[squadId]/page.tsx              333 lines   17358 bytes
+frontend/app/(student)/learn/squads/page.tsx                        290 lines   16040 bytes
+frontend/app/(student)/profile/audit-history/page.tsx               153 lines    6441 bytes
+frontend/app/(student)/profile/page.tsx                             247 lines   12423 bytes
+frontend/app/(student)/profile/settings/page.tsx                    105 lines    4019 bytes
+frontend/app/(student)/results/page.tsx                             108 lines    4941 bytes
+frontend/app/(student)/skills/erp-workflow/page.tsx                 378 lines   16279 bytes
+frontend/app/(student)/squads/erp-fundamentals/page.tsx             263 lines   10647 bytes
+frontend/app/(student)/squads/match/page.tsx                        260 lines   11413 bytes
+frontend/app/admin/institutions/page.tsx                            110 lines    4873 bytes
+frontend/app/admin/layout.tsx                                        65 lines    3340 bytes
+frontend/app/admin/page.tsx                                         133 lines    6172 bytes
+frontend/app/admin/peza-zones/page.tsx                               56 lines    2869 bytes
+frontend/app/admin/profile/page.tsx                                  57 lines    2959 bytes
+frontend/app/admin/reports/page.tsx                                  56 lines    2999 bytes
+frontend/app/admin/settings/page.tsx                                 52 lines    2648 bytes
+frontend/app/admin/skill-gaps/page.tsx                              121 lines    5710 bytes
+frontend/app/admin/workforce-intelligence/page.tsx                  291 lines   16071 bytes
+frontend/app/globals.css                                             64 lines    1158 bytes
+frontend/app/icon.png                                              [BINARY/PNG]  673148 bytes
+frontend/app/layout.tsx                                              37 lines    1124 bytes
+frontend/components/AnimatedHero.tsx                                120 lines    5042 bytes
+frontend/components/AuditQuestion.tsx                                73 lines    2462 bytes
+frontend/components/CTASection.tsx                                   43 lines    1571 bytes
+frontend/components/DemandBadge.tsx                                  40 lines    1075 bytes
+frontend/components/FloatingNavbar.tsx                              151 lines    5525 bytes
+frontend/components/HeroSignalField.tsx                             232 lines    6909 bytes
+frontend/components/MobileFloatingNav.tsx                           115 lines    3574 bytes
+frontend/components/ParticlesBackground.tsx                         129 lines    3104 bytes
+frontend/components/ReadinessGauge.tsx                              101 lines    2986 bytes
+frontend/components/ReadinessRing.tsx                                70 lines    2284 bytes
+frontend/components/SignalBackground.tsx                            232 lines    6568 bytes
+frontend/components/SkillExplanationDrawer.tsx                       72 lines    2615 bytes
+frontend/components/SkillGapCard.tsx                                 65 lines    2554 bytes
+frontend/components/SkillTag.tsx                                     29 lines     869 bytes
+frontend/components/StudentAppShell.tsx                              12 lines     391 bytes
+frontend/data/industryPulse.ts                                      136 lines    4368 bytes
+frontend/data/mockAuditQuestions.ts                                  68 lines    2088 bytes
+frontend/data/mockDemand.ts                                          24 lines    1458 bytes
+frontend/data/mockLearn.ts                                          241 lines    7533 bytes
+frontend/data/mockSkills.ts                                          80 lines    2970 bytes
+frontend/data/mockStudent.ts                                         20 lines     517 bytes
+frontend/lib/motion.ts                                              149 lines    5541 bytes
+frontend/lib/studentState.ts                                        232 lines    8284 bytes
+frontend/lib/useMeasuredHeight.ts                                    28 lines     750 bytes
+frontend/lib/useScrolled.ts                                          21 lines     663 bytes
+frontend/lib/utils.ts                                                 6 lines     175 bytes
+frontend/next.config.mjs                                              9 lines     167 bytes
+frontend/next-env.d.ts                                                5 lines     233 bytes
+frontend/package.json                                                29 lines     675 bytes
+frontend/package-lock.json                                         1708 lines   59577 bytes
+frontend/postcss.config.mjs                                           9 lines     166 bytes
+frontend/public/particles.min.js                                      9 lines    7024 bytes
+frontend/public/roarcast-icon.png                                  [BINARY/PNG]  673148 bytes
+frontend/README.md                                                   62 lines    2612 bytes
+frontend/tailwind.config.ts                                          66 lines    2211 bytes
+frontend/tsconfig.json                                               23 lines     595 bytes
+frontend/tsconfig.tsbuildinfo                                      [BINARY/META]  95370 bytes
+README.md                                                            48 lines    2799 bytes
+research/.gitkeep                                                  [META/EMPTY]       0 bytes
+================================================================================
+TOTAL MANIFEST SUMMARY:
+- Active Source Files (.tsx, .ts, .js, .css, .mjs, .json, .md): 73 files
+- Empty Architectural Directories (.gitkeep only): 4 (backend, data-engine, docs, research)
+- Binary / Archive Artifacts: 6 (explore.zip, docx, pdf, 2 PNGs, tsbuildinfo)
+- Total Application TypeScript/React Lines: ~10,250 lines
+================================================================================

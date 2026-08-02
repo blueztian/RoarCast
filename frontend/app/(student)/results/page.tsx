@@ -4,26 +4,49 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Info, ArrowRight, LayoutDashboard, Sparkles, CheckCircle2, AlertCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 import ReadinessRing from "@/components/ReadinessRing";
 import SkillTag from "@/components/SkillTag";
 import DemandBadge from "@/components/DemandBadge";
 import SkillGapCard from "@/components/SkillGapCard";
 import SkillExplanationDrawer from "@/components/SkillExplanationDrawer";
 import { readinessSummary, priorityGap, type SkillResult } from "@/data/mockSkills";
-import { markAuditComplete } from "@/lib/studentState";
 import { demoRepository } from "@/lib/demoRepository";
-import { DEMO_READINESS_SNAPSHOT } from "@/features/demo-data";
 import type { ReadinessSnapshot } from "@/lib/storageTypes";
 
 export default function ResultsPage() {
-  const [snapshot, setSnapshot] = useState<ReadinessSnapshot>(DEMO_READINESS_SNAPSHOT);
+  const router = useRouter();
+  const [snapshot, setSnapshot] = useState<ReadinessSnapshot | null>(null);
+  const [isChecking, setIsChecking] = useState(true);
+  const [isSampleMode, setIsSampleMode] = useState(false);
   const [explaining, setExplaining] = useState<SkillResult | null>(null);
 
   useEffect(() => {
-    markAuditComplete();
+    // 2.4 Route prerequisite check
     const current = demoRepository.getReadinessSnapshot();
-    if (current) setSnapshot(current);
-  }, []);
+    if (!current) {
+      router.replace("/audit");
+      return;
+    }
+    const profile = demoRepository.getStudentProfile();
+    if (!profile) {
+      router.replace("/signup");
+      return;
+    }
+
+    demoRepository.markAuditComplete();
+    setSnapshot(current);
+    setIsSampleMode(demoRepository.isSampleMode());
+    setIsChecking(false);
+  }, [router]);
+
+  if (isChecking || !snapshot) {
+    return (
+      <div className="flex min-h-[70dvh] items-center justify-center">
+        <div className="text-ink-soft font-mono text-sm animate-pulse">Loading diagnostic results...</div>
+      </div>
+    );
+  }
 
   const groups: { key: keyof typeof readinessSummary; title: string; note: string }[] = [
     { key: "ready", title: "Ready & Strengths", note: "Already meets what employers expect" },
@@ -33,6 +56,13 @@ export default function ResultsPage() {
 
   return (
     <section className="mx-auto max-w-5xl px-6 pb-24 pt-12 sm:pt-20 sm:pb-32">
+      {isSampleMode && (
+        <div className="mb-6 flex justify-center">
+          <span className="rounded-md bg-amber-100 px-3 py-1 font-mono text-xs font-bold uppercase tracking-wide text-[#b45309]">
+            Sample persona mode
+          </span>
+        </div>
+      )}
       <div className="mb-14 flex flex-col items-center gap-6 text-center">
         <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-4 py-1.5 text-xs font-bold text-[#b45309]">
           <Sparkles size={14} /> Diagnostic Status: {snapshot.label}

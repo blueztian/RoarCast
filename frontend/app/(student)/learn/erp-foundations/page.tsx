@@ -13,14 +13,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import SignalBackground from "@/components/SignalBackground";
-import {
-  getModuleStatus,
-  setModuleStatus,
-  getLessonProgress,
-  areAllModulesComplete,
-  getOverallLearningProgress,
-  MODULE_IDS,
-} from "@/lib/studentState";
+import { demoRepository, MODULE_IDS } from "@/lib/demoRepository";
 import { staggerContainer, staggerItem, fadeUp } from "@/lib/motion";
 
 // ── Module data ───────────────────────────────────────────────────────────────
@@ -384,16 +377,16 @@ export default function LearnPage() {
   const [completedAnimation, setCompletedAnimation] = useState<string | null>(null);
 
   const refreshStatuses = useCallback(() => {
-    setStatuses(getLessonProgress());
-    setOverallProgress(getOverallLearningProgress());
+    setStatuses(demoRepository.getLessonProgress());
+    setOverallProgress(demoRepository.getOverallLearningProgress());
   }, []);
 
   useEffect(() => {
     refreshStatuses();
     // Mark first module as in-progress if not started
-    const s = getModuleStatus("erp-foundations");
+    const s = demoRepository.getModuleStatus("erp-foundations");
     if (s === "not_started") {
-      setModuleStatus("erp-foundations", "in_progress");
+      demoRepository.setModuleStatus("erp-foundations", "in_progress");
       refreshStatuses();
     }
   }, [refreshStatuses]);
@@ -410,15 +403,15 @@ export default function LearnPage() {
   function handleModuleClick(module: Module) {
     if (!isUnlocked(module)) return;
     setActiveModuleId(module.id);
-    const current = getModuleStatus(module.id);
+    const current = demoRepository.getModuleStatus(module.id);
     if (current === "not_started") {
-      setModuleStatus(module.id, "in_progress");
+      demoRepository.setModuleStatus(module.id, "in_progress");
       refreshStatuses();
     }
   }
 
   function handleComplete() {
-    setModuleStatus(activeModuleId, "completed");
+    demoRepository.setModuleStatus(activeModuleId, "completed");
     setCompletedAnimation(activeModuleId);
     refreshStatuses();
 
@@ -429,7 +422,7 @@ export default function LearnPage() {
       setTimeout(() => {
         setCompletedAnimation(null);
         setActiveModuleId(nextModule.id);
-        setModuleStatus(nextModule.id, "in_progress");
+        demoRepository.setModuleStatus(nextModule.id, "in_progress");
         refreshStatuses();
       }, 1200);
     } else {
@@ -441,7 +434,7 @@ export default function LearnPage() {
     }
   }
 
-  const allComplete = areAllModulesComplete();
+  const allComplete = demoRepository.areAllModulesComplete();
 
   return (
     <div className="flex flex-1 flex-col h-full bg-[#f5f3f0] font-sans overflow-y-auto relative">

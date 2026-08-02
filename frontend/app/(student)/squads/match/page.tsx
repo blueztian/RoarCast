@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Check, Loader2, Users } from "lucide-react";
 import SignalBackground from "@/components/SignalBackground";
-import { joinSquad, getSquad } from "@/lib/studentState";
+import { demoRepository } from "@/lib/demoRepository";
 import { staggerContainer, staggerItem, successReveal } from "@/lib/motion";
 
 const matchingSteps = [
@@ -24,23 +24,24 @@ export default function SquadMatchPage() {
 
   // If already joined, skip straight to squad page
   useEffect(() => {
-    if (getSquad()?.squadId === SQUAD_ID) {
+    if (demoRepository.getSquad()?.squadId === SQUAD_ID) {
       router.replace("/squads/erp-fundamentals");
     }
   }, [router]);
 
   // Animate through matching steps
   useEffect(() => {
-    if (step >= matchingSteps.length) return;
-    const t = setTimeout(() => setStep((s) => s + 1), 900);
-    return () => clearTimeout(t);
+    if (step < matchingSteps.length) {
+      const t = setTimeout(() => setStep((s) => s + 1), 1400);
+      return () => clearTimeout(t);
+    }
   }, [step]);
 
-  const isRevealed = step >= matchingSteps.length;
+  const isRevealed = step === matchingSteps.length;
 
   function handleJoin() {
     setJoining(true);
-    joinSquad(SQUAD_ID);
+    demoRepository.joinSquad(SQUAD_ID);
     setTimeout(() => {
       setDone(true);
       setTimeout(() => router.push("/squads/erp-fundamentals"), 700);

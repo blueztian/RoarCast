@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Check, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Sparkles, RotateCcw, Play } from "lucide-react";
 import { EDUCATION_LEVELS, DEGREE_PROGRAMS, CAREER_PATHS } from "@/features/demo-data";
 import { getContextAwareQuestions } from "@/features/onboarding";
 import { calculateDemoReadiness } from "@/features/readiness";
 import { demoRepository } from "@/lib/demoRepository";
-import type { AuditData } from "@/lib/storageTypes";
+import type { AuditData, AuditDraft } from "@/lib/storageTypes";
 import { cn } from "@/lib/utils";
 
 const RATING_LABELS = [
@@ -23,59 +23,137 @@ export default function CanonicalAuditPage() {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState(1);
+  const [isReady, setIsReady] = useState(false);
   const [data, setData] = useState<AuditData>({
-    educationLevel: "college",
-    degree: "Accounting Information Systems",
-    careerPath: "accounting-ops",
-    skillAnswers: {
-      industryTools: 3,
-      dataSkills: 3,
-      teamwork: 4,
-      communication: 4,
-      digitalComfort: "somewhat",
-      hasInternship: false,
-      hasCertification: false,
-    },
+    educationLevel: "",
+    degree: "",
+    careerPath: "",
+    skillAnswers: {},
   });
+
+  // Load saved draft on mount
+  useEffect(() => {
+    const draft = demoRepository.getAuditDraft();
+    if (draft) {
+      setStep(draft.currentStep ?? 0);
+      setData({
+        educationLevel: draft.educationLevel ?? "",
+        degree: draft.degree ?? "",
+        careerPath: draft.careerPath ?? "",
+        skillAnswers: draft.answers ?? {},
+      });
+    }
+    setIsReady(true);
+  }, []);
 
   const questions = useMemo(
     () => (data.degree && data.careerPath ? getContextAwareQuestions(data.degree, data.careerPath) : []),
     [data.degree, data.careerPath]
   );
 
-  // Total steps: 0 (Education), 1 (Degree), 2 (Career Path) + number of context-aware questions
   const totalSteps = 3 + questions.length;
   const currentQuestion = step >= 3 ? questions[step - 3] : null;
 
-  const updateField = (field: keyof Omit<AuditData, "skillAnswers">, val: string) => {
-    setData((d) => ({ ...d, [field]: val }));
+  const isCurrentStepValid = useCallback(() => {
+    if (step === 0) return Boolean(data.educationLevel);
+    if (step === 1) return Boolean(data.degree);
+    if (step === 2) return Boolean(data.careerPath);
+    if (step >= 3 && currentQuestion) {
+      return data.skillAnswers[currentQuestion.key] !== undefined;
+    }
+    return false;
+  }, [step, data, currentQuestion]);
+
+  const saveDraftState = (newStep: number, currentData: AuditData) => {
+    const draft: AuditDraft = {
+      currentStep: newStep,
+      educationLevel: currentData.educationLevel,
+      degree: currentData.degree,
+      careerPath: currentData.careerPath,
+      answers: currentData.skillAnswers,
+      updatedAt: new Date().toISOString(),
+    };
+    demoRepository.saveAuditDraft(draft);
   };
 
-  const updateAnswer = (key: string, val: number | string | boolean) => {
-    setData((d) => ({ ...d, skillAnswers: { ...d.skillAnswers, [key]: val } }));
-  };
-
-  const goNext = () => {
+  const handleAdvance = (overrideData?: AuditData) => {
+    const activeData = overrideData ?? data;
     if (step < totalSteps - 1) {
+      const nextStep = step + 1;
       setDirection(1);
-      setStep((s) => s + 1);
+      setStep(nextStep);
+      saveDraftState(nextStep, activeData);
     } else {
-      // Final audit step completed: compute readiness and transition to profile creation
-      const snapshot = calculateDemoReadiness(data, questions);
-      demoRepository.saveAuditData(data);
+      // Complete audit: explicitly pass activeData to avoid stale closure state on final answer
+      const activeQuestions = activeData.degree && activeData.careerPath 
+        ? getContextAwareQuestions(activeData.degree, activeData.careerPath) 
+        : questions;
+      const snapshot = calculateDemoReadiness(activeData, activeQuestions);
+      demoRepository.saveAuditData(activeData);
       demoRepository.saveReadinessSnapshot(snapshot);
+      demoRepository.clearAuditDraft();
       router.push("/signup");
     }
   };
 
+  const handleOptionSelect = (key: string, val: any, isField = false) => {
+    const nextData: AuditData = isField
+      ? { ...data, [key]: val }
+      : { ...data, skillAnswers: { ...data.skillAnswers, [key]: val } };
+    setData(nextData);
+    saveDraftState(step, nextData);
+    setTimeout(() => handleAdvance(nextData), 250);
+  };
+
   const goBack = () => {
     if (step > 0) {
+      const prevStep = step - 1;
       setDirection(-1);
-      setStep((s) => s - 1);
+      setStep(prevStep);
+      saveDraftState(prevStep, data);
     } else {
       router.push("/");
     }
   };
+
+  const handleReset = () => {
+    demoRepository.clearAuditDraft();
+    setStep(0);
+    setData({ educationLevel: "", degree: "", careerPath: "", skillAnswers: {} });
+  };
+
+  const handleUseSampleAnswers = () => {
+    const sampleData: AuditData = {
+      educationLevel: "college",
+      degree: "Accounting Information Systems",
+      careerPath: "accounting-ops",
+      skillAnswers: {
+        industryTools: 4,
+        dataSkills: 4,
+        teamwork: 4,
+        communication: 4,
+        digitalComfort: "somewhat",
+        hasInternship: true,
+        hasCertification: false,
+      },
+    };
+    setData(sampleData);
+    demoRepository.setSampleMode(true);
+    const sampleQuestions = getContextAwareQuestions(sampleData.degree, sampleData.careerPath);
+    const snapshot = calculateDemoReadiness(sampleData, sampleQuestions);
+    demoRepository.saveAuditData(sampleData);
+    demoRepository.saveReadinessSnapshot(snapshot);
+    demoRepository.clearAuditDraft();
+    router.push("/signup");
+  };
+
+  if (!isReady) {
+    return (
+      <div className="flex min-h-[100dvh] items-center justify-center bg-[#201d1d]">
+        <div className="text-[#f5f3f0] text-sm font-mono animate-pulse">Loading audit session...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-[100dvh] justify-center bg-[#201d1d]">
@@ -93,17 +171,28 @@ export default function CanonicalAuditPage() {
           <div className="flex flex-col items-center">
             <span className="font-display text-[15px] font-bold text-[#201d1d]">60-Second Micro-Audit</span>
             <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-[#7a7373]">
-              Step {step + 1} of {totalSteps}
+              Step {step + 1} of {Math.max(3, totalSteps)}
             </span>
           </div>
-          <div className="h-9 w-9" /> {/* spacer */}
+          {(step > 0 || Boolean(data.educationLevel)) ? (
+            <button
+              type="button"
+              onClick={handleReset}
+              title="Reset progress"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-[#f5f3f0] text-[#5e5a5a] transition-colors hover:bg-black/[0.07] hover:text-[#6b0000]"
+            >
+              <RotateCcw size={16} />
+            </button>
+          ) : (
+            <div className="h-9 w-9" />
+          )}
         </div>
 
         {/* Visual Progress Bar */}
         <div className="h-1.5 w-full bg-[#e8e4dc]">
           <div
             className="h-full bg-gradient-to-r from-[#6b0000] to-[#f59e0b] transition-all duration-300 ease-out"
-            style={{ width: `${((step + 1) / totalSteps) * 100}%` }}
+            style={{ width: `${((step + 1) / Math.max(3, totalSteps)) * 100}%` }}
           />
         </div>
 
@@ -121,6 +210,17 @@ export default function CanonicalAuditPage() {
             >
               {step === 0 && (
                 <div>
+                  <div className="mb-4 flex justify-between items-center bg-[#6b0000]/[0.05] p-3 rounded-xl border border-[#6b0000]/15">
+                    <span className="text-[12px] font-mono font-medium text-[#6b0000]">Presentation Mode</span>
+                    <button
+                      type="button"
+                      onClick={handleUseSampleAnswers}
+                      className="flex items-center gap-1.5 rounded-lg bg-[#6b0000] px-3 py-1.5 text-[12px] font-bold text-white transition hover:bg-[#800000]"
+                    >
+                      <Play size={12} fill="white" />
+                      Use sample audit answers
+                    </button>
+                  </div>
                   <h1 className="mb-2 font-display text-[22px] font-bold leading-tight text-[#201d1d]">
                     What is your current education level?
                   </h1>
@@ -134,10 +234,7 @@ export default function CanonicalAuditPage() {
                         <button
                           key={level.id}
                           type="button"
-                          onClick={() => {
-                            updateField("educationLevel", level.id);
-                            goNext();
-                          }}
+                          onClick={() => handleOptionSelect("educationLevel", level.id, true)}
                           className={cn(
                             "flex items-center justify-between rounded-2xl border p-4 text-left font-medium transition-all",
                             selected
@@ -176,10 +273,7 @@ export default function CanonicalAuditPage() {
                         <button
                           key={deg}
                           type="button"
-                          onClick={() => {
-                            updateField("degree", deg);
-                            goNext();
-                          }}
+                          onClick={() => handleOptionSelect("degree", deg, true)}
                           className={cn(
                             "flex items-center justify-between rounded-2xl border px-4 py-3.5 text-left transition-all",
                             selected
@@ -211,10 +305,7 @@ export default function CanonicalAuditPage() {
                         <button
                           key={cp.id}
                           type="button"
-                          onClick={() => {
-                            updateField("careerPath", cp.id);
-                            goNext();
-                          }}
+                          onClick={() => handleOptionSelect("careerPath", cp.id, true)}
                           className={cn(
                             "flex items-center justify-between rounded-2xl border p-4 text-left transition-all",
                             selected
@@ -260,10 +351,7 @@ export default function CanonicalAuditPage() {
                             <button
                               key={num}
                               type="button"
-                              onClick={() => {
-                                updateAnswer(currentQuestion.key, num);
-                                setTimeout(goNext, 250);
-                              }}
+                              onClick={() => handleOptionSelect(currentQuestion.key, num, false)}
                               className={cn(
                                 "flex items-center gap-4 rounded-2xl border p-4 text-left transition-all",
                                 selected
@@ -295,10 +383,7 @@ export default function CanonicalAuditPage() {
                           <button
                             key={c.value}
                             type="button"
-                            onClick={() => {
-                                updateAnswer(currentQuestion.key, c.value);
-                                setTimeout(goNext, 250);
-                            }}
+                            onClick={() => handleOptionSelect(currentQuestion.key, c.value, false)}
                             className={cn(
                               "flex items-center justify-between rounded-2xl border p-4 text-left transition-all",
                               selected
@@ -324,10 +409,7 @@ export default function CanonicalAuditPage() {
                             <button
                               key={label}
                               type="button"
-                              onClick={() => {
-                                updateAnswer(currentQuestion.key, val);
-                                setTimeout(goNext, 250);
-                              }}
+                              onClick={() => handleOptionSelect(currentQuestion.key, val, false)}
                               className={cn(
                                 "flex-1 rounded-2xl border py-5 text-center text-[16px] font-bold transition-all shadow-sm",
                                 selected
@@ -360,8 +442,14 @@ export default function CanonicalAuditPage() {
             </button>
             <button
               type="button"
-              onClick={goNext}
-              className="flex flex-1 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#6b0000] to-[#4a0000] py-3.5 text-[15px] font-bold text-white shadow-[0_4px_18px_rgba(107,0,0,0.3)] transition-all hover:opacity-95 active:scale-[0.98]"
+              disabled={!isCurrentStepValid()}
+              onClick={() => handleAdvance(data)}
+              className={cn(
+                "flex flex-1 items-center justify-center gap-2 rounded-full py-3.5 text-[15px] font-bold transition-all",
+                isCurrentStepValid()
+                  ? "bg-gradient-to-r from-[#6b0000] to-[#4a0000] text-white shadow-[0_4px_18px_rgba(107,0,0,0.3)] hover:opacity-95 active:scale-[0.98]"
+                  : "bg-black/[0.06] text-black/30 cursor-not-allowed shadow-none"
+              )}
             >
               {step === totalSteps - 1 ? "Complete Audit" : "Continue"}
               <ArrowRight size={16} />

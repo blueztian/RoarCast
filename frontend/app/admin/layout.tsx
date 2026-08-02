@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { 
   LayoutDashboard, Map, Settings, UserCircle, 
@@ -20,7 +21,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* ── Left Sidebar ──────────────────────────────────────────────────────── */}
       <aside className="flex w-[260px] flex-col border-r border-black/[0.06] bg-white shrink-0">
         <div className="flex h-16 shrink-0 items-center gap-3 px-6 pb-2 pt-6">
-          <img src="/assets/roarcast_logo.png" alt="RoarCast Logo" className="h-8 w-8 rounded-full object-cover mix-blend-multiply" />
+          <Image src="/assets/roarcast_logo.png" alt="RoarCast Logo" width={32} height={32} className="h-8 w-8 rounded-full object-cover mix-blend-multiply" />
           <span className="font-display text-[15px] font-bold tracking-tight text-[#201d1d]">
             RoarCast <span className="text-[#6b0000]">ADMIN</span>
           </span>

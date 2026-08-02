@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Radio, Menu, X, LayoutDashboard } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { isAuditComplete, isCredentialEarned } from "@/lib/studentState";
+import { demoRepository } from "@/lib/demoRepository";
 
 const NAV_LINKS = [
   { label: "How It Works", href: "/#how-it-works" },
@@ -30,8 +30,8 @@ export default function FloatingNavbar() {
   }, []);
 
   useEffect(() => {
-    setAuditDone(isAuditComplete());
-    setCredEarned(isCredentialEarned());
+    setAuditDone(demoRepository.isAuditComplete());
+    setCredEarned(demoRepository.isCredentialEarned());
   }, [pathname]);
 
   const isStudentPage = pathname !== "/" && !pathname.startsWith("/#");

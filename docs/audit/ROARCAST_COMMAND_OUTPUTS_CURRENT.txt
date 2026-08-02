@@ -1,0 +1,197 @@
+﻿=== PACKAGE.JSON CONTENT ===
+{
+  "name": "roarcast",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "test:run": "vitest run && node scripts/check-mojibake.mjs",
+    "check:mojibake": "node scripts/check-mojibake.mjs",
+    "fix:mojibake": "node scripts/fix-mojibake.mjs"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.3.19",
+    "lucide-react": "^0.417.0",
+    "next": "^14.2.35",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.4.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^20.14.11",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.7.0",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.35",
+    "jsdom": "^24.1.3",
+    "postcss": "^8.4.40",
+    "tailwindcss": "^3.4.7",
+    "typescript": "^5.5.4",
+    "vitest": "^1.6.1"
+  }
+}
+
+=== NPM CI OUTPUT ===
+node.exe : npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check 
+out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more 
+comprehensive and powerful.
+At line:1 char:1
++ & "C:\nvm4w\nodejs/node.exe" "C:\nvm4w\nodejs/node_modules/npm/bin/np ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (npm warn deprec...e and powerful.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead
+npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security 
+vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be 
+purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated whatwg-encoding@3.1.1: Use @exodus/bytes instead for a more spec-conformant and faster 
+implementation
+npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
+npm warn deprecated glob@10.3.10: Old versions of glob are not supported, and contain widely publicized security 
+vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be 
+purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support 
+for other options.
+
+added 557 packages, and audited 558 packages in 1m
+
+189 packages are looking for funding
+  run `npm fund` for details
+
+9 vulnerabilities (2 moderate, 6 high, 1 critical)
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+Exit Code: 0
+
+=== NPM RUN LINT OUTPUT ===
+
+> roarcast@0.1.0 lint
+> next lint
+
+
+./app/admin/layout.tsx
+23:11  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+Exit Code: 0
+
+=== NPM RUN TYPECHECK OUTPUT ===
+
+> roarcast@0.1.0 typecheck
+> tsc --noEmit
+
+Exit Code: 0
+
+=== NPM RUN TEST:RUN OUTPUT ===
+
+> roarcast@0.1.0 test:run
+> vitest run && node scripts/check-mojibake.mjs
+
+node.exe : [33mThe CJS build of Vite's Node API is deprecated. See 
+https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+At line:1 char:1
++ & "C:\nvm4w\nodejs/node.exe" "C:\nvm4w\nodejs/node_modules/npm/bin/np ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([33mThe CJS bu...e details.[39m:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+[7m[1m[36m RUN [39m[22m[27m [36mv1.6.1[39m [90mC:/Users/my/OneDrive/Desktop/RoarCast/frontend[39m
+
+ [32mΓ£ô[39m tests/baseline.test.ts [2m ([22m[2m5 tests[22m[2m)[22m[90m 27[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m5 passed[39m[22m[90m (5)[39m
+[2m   Start at [22m 09:45:49
+[2m   Duration [22m 87.73s[2m (transform 360ms, setup 0ms, collect 768ms, tests 27ms, environment 47.76s, prepare 6.03s)[22m
+
+PASSED: Zero mojibake or malformed encoding sequences found across source code.
+Exit Code: 0
+
+=== NPM RUN BUILD OUTPUT ===
+
+> roarcast@0.1.0 build
+> next build
+
+  Γû▓ Next.js 14.2.35
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+
+./app/admin/layout.tsx
+23:11  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+   Collecting page data ...
+   Generating static pages (0/36) ...
+   Generating static pages (9/36) 
+   Generating static pages (18/36) 
+   Generating static pages (27/36) 
+ Γ£ô Generating static pages (36/36)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                       Size     First Load JS
+Γöî Γùï /                                             2.98 kB         132 kB
+Γö£ Γùï /_not-found                                   876 B          88.6 kB
+Γö£ Γùï /admin                                        3.16 kB        97.7 kB
+Γö£ Γùï /admin/institutions                           2.76 kB        90.5 kB
+Γö£ Γùï /admin/peza-zones                             2 kB           89.8 kB
+Γö£ Γùï /admin/profile                                1.93 kB        89.7 kB
+Γö£ Γùï /admin/reports                                2.11 kB        89.9 kB
+Γö£ Γùï /admin/settings                               1.82 kB        89.6 kB
+Γö£ Γùï /admin/skill-gaps                             2.62 kB        90.4 kB
+Γö£ Γùï /admin/workforce-intelligence                 4.82 kB        99.4 kB
+Γö£ Γùï /assessment/erp-workflow                      4.32 kB         142 kB
+Γö£ Γùï /audit                                        7.46 kB         138 kB
+Γö£ Γùï /credentials                                  5.48 kB         145 kB
+Γö£ Γùï /credentials/erp-workflow                     3.33 kB         147 kB
+Γö£ Γùï /credentials/portfolio                        3.63 kB         137 kB
+Γö£ ╞Æ /credentials/verify/[credentialId]            3.75 kB         137 kB
+Γö£ Γùï /dashboard                                    6.03 kB         151 kB
+Γö£ Γùï /explore                                      4.66 kB         138 kB
+Γö£ Γùï /explore/career-paths                         6.54 kB         146 kB
+Γö£ Γùï /explore/companies                            4.6 kB          144 kB
+Γö£ Γùï /explore/industry-pulse                       5.25 kB         138 kB
+Γö£ Γùï /explore/trending-skills                      5.62 kB         139 kB
+Γö£ Γùï /icon.png                                     0 B                0 B
+Γö£ Γùï /learn                                        3.19 kB         136 kB
+Γö£ Γùï /learn/courses                                5.11 kB         145 kB
+Γö£ ╞Æ /learn/courses/[courseId]                     5.77 kB         146 kB
+Γö£ ╞Æ /learn/courses/[courseId]/modules/[moduleId]  5.07 kB         145 kB
+Γö£ Γùï /learn/erp-foundations                        10.3 kB         143 kB
+Γö£ Γùï /learn/squads                                 6.09 kB         146 kB
+Γö£ ╞Æ /learn/squads/[squadId]                       6.69 kB         146 kB
+Γö£ Γùï /profile                                      5.15 kB         138 kB
+Γö£ Γùï /profile/audit-history                        3.05 kB         136 kB
+Γö£ Γùï /profile/settings                             3.22 kB         136 kB
+Γö£ Γùï /results                                      8.39 kB         148 kB
+Γö£ Γùï /signup                                       5.87 kB         130 kB
+Γö£ Γùï /skills/erp-workflow                          5.5 kB          145 kB
+Γö£ Γùï /squads/erp-fundamentals                      5.43 kB         138 kB
+Γöö Γùï /squads/match                                 2.92 kB         131 kB
++ First Load JS shared by all                     87.8 kB
+  Γö£ chunks/2117-be40eb992157782b.js               32.2 kB
+  Γö£ chunks/fd9d1056-2d7a8d217105eef5.js           53.6 kB
+  Γöö other shared chunks (total)                   1.89 kB
+
+
+Γùï  (Static)   prerendered as static content
+╞Æ  (Dynamic)  server-rendered on demand
+
+Exit Code: 0

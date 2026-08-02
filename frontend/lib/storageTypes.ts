@@ -2,6 +2,12 @@
  * Canonical domain interfaces for RoarCast demonstration storage and user journeys.
  */
 
+export interface StoredEnvelope<T> {
+  schemaVersion: 1;
+  updatedAt: string;
+  data: T;
+}
+
 export interface StudentProfile {
   name: string;
   email?: string;
@@ -32,6 +38,21 @@ export interface AuditData {
   skillAnswers: Record<string, AuditAnswerValue>;
 }
 
+export interface AuditDraft {
+  currentStep: number;
+  educationLevel: string;
+  degree: string;
+  careerPath: string;
+  answers: Record<string, AuditAnswerValue>;
+  updatedAt: string;
+}
+
+export interface ProfileDraft {
+  currentStep: number;
+  formValues: Record<string, string>;
+  updatedAt: string;
+}
+
 export interface ReadinessSnapshot {
   score: number;
   label: string;
@@ -43,6 +64,33 @@ export interface ReadinessSnapshot {
   computedAt?: string;
 }
 
+export interface LessonProgress {
+  /** moduleId → "not_started" | "in_progress" | "completed" */
+  [moduleId: string]: "not_started" | "in_progress" | "completed";
+}
+
+export interface AssessmentResult {
+  score: number;           // 0–100
+  passed: boolean;
+  completedAt: string;     // ISO date string
+  answers: number[];       // selected option indices
+}
+
+export interface Credential {
+  id: string;
+  skillId: string;
+  skillName: string;
+  issuedTo: string;
+  issuedAt: string;
+  credentialId: string;
+  disclaimer?: string;
+}
+
+export interface SquadMembership {
+  squadId: string;
+  joinedAt: string;
+}
+
 export interface StorageKeys {
   student: string;
   auditData: string;
@@ -52,4 +100,9 @@ export interface StorageKeys {
   lessonProgress: string;
   assessmentResult: string;
   credential: string;
+  auditDraft: string;
+  profileDraft: string;
+  sampleMode: string;
+  profileAdded: string;
+  dashboardSeen: string;
 }

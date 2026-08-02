@@ -1,14 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
-import { DEMO_STUDENT } from "@/features/demo-data";
+import { ArrowLeft, ArrowRight, CheckCircle2, Sparkles, RotateCcw, ShieldAlert } from "lucide-react";
+import { DEMO_STUDENT, CAREER_PATHS } from "@/features/demo-data";
 import { demoRepository } from "@/lib/demoRepository";
-import type { StudentProfile } from "@/lib/storageTypes";
+import type { StudentProfile, ProfileDraft } from "@/lib/storageTypes";
 
 interface FormState {
+  [key: string]: string;
   name: string;
   age: string;
   school: string;
@@ -34,14 +35,14 @@ const steps: { key: keyof FormState; fields: (keyof FormState)[] }[] = [
 
 const fieldMeta: Record<
   keyof FormState,
-  { label: string; placeholder: string; type?: string }
+  { label: string; placeholder: string; type?: string; readOnlyExplanation?: string }
 > = {
   name: { label: "What is your name?", placeholder: "Jana Cruz" },
   age: { label: "How old are you?", placeholder: "23", type: "number" },
   school: { label: "Where do you study?", placeholder: "Santa Rosa, Laguna" },
-  program: { label: "What is your academic program?", placeholder: "Accounting Information Systems" },
+  program: { label: "What is your academic program?", placeholder: "Accounting Information Systems", readOnlyExplanation: "Pre-filled from your audit selection" },
   gradYear: { label: "Expected graduation year?", placeholder: "2026", type: "number" },
-  careerInterest: { label: "What career path interests you most?", placeholder: "Accounting Operations" },
+  careerInterest: { label: "What career path interests you most?", placeholder: "Accounting Operations", readOnlyExplanation: "Pre-filled from your audit selection" },
 };
 
 export default function SignupPage() {
@@ -49,33 +50,89 @@ export default function SignupPage() {
   const [stepIndex, setStepIndex] = useState(0);
   const [form, setForm] = useState<FormState>(emptyForm);
   const [direction, setDirection] = useState(1);
+  const [isChecking, setIsChecking] = useState(true);
+  const [isSampleMode, setIsSampleMode] = useState(false);
   const totalSteps = steps.length + 1; // + review step
   const isReview = stepIndex === steps.length;
 
+  useEffect(() => {
+    // 2.4 Route prerequisite check: redirect to /audit if snapshot is absent
+    const snapshot = demoRepository.getReadinessSnapshot();
+    const auditData = demoRepository.getAuditData();
+
+    if (!snapshot || !auditData) {
+      router.replace("/audit");
+      return;
+    }
+
+    setIsSampleMode(demoRepository.isSampleMode());
+
+    // 2.3 Check for existing Profile Draft
+    const draft = demoRepository.getProfileDraft();
+    if (draft && draft.formValues) {
+      setForm({
+        name: draft.formValues.name ?? "",
+        age: draft.formValues.age ?? "",
+        school: draft.formValues.school ?? "",
+        program: draft.formValues.program ?? "",
+        gradYear: draft.formValues.gradYear ?? "",
+        careerInterest: draft.formValues.careerInterest ?? "",
+      });
+      setStepIndex(draft.currentStep ?? 0);
+    } else {
+      // 2.5 Prefill program & careerInterest from audit without duplication/conflict
+      const matchedCareer = CAREER_PATHS.find((cp) => cp.id === auditData.careerPath)?.label || auditData.careerPath;
+      setForm((prev) => ({
+        ...prev,
+        program: auditData.degree || "",
+        careerInterest: matchedCareer || "",
+      }));
+    }
+
+    setIsChecking(false);
+  }, [router]);
+
+  const saveDraft = (newIndex: number, updatedForm: FormState) => {
+    const draft: ProfileDraft = {
+      currentStep: newIndex,
+      formValues: updatedForm,
+      updatedAt: new Date().toISOString(),
+    };
+    demoRepository.saveProfileDraft(draft);
+  };
+
   function update(field: keyof FormState, value: string) {
-    setForm((f) => ({ ...f, [field]: value }));
+    const nextForm = { ...form, [field]: value };
+    setForm(nextForm);
+    saveDraft(stepIndex, nextForm);
   }
 
   function fillDemo() {
-    setForm({
+    const sampleForm = {
       name: DEMO_STUDENT.name,
       age: String(DEMO_STUDENT.age),
       school: DEMO_STUDENT.school,
       program: DEMO_STUDENT.program,
       gradYear: String(DEMO_STUDENT.gradYear),
       careerInterest: DEMO_STUDENT.careerInterest,
-    });
+    };
+    setForm(sampleForm);
+    demoRepository.setSampleMode(true);
+    setIsSampleMode(true);
+    saveDraft(stepIndex, sampleForm);
   }
 
   function currentFieldsFilled() {
     if (isReview) return true;
-    return steps[stepIndex].fields.every((f) => form[f].trim().length > 0);
+    return steps[stepIndex].fields.every((f) => (form[f] || "").trim().length > 0);
   }
 
   function goNext() {
     if (!currentFieldsFilled()) return;
+    const nextIdx = Math.min(stepIndex + 1, steps.length);
     setDirection(1);
-    setStepIndex((i) => Math.min(i + 1, steps.length));
+    setStepIndex(nextIdx);
+    saveDraft(nextIdx, form);
   }
 
   function goBack() {
@@ -83,8 +140,25 @@ export default function SignupPage() {
       router.push("/audit");
       return;
     }
+    const prevIdx = Math.max(stepIndex - 1, 0);
     setDirection(-1);
-    setStepIndex((i) => Math.max(i - 1, 0));
+    setStepIndex(prevIdx);
+    saveDraft(prevIdx, form);
+  }
+
+  function handleReset() {
+    demoRepository.clearProfileDraft();
+    const auditData = demoRepository.getAuditData();
+    const matchedCareer = auditData ? CAREER_PATHS.find((cp) => cp.id === auditData.careerPath)?.label || auditData.careerPath : "";
+    setForm({
+      name: "",
+      age: "",
+      school: "",
+      program: auditData?.degree || "",
+      gradYear: "",
+      careerInterest: matchedCareer || "",
+    });
+    setStepIndex(0);
   }
 
   function saveProfileAndViewResults() {
@@ -98,7 +172,18 @@ export default function SignupPage() {
       location: form.school,
     };
     demoRepository.saveStudentProfile(profile);
+    demoRepository.clearProfileDraft();
     router.push("/results");
+  }
+
+  if (isChecking) {
+    return (
+      <div className="flex min-h-[100dvh] items-center justify-center bg-[#201d1d]">
+        <div className="text-[#f5f3f0] text-sm font-mono animate-pulse flex items-center gap-2">
+          <span>Checking audit prerequisites...</span>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -120,8 +205,27 @@ export default function SignupPage() {
               Step {stepIndex + 1} of {totalSteps}
             </span>
           </div>
-          <div className="h-9 w-9" />
+          {(stepIndex > 0 || Boolean(form.name)) ? (
+            <button
+              type="button"
+              onClick={handleReset}
+              title="Reset profile draft"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-[#f5f3f0] text-[#5e5a5a] transition-colors hover:bg-black/[0.07] hover:text-[#6b0000]"
+            >
+              <RotateCcw size={16} />
+            </button>
+          ) : (
+            <div className="h-9 w-9" />
+          )}
         </div>
+
+        {isSampleMode && (
+          <div className="bg-[#b45309]/10 px-5 py-2 flex items-center justify-center gap-2 border-b border-[#b45309]/20">
+            <span className="font-mono text-[11px] font-bold uppercase tracking-wide text-[#b45309]">
+              Sample persona mode
+            </span>
+          </div>
+        )}
 
         {/* Progress indicators */}
         <div className="px-6 pt-6 pb-2 flex items-center gap-2" aria-label="Onboarding progress">
@@ -157,9 +261,16 @@ export default function SignupPage() {
                 <div className="flex flex-col gap-5">
                   {steps[stepIndex].fields.map((field) => (
                     <label key={field} className="block">
-                      <span className="mb-1.5 block text-[12px] font-bold uppercase tracking-wider text-[#5e5a5a]">
-                        {fieldMeta[field].label}
-                      </span>
+                      <div className="flex justify-between items-baseline mb-1.5">
+                        <span className="block text-[12px] font-bold uppercase tracking-wider text-[#5e5a5a]">
+                          {fieldMeta[field].label}
+                        </span>
+                        {fieldMeta[field].readOnlyExplanation && (
+                          <span className="text-[11px] text-[#6b0000] font-mono">
+                            {fieldMeta[field].readOnlyExplanation}
+                          </span>
+                        )}
+                      </div>
                       <input
                         type={fieldMeta[field].type ?? "text"}
                         value={form[field]}

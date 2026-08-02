@@ -16,14 +16,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import SignalBackground from "@/components/SignalBackground";
-import {
-  getAssessmentResult,
-  getStudent,
-  earnCredential,
-  getCredential,
-  markProfileAdded,
-  isProfileAdded,
-} from "@/lib/studentState";
+import { demoRepository } from "@/lib/demoRepository";
 import { staggerContainer, staggerItem, successReveal } from "@/lib/motion";
 
 // ── Mock QR pattern (SVG-based, no external dependency) ──────────────────────
@@ -69,27 +62,27 @@ type ActionState = "idle" | "loading" | "done";
 
 export default function CredentialPage() {
   const router = useRouter();
-  const [credential, setCredential] = useState<ReturnType<typeof getCredential>>(null);
+  const [credential, setCredential] = useState<ReturnType<typeof demoRepository.getCredential>>(null);
   const [profileState, setProfileState] = useState<ActionState>("idle");
   const [copyState, setCopyState] = useState<ActionState>("idle");
   const [alreadyAdded, setAlreadyAdded] = useState(false);
   const [revealed, setRevealed] = useState(false);
 
   useEffect(() => {
-    const result = getAssessmentResult();
+    const result = demoRepository.getAssessmentResult();
     if (!result?.passed) {
       router.replace("/assessment/erp-workflow");
       return;
     }
 
     // Earn/load credential
-    let cred = getCredential();
+    let cred = demoRepository.getCredential();
     if (!cred) {
-      const student = getStudent();
-      cred = earnCredential(student.name);
+      const student = demoRepository.getStudentOrDefault();
+      cred = demoRepository.earnCredential(student.name);
     }
     setCredential(cred);
-    setAlreadyAdded(isProfileAdded());
+    setAlreadyAdded(demoRepository.isProfileAdded());
 
     // Trigger reveal animation
     setTimeout(() => setRevealed(true), 200);
@@ -99,7 +92,7 @@ export default function CredentialPage() {
     if (alreadyAdded || profileState === "done") return;
     setProfileState("loading");
     setTimeout(() => {
-      markProfileAdded();
+      demoRepository.markProfileAdded();
       setProfileState("done");
       setAlreadyAdded(true);
     }, 900);
@@ -172,7 +165,7 @@ export default function CredentialPage() {
                   </div>
                   <div className="flex items-center gap-1.5 rounded-full border border-roar-maroon/20 bg-white/80 px-3 py-1.5 backdrop-blur">
                     <Shield size={12} strokeWidth={2} className="text-roar-maroon" />
-                    <span className="font-mono text-[11px] text-roar-maroon">Verified</span>
+                    <span className="font-mono text-[11px] text-roar-maroon">Demo Completion</span>
                   </div>
                 </div>
 
@@ -234,7 +227,7 @@ export default function CredentialPage() {
                       className="inline-flex items-center gap-1.5 rounded-full bg-roar-maroon px-4 py-2 font-mono text-sm font-medium text-white"
                     >
                       <CheckCircle2 size={14} strokeWidth={2.5} />
-                      VERIFIED
+                      PROTOTYPE RECORD
                     </motion.span>
                     <p className="mt-2 font-mono text-[10px] text-ink-faint">
                       Prototype · Demo Only
@@ -252,7 +245,7 @@ export default function CredentialPage() {
                   {[
                     { label: "Pathway", value: "Accounting Operations" },
                     { label: "Format", value: "4 Modules + Assessment" },
-                    { label: "Score", value: `${getAssessmentResult()?.score ?? 0}%` },
+                    { label: "Score", value: `${demoRepository.getAssessmentResult()?.score ?? 0}%` },
                     { label: "Platform", value: "RoarCast" },
                     { label: "Type", value: "Prototype Demo" },
                     { label: "Location", value: "Santa Rosa, Laguna" },
