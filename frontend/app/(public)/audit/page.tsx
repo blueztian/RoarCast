@@ -296,7 +296,7 @@ export default function CanonicalAuditPage() {
                     Which target career path excites you most?
                   </h1>
                   <p className="mb-6 text-[13.5px] text-[#7a7373]">
-                    We match your answers with real employer demand signals.
+                    We match your answers with simulated employer demand signals.
                   </p>
                   <div className="flex flex-col gap-3">
                     {CAREER_PATHS.map((cp) => {

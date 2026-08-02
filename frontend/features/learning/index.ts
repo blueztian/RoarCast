@@ -36,13 +36,13 @@ export const CANONICAL_UPSKILLING_PIPELINE: LearningProgressionStep[] = [
     id: "assessment",
     label: "3. Skill Validation",
     path: LEARNING_ROUTES.assessment,
-    description: "Verify your practical competence through the 5-question verification check.",
+    description: "Test your conceptual comprehension through the 5-question demonstration check.",
   },
   {
     id: "credential",
     label: "4. Prototype Credential",
     path: LEARNING_ROUTES.credentialView,
-    description: "Earn your verified demonstration badge and update your talent profile.",
+    description: "Earn your prototype completion record and update your demo talent profile.",
   },
 ];
 

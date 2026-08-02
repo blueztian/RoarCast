@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -49,7 +49,7 @@ export default function VerifyCredentialPage({
       >
         <div className="flex flex-col items-center rounded-[28px] bg-white p-6 text-center shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
           <span className="text-[10.5px] font-bold uppercase tracking-widest text-[#7a7373]">
-            Certificate of Completion
+            Demo Completion Record
           </span>
           <h2 className="mt-1.5 font-display text-[19px] font-bold leading-tight text-[#201d1d]">
             {cred.title}
@@ -62,7 +62,7 @@ export default function VerifyCredentialPage({
           <div className="mt-5 flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1.5 text-emerald-700 border border-emerald-100">
             <CheckCircle2 size={14} strokeWidth={2.5} />
             <span className="text-[11px] font-bold uppercase tracking-wider">
-              Verified
+              Sample Record
             </span>
           </div>
 
@@ -96,7 +96,7 @@ export default function VerifyCredentialPage({
         <div className="flex items-start gap-2.5 rounded-[18px] bg-white p-4 shadow-sm border border-black/[0.05]">
           <ShieldCheck size={18} className="mt-0.5 shrink-0 text-[#6b0000]" />
           <p className="text-[11.5px] leading-snug text-[#7a7373]">
-            This credential can be verified independently by scanning the QR code above or referencing the Credential ID with RoarCast.
+            This demonstration completion record is part of an unverified hackathon prototype and does not represent accredited competency verification.
           </p>
         </div>
       </motion.div>

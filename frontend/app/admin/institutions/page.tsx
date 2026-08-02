@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import { Building2, ShieldCheck, MapPin, Users, GraduationCap, ArrowRight } from "lucide-react";
@@ -26,7 +26,7 @@ export default function InstitutionsPage() {
           <div className="flex items-center gap-2 rounded-full border border-white/20 bg-black/20 px-3 py-1.5 text-white backdrop-blur-sm">
             <ShieldCheck size={16} className="text-[#f59e0b]" />
             <span className="text-[11px] font-bold uppercase tracking-widest text-white">
-              12 Active Partners
+              12 Sample Institutions
             </span>
           </div>
         </div>

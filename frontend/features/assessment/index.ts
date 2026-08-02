@@ -1,5 +1,5 @@
 /**
- * Centralized Assessment Engine & Diagnostic Thresholds for RoarCast learning verification.
+ * Centralized Assessment Engine & Diagnostic Thresholds for RoarCast prototype demonstrations.
  */
 
 export const PASS_THRESHOLD = 60;
@@ -8,7 +8,7 @@ export const ANALYSIS_STEPS = [
   "Reading your responses",
   "Mapping answers to Skill Tags",
   "Comparing against ERP Workflow benchmark",
-  "Generating your verified result",
+  "Generating your diagnostic result",
 ];
 
 export interface AssessmentSubmissionResult {

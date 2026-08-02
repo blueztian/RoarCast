@@ -33,8 +33,8 @@ const fadeUpItem = {
 };
 
 const credentialsData = [
-  { id: "sap-erp-badge", title: "SAP ERP", verified: true },
-  { id: "excel-badge", title: "Adv. Excel", verified: true },
+  { id: "sap-erp-badge", title: "SAP ERP", demo: true },
+  { id: "excel-badge", title: "Adv. Excel", demo: true },
 ];
 
 function getInitials(name: string) {
@@ -192,7 +192,7 @@ export default function ProfileReadinessPage() {
         {/* ── 4. Compact Credentials ── */}
         <motion.section variants={fadeUpItem} className="flex flex-col rounded-[24px] bg-white shadow-sm border border-black/[0.05] p-5">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-[14px] font-bold text-[#201d1d]">Verified Credentials</h3>
+            <h3 className="text-[14px] font-bold text-[#201d1d]">Demo Completion Records</h3>
             <Link href="/credentials" className="text-[11px] font-bold text-[#6b0000] hover:underline">View All</Link>
           </div>
           <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
@@ -201,7 +201,7 @@ export default function ProfileReadinessPage() {
                 <Award size={24} className="text-[#f59e0b] mb-1.5" />
                 <span className="text-[12px] font-bold text-[#201d1d] leading-tight">{cred.title}</span>
                 <span className="text-[9px] font-bold uppercase tracking-wider text-emerald-600 mt-1 flex items-center gap-1">
-                  <CheckCircle2 size={10} strokeWidth={3} /> Verified
+                  <CheckCircle2 size={10} strokeWidth={3} /> Demo Record
                 </span>
               </div>
             ))}

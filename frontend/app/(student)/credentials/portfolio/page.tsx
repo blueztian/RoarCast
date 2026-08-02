@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -152,7 +152,7 @@ export default function PortfolioPage() {
           </div>
         </motion.section>
 
-        {/* ── Verified Credentials Summary ─────────────────────────────── */}
+        {/* ── Demo Completion Records Summary ─────────────────────────────── */}
         <motion.section
           variants={fadeUpItem}
           className="flex items-center justify-between rounded-[24px] border border-[#f59e0b]/20 bg-[#fff8ee] p-4"
@@ -160,7 +160,7 @@ export default function PortfolioPage() {
           <div className="flex items-center gap-2.5">
             <Award size={18} className="text-[#d97706]" />
             <span className="text-[12.5px] font-bold text-[#201d1d]">
-              {portfolioData.certificatesCount} verified credentials
+              {portfolioData.certificatesCount} demo completion records
             </span>
           </div>
           <Link

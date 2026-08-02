@@ -133,7 +133,7 @@ export default function CredentialPage() {
               {/* Header */}
               <motion.div variants={staggerItem} className="text-center">
                 <p className="mb-2 font-mono text-[11px] uppercase tracking-widest text-roar-maroon">
-                  Credential Earned
+                  Demo Completion Record
                 </p>
                 <h1 className="font-display text-3xl font-semibold text-ink sm:text-4xl">
                   {credential.skillName}

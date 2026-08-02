@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import { Users, Building2, Activity, ArrowUpRight, TrendingUp, ShieldCheck, Briefcase } from "lucide-react";
@@ -27,7 +27,7 @@ export default function OverviewPage() {
           <div className="flex items-center gap-2 rounded-full border border-white/20 bg-black/20 px-3 py-1.5 text-white backdrop-blur-sm">
             <ShieldCheck size={16} className="text-[#f59e0b]" />
             <span className="text-[11px] font-bold uppercase tracking-widest text-white">
-              Live Data
+              Sample Data
             </span>
           </div>
         </div>
@@ -47,7 +47,7 @@ export default function OverviewPage() {
           value="84" 
           trend="+5%" 
           icon={<Briefcase size={24} className="text-[#6b0000]" />}
-          subtitle="Hiring directly from RoarCast"
+          subtitle="Sample employer demand dataset"
         />
         <MetricCard 
           title="Average Readiness Score" 

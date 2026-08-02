@@ -1,0 +1,141 @@
+================================================================================
+ROARCAST FINAL VERIFIED COMMAND OUTPUTS & EXIT CODES
+================================================================================
+Timestamp: 2026-08-02
+Workspace: C:/Users/my/OneDrive/Desktop/RoarCast/frontend
+Branch: refactor/finals-demo-foundation
+
+--------------------------------------------------------------------------------
+1. npm ci
+--------------------------------------------------------------------------------
+Exit code: 0
+Output:
+added 557 packages, and audited 558 packages in 59s
+
+189 packages are looking for funding
+  run `npm fund` for details
+
+9 vulnerabilities (2 moderate, 6 high, 1 critical)
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+--------------------------------------------------------------------------------
+2. npm run lint
+--------------------------------------------------------------------------------
+Exit code: 0
+Output:
+> roarcast@0.1.0 lint
+> next lint
+
+✔ No ESLint warnings or errors
+
+--------------------------------------------------------------------------------
+3. npm run typecheck
+--------------------------------------------------------------------------------
+Exit code: 0
+Output:
+> roarcast@0.1.0 typecheck
+> tsc --noEmit
+
+--------------------------------------------------------------------------------
+4. npm run test:run
+--------------------------------------------------------------------------------
+Exit code: 0
+Output:
+> roarcast@0.1.0 test:run
+> vitest run && node scripts/check-mojibake.mjs
+
+ RUN  v1.6.1 C:/Users/my/OneDrive/Desktop/RoarCast/frontend
+
+ ✓ tests/baseline.test.ts  (8 tests) 6ms
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Duration  2.35s
+
+PASSED: Zero mojibake or malformed encoding sequences found across source code.
+
+--------------------------------------------------------------------------------
+5. npm run build
+--------------------------------------------------------------------------------
+Exit code: 0
+Output:
+> roarcast@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (36/36) ...
+ ✓ Generating static pages (36/36)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                       Size     First Load JS
+┌ ○ /                                             2.89 kB         132 kB
+├ ○ /_not-found                                   876 B          88.6 kB
+├ ○ /admin                                        3.17 kB        97.7 kB
+├ ○ /admin/institutions                           2.76 kB        90.5 kB
+├ ○ /admin/peza-zones                             2 kB           89.8 kB
+├ ○ /admin/profile                                1.93 kB        89.7 kB
+├ ○ /admin/reports                                2.11 kB        89.9 kB
+├ ○ /admin/settings                               1.82 kB        89.6 kB
+├ ○ /admin/skill-gaps                             2.62 kB        90.4 kB
+├ ○ /admin/workforce-intelligence                 4.82 kB        99.4 kB
+├ ○ /assessment/erp-workflow                      4.45 kB         142 kB
+├ ○ /audit                                        9.43 kB         140 kB
+├ ○ /credentials                                  5.48 kB         145 kB
+├ ○ /credentials/erp-workflow                     3.37 kB         147 kB
+├ ○ /credentials/portfolio                        3.64 kB         137 kB
+├ ƒ /credentials/verify/[credentialId]            3.76 kB         137 kB
+├ ○ /dashboard                                    7.19 kB         153 kB
+├ ○ /explore                                      4.66 kB         138 kB
+├ ○ /explore/career-paths                         6.54 kB         146 kB
+├ ○ /explore/companies                            4.6 kB          144 kB
+├ ○ /explore/industry-pulse                       5.25 kB         138 kB
+├ ○ /explore/trending-skills                      5.62 kB         139 kB
+├ ○ /icon.png                                     0 B                0 B
+├ ○ /learn                                        3.19 kB         136 kB
+├ ○ /learn/courses                                5.11 kB         145 kB
+├ ƒ /learn/courses/[courseId]                     5.77 kB         146 kB
+├ ƒ /learn/courses/[courseId]/modules/[moduleId]  5.07 kB         145 kB
+├ ○ /learn/erp-foundations                        10.7 kB         144 kB
+├ ○ /learn/squads                                 6.09 kB         146 kB
+├ ƒ /learn/squads/[squadId]                       6.69 kB         146 kB
+├ ○ /profile                                      5.16 kB         138 kB
+├ ○ /profile/audit-history                        3.05 kB         136 kB
+├ ○ /profile/settings                             3.22 kB         136 kB
+├ ○ /results                                      9.12 kB         149 kB
+├ ○ /signup                                       7.84 kB         132 kB
+├ ○ /skills/erp-workflow                          5.5 kB          145 kB
+├ ○ /squads/erp-fundamentals                      5.91 kB         139 kB
+└ ○ /squads/match                                 3.01 kB         132 kB
+
+--------------------------------------------------------------------------------
+6. npm audit --omit=dev
+--------------------------------------------------------------------------------
+Exit code: 1 (2 production vulnerabilities reported)
+Summary of vulnerabilities:
+- next (9.3.4-canary.0 - 16.3.0-canary.5) [Severity: high]
+- postcss (<=8.5.17) [Severity: high]
+Total production vulnerabilities: 2 high severity vulnerabilities.
+
+--------------------------------------------------------------------------------
+7. npm audit (all)
+--------------------------------------------------------------------------------
+Exit code: 1 (9 total vulnerabilities reported)
+Summary: 9 vulnerabilities (2 moderate, 6 high, 1 critical)
+
+--------------------------------------------------------------------------------
+8. npm run check:mojibake
+--------------------------------------------------------------------------------
+Exit code: 0
+Output:
+PASSED: Zero mojibake or malformed encoding sequences found across source code.
+================================================================================
