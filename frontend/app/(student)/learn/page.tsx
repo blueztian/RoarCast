@@ -36,7 +36,7 @@ const learnMenuItems = [
     href: "/learn/erp-foundations",
     icon: Map,
     title: "Upskilling Roadmap",
-    description: "Your personalized path to readiness",
+    description: "Interactive 4-module ERP showcase & skill verification",
     accent: "bg-[#f59e0b]/10 text-[#d97706]",
   },
 ];

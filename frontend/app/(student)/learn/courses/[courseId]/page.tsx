@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -116,6 +116,27 @@ export default function CourseDetailPage({ params }: { params: { courseId: strin
                 <ArrowRight size={18} strokeWidth={2} />
               </Link>
             </div>
+          </div>
+        )}
+
+        {/* ── Primary Showcase Banner ─────────────────────────────────────────── */}
+        {(course.id.includes("erp") || course.skill.includes("ERP")) && (
+          <div className="flex flex-col rounded-[24px] border border-[#f59e0b]/30 bg-gradient-to-br from-[#fff8ee] to-white p-5 shadow-sm">
+            <span className="text-[11.5px] font-bold uppercase tracking-wider text-[#d97706]">
+              Interactive Functional Showcase
+            </span>
+            <h3 className="mt-1 font-display text-[17px] font-bold text-[#201d1d]">
+              Experience the Full ERP Learning Pathway
+            </h3>
+            <p className="mt-1 text-[13px] text-[#5e5a5a]">
+              Dive into our interactive 4-module ERP Foundations experience complete with live conceptual checks and skill verification.
+            </p>
+            <Link
+              href="/learn/erp-foundations"
+              className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-[#6b0000] py-3 text-[14px] font-bold text-white transition-transform active:scale-[0.98]"
+            >
+              Launch Interactive ERP Showcase <ArrowRight size={16} strokeWidth={2.5} />
+            </Link>
           </div>
         )}
 

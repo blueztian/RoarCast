@@ -213,10 +213,10 @@ export default function SkillDetailPage() {
             {/* CTA */}
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
-                href="/squads/match"
+                href="/learn/erp-foundations"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-roar-maroon px-7 py-3.5 text-sm font-semibold text-white shadow-glow transition-transform hover:scale-[1.02]"
               >
-                Start Closing This Gap
+                Start ERP Learning Module
                 <ArrowRight size={16} strokeWidth={2.5} />
               </Link>
               <Link

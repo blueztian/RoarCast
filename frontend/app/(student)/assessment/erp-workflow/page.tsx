@@ -20,6 +20,7 @@ import {
   getStudent,
 } from "@/lib/studentState";
 import { staggerContainer, staggerItem, successReveal } from "@/lib/motion";
+import { evaluateAssessment, PASS_THRESHOLD, ANALYSIS_STEPS } from "@/features/assessment";
 
 // ── 5 assessment questions ────────────────────────────────────────────────────
 
@@ -91,27 +92,6 @@ const QUESTIONS = [
   },
 ];
 
-// ── Scoring ───────────────────────────────────────────────────────────────────
-
-function computeScore(answers: (number | null)[]): number {
-  let correct = 0;
-  for (let i = 0; i < QUESTIONS.length; i++) {
-    if (answers[i] === QUESTIONS[i].correct) correct++;
-  }
-  return Math.round((correct / QUESTIONS.length) * 100);
-}
-
-const PASS_THRESHOLD = 60;
-
-// ── Analysis steps ────────────────────────────────────────────────────────────
-
-const ANALYSIS_STEPS = [
-  "Reading your responses",
-  "Mapping answers to Skill Tags",
-  "Comparing against ERP Workflow benchmark",
-  "Generating your result",
-];
-
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 type Phase = "blocked" | "questions" | "analyzing" | "result";
@@ -146,17 +126,14 @@ export default function AssessmentPage() {
   useEffect(() => {
     if (phase !== "analyzing") return;
     if (analysisStep >= ANALYSIS_STEPS.length) {
-      // Compute and persist result
-      const finalScore = computeScore(answers);
-      const hasPassed = finalScore >= PASS_THRESHOLD;
-      setScore(finalScore);
-      setPassed(hasPassed);
-      saveAssessmentResult({
-        score: finalScore,
-        passed: hasPassed,
-        completedAt: new Date().toISOString(),
-        answers: answers.map((a) => a ?? -1),
-      });
+      // Compute and persist result via canonical assessment engine
+      const evalResult = evaluateAssessment(
+        answers,
+        QUESTIONS.map((q) => q.correct)
+      );
+      setScore(evalResult.score);
+      setPassed(evalResult.passed);
+      saveAssessmentResult(evalResult);
       setTimeout(() => setPhase("result"), 800);
       return;
     }

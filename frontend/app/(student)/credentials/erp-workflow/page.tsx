@@ -307,6 +307,15 @@ export default function CredentialPage() {
                   {copyState === "done" ? "Copied!" : "Copy Verification Link"}
                 </button>
 
+                {/* View Credential Portfolio */}
+                <Link
+                  href="/credentials/portfolio"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-ink/10 bg-white px-7 py-4 text-sm font-semibold text-ink-soft transition-colors hover:border-ink/20 hover:text-ink"
+                >
+                  <Radio size={15} strokeWidth={2.5} />
+                  View My Credential Portfolio
+                </Link>
+
                 {/* Go to dashboard */}
                 <Link
                   href="/dashboard"

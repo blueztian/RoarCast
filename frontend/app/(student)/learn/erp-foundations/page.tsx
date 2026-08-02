@@ -451,9 +451,9 @@ export default function LearnPage() {
         <div className="relative z-10 flex flex-col">
           <div className="flex items-center gap-3">
             <Link
-              href="/learn/squads/erp-fundamentals"
+              href="/skills/erp-workflow"
               className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
-              aria-label="Back to Squad"
+              aria-label="Back to Skill Detail"
             >
               <ArrowLeft size={16} />
             </Link>
