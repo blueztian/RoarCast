@@ -588,7 +588,7 @@ export default function LearnPage() {
                   <div className="flex flex-col items-center gap-3 rounded-[20px] border border-black/[0.05] bg-[#faf9f8] p-8 text-center shadow-sm">
                     <CheckCircle2 size={36} className="text-[#6b0000]" strokeWidth={1.5} />
                     <p className="font-display text-[18px] font-bold text-[#201d1d]">
-                      You've completed this module
+                      You&apos;ve completed this module
                     </p>
                     {activeModule.index < MODULES.length - 1 && (
                       <button

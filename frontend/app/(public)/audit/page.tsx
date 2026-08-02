@@ -21,6 +21,16 @@ export default function AuditPage() {
   const [analyzing, setAnalyzing] = useState(false);
   const [completedSteps, setCompletedSteps] = useState(0);
 
+  useEffect(() => {
+    if (!analyzing) return;
+    if (completedSteps >= analyzingSteps.length) {
+      const t = setTimeout(() => router.push("/results"), 700);
+      return () => clearTimeout(t);
+    }
+    const t = setTimeout(() => setCompletedSteps((c) => c + 1), 750);
+    return () => clearTimeout(t);
+  }, [analyzing, completedSteps, router]);
+
   const question = mockAuditQuestions[index];
   const total = mockAuditQuestions.length;
 
@@ -49,16 +59,6 @@ export default function AuditPage() {
       }
     }, 380);
   }
-
-  useEffect(() => {
-    if (!analyzing) return;
-    if (completedSteps >= analyzingSteps.length) {
-      const t = setTimeout(() => router.push("/results"), 700);
-      return () => clearTimeout(t);
-    }
-    const t = setTimeout(() => setCompletedSteps((c) => c + 1), 750);
-    return () => clearTimeout(t);
-  }, [analyzing, completedSteps, router]);
 
   if (analyzing) {
     return (

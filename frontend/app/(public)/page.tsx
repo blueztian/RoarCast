@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
@@ -483,7 +483,7 @@ function LandingScreen({ onStart }: { onStart: () => void }) {
         <div className="mt-6 flex items-center justify-center gap-2">
           <span className="h-1.5 w-1.5 rounded-full bg-[#f59e0b]" />
           <span className="text-[11.5px] text-[#9c9595]">
-            For students in Santa Rosa's PEZA corridor
+            For students in Santa Rosa&apos;s PEZA corridor
           </span>
         </div>
       </div>
@@ -921,7 +921,7 @@ function SignupScreen({ onBack, onSubmit }: { onBack: () => void; onSubmit: () =
             Micro Audit Complete!
           </h3>
           <p className="text-[13.5px] leading-relaxed text-[#7a7373]">
-            You've completed your 60-second workforce readiness check. <br/>
+            You&apos;ve completed your 60-second workforce readiness check. <br/>
             <span className="font-medium text-[#201d1d]">Create your account to view your results.</span>
           </p>
         </div>
@@ -972,7 +972,7 @@ function SignupScreen({ onBack, onSubmit }: { onBack: () => void; onSubmit: () =
         </div>
 
         <p className="mt-2 text-center text-[12px] text-[#9c9595]">
-          By continuing, you agree to RoarCast's terms of service.
+          By continuing, you agree to RoarCast&apos;s terms of service.
         </p>
       </div>
     </div>

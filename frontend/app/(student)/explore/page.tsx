@@ -86,7 +86,7 @@ export default function ExploreHubPage() {
             </button>
           </div>
           <p className="text-[13px] text-white/80 ml-[46px] -mt-0.5">
-            Where your skills fit into today's job market.
+            Where your skills fit into today&apos;s job market.
           </p>
         </div>
       </header>
